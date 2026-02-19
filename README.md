@@ -1,0 +1,5 @@
+# Design Inspector
+
+This repo contains a tool that will allow users to inspect designs written in the Design Abstraction Language (DAL). It will serve as the specification for the instrumentation written in DAL because it defines the expected structure of the instrumentation. It also validates the design to ensure that the actual semantics in the specification is correct (i.e. participant is defined, expected sections are available etc). 
+
+However, the natural next step of this is to actually create the design instrumentation using this tool and generate the JSON files that will be insturmented into the program. I will start with allowing users to inspect and then I will decided if I want to implement validated of manually written JSON files or if I want to simply go ahead and implement the tool to create the design instrumentation and generate a file written in DAL.
