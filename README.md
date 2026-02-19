@@ -1,5 +1,7 @@
-# Design Inspector
+# Design Generator
 
-This repo contains a tool that will allow users to inspect designs written in the Design Abstraction Language (DAL). It will serve as the specification for the instrumentation written in DAL because it defines the expected structure of the instrumentation. It also validates the design to ensure that the actual semantics in the specification are correct (e.g. referenced articipant is defined, expected sections are available etc). 
+This repo contains a tool that will allow users to genenerate a design specification written in the Design Abstraction Language. It will serve as the official specification for the language as it generates the expected structure of the instrumentation. It will also validate the design to ensure consistency while it is being specified in the tool (e.g. referenced participant is defined, expected sections are available etc). 
 
-However, the natural next step of this is to actually create the design instrumentation using this tool and generate the JSON files that will be instrumented into the program. I will start with allowing users to inspect and then I will decide if I want to implement validation of manually written JSON files or if I want to simply go ahead and implement the tool to create the design instrumentation and generate a file written in DAL.
+The end goal is to actually map the behavioral abstractions onto the program, so I will allow users to import their source code and perform the mapping. This will generate a package that can be imported into the ADLI tool for log injection and execution. The execution will generate a compressed log file that can be used to observe the designs behavior and automatically debug it.
+
+I think it will be best to create a library that both of these applications (design generator and trace viewer) can use to work with the design. I will settle on an approach for that as I proceed. Also, I think it is clear from reading this that there is one larger tool that needs to be developed that encompasses everything, there are too many steps, I want to call that tool the Unified Development Environment. However, I will start with this.
