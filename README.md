@@ -1,0 +1,7 @@
+# Design Generator
+
+This repo contains a tool that will allow users to genenerate a design specification written in the Design Abstraction Language (DAL). It will serve as the official specification for the language as it generates the expected structure of the instrumentation. It will also validate the design to ensure consistency while it is being specified in the tool (e.g. referenced participant is defined, expected sections are available etc). 
+
+The end goal is to allow users to map the design onto the implementation so that the execution can be transformed, so I will allow users to import their source code and perform the mapping. This will generate a package that can be imported into the ADLI tool for log injection and execution. The execution will generate a compressed log file that can be used to observe the designs behavior and automatically debug it.
+
+I think it will be best to create a library that both of these applications (design generator and trace viewer) can use to work with the design specification. I will settle on an approach for that as I proceed. Also, I think it is clear from reading this that there is one larger tool that needs to be developed that encompasses everything, there are too many steps, I want it to all be in one place and I want to call that tool the Unified Development Environment (UDE). However, I will start with this.
