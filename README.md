@@ -15,7 +15,7 @@ When the instrumented program is executed, it will generate a compressed log fil
 
 From this description it is clear that the trace viewer and this workbench will share common functions for how to interact with the design. So I will be specifying those functions as a [library][dal-engine-core-js] that is maintained separately and imported into both these applications. 
 
-## Unified Development Environment
+## Unified Development Environment (UDE)
 
 The current configuration consists of separate tools: the design workbench, instrumentation layer, trace viewer, and automated testing framework. For now, each component is being developed independently in order to establish and validate the core functionality of the system.
 
