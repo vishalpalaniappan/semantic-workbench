@@ -1,0 +1,81 @@
+{
+    "uid": "65761c3b-7e6e-4211-9b28-99682221fbb8",
+    "type": 5,
+    "nodes": [
+        {
+            "uid": "88620e54-1bbd-4118-8c90-0fbddf93a359",
+            "type": 6,
+            "goToBehaviors": [
+                {
+                    "uid": "c6456aef-ce58-4432-aac2-657e71f7365c",
+                    "type": 1,
+                    "participants": [],
+                    "invalidWorldState": false,
+                    "name": "AddBookToBasket"
+                },
+                {
+                    "uid": "72c77a43-e650-4924-b11d-05be35c59856",
+                    "type": 1,
+                    "participants": [],
+                    "invalidWorldState": false,
+                    "name": "AnotherBehavior"
+                }
+            ],
+            "behavior": {
+                "uid": "002ecd87-1fd2-4ff3-9baf-fc8667bb9fa8",
+                "type": 1,
+                "participants": [
+                    {
+                        "uid": "698678b5-f17f-4564-8cb7-ccc5b6faf255",
+                        "type": 2,
+                        "invariants": [
+                            {
+                                "uid": "dd63374c-cbb6-48c1-889b-ba2e2f0e739d",
+                                "type": 2,
+                                "invariantViolated": null,
+                                "name": "MinLengthConstraint",
+                                "rule": {
+                                    "type": "minLength",
+                                    "keys": [
+                                        "value",
+                                        "name"
+                                    ],
+                                    "value": 1
+                                },
+                                "value": null
+                            }
+                        ],
+                        "invariantViolated": false,
+                        "name": "book"
+                    }
+                ],
+                "invalidWorldState": false,
+                "name": "AcceptBookFromUser"
+            }
+        },
+        {
+            "uid": "c046f3b5-4c92-41a1-ac8e-f84f45b5098a",
+            "type": 6,
+            "goToBehaviors": [],
+            "behavior": {
+                "uid": "c6456aef-ce58-4432-aac2-657e71f7365c",
+                "type": 1,
+                "participants": [],
+                "invalidWorldState": false,
+                "name": "AddBookToBasket"
+            }
+        },
+        {
+            "uid": "a3c394b7-af97-43c4-b229-ad1783723081",
+            "type": 6,
+            "goToBehaviors": [],
+            "behavior": {
+                "uid": "72c77a43-e650-4924-b11d-05be35c59856",
+                "type": 1,
+                "participants": [],
+                "invalidWorldState": false,
+                "name": "AnotherBehavior"
+            }
+        }
+    ]
+}
