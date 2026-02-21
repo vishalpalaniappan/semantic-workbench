@@ -1,9 +1,6 @@
 import React from "react";
 
-import {DALEngine} from "dal-engine-core-js-lib-dev";
-
 import {FlowDiagram} from "../Components/FlowDiagram/FlowDiagram";
-import data from "../Data/sample.json";
 import {SideContainer} from "./SideContainer/SideContainer";
 import {StatusBarContainer} from "./StatusBarContainer/StatusBarContainer";
 
@@ -14,10 +11,6 @@ import "./Viewer.scss";
  * @return {JSX.Element}
  */
 export function Viewer () {
-    const d = new DALEngine({name: "Library Manager"});
-    d.deserialize(JSON.stringify(data));
-    console.log(d);
-
     return (
         <div className="viewer-container">
             <div className="menu-container"></div>
