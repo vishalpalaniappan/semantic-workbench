@@ -1,8 +1,8 @@
-const express = require('express');
-const path = require('path')
-const http = require('http');
-const handleWSConnection = require('./websocket.js');
-const webSocketServer = require('websocket').server;
+import express from "express";
+import path from "node:path";
+import http from "node:http";
+import handleWSConnection from "./websocket.js";
+import { server as WebSocketServer } from "websocket";
 
 /*
     1. Create express server
@@ -33,7 +33,7 @@ const server = http.createServer(app);
 server.listen(PORT);
 
 //Create a new websocket server on the same port as the http connection
-const wsServer = new webSocketServer({
+const wsServer = new WebSocketServer({
     httpServer: server
 });
 
