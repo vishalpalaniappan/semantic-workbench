@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongo-watch": "^0.2.8",
+    "mongodb": "^4.7.0",
+    "require": "^2.4.20",
+    "websocket": "^1.0.34",
+    "ws": "^8.8.0"
+  }
+}

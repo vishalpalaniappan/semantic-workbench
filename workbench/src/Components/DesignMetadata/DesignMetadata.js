@@ -9,8 +9,10 @@ DesignMetadata.propTypes = {
  * Component to display the design metadata.
  * @return {JSX.Element}
  */
-export function DesignMetadata ({}) {
+export function DesignMetadata () {
     return (
-        <></>
+        <div>
+
+        </div>
     );
 }
