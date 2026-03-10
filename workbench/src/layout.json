@@ -110,16 +110,6 @@
                 {
                     "type": "handleBar",
                     "sibling1": "editorContainer",
-                    "sibling2": "editorContainer2"
-                },
-                {
-                    "containerId": "editorContainer2",
-                    "type": "container",
-                    "size": { "initial": { "type": "fill" }}
-                },
-                {
-                    "type": "handleBar",
-                    "sibling1": "editorContainer2",
                     "sibling2": "rightMenuContainer"
                 },
                 {
@@ -151,19 +141,6 @@
                 {
                     "containerId": "fileTabsContainer",
                     "type": "container",
-                    "size": { 
-                        "initial": { "value": 200, "unit": "px", "type": "fixed" }
-                    },
-                    "collapse": { "value": 500, "condition": "lessThan", "relative": "parent" }
-                },
-                {
-                    "type": "handleBar",
-                    "sibling1": "fileTabsContainer",
-                    "sibling2": "stackContainer"
-                },
-                {
-                    "containerId": "stackContainer",
-                    "type": "container",
                     "size": { "initial": { "type": "fill" }}
                 }
             ]
@@ -172,19 +149,9 @@
             "id": "fileTabsContainer",
             "background": "#1e1e1e"
         },
-        "stackContainer": {
-            "id": "stackContainer",
-            "component": "Stack",
-            "background": "#1e1e1e"
-        },
         "editorContainer": {
             "id": "editorContainer",
             "component": "EditorVSCode",
-            "background": "#1e1e1e"
-        },
-        "editorContainer2": {
-            "id": "editorContainer2",
-            "component": "Flow",
             "background": "#1e1e1e"
         },
         "rightMenuContainer": {
