@@ -21,7 +21,7 @@ function GlobalProviders ({children}) {
         // sendMessage,
         sendJsonMessage,
         lastMessage,
-        // lastJsonMessage,
+        lastJsonMessage,
         readyState,
         // getWebSocket,
     } = useWebSocket(socketUrl, {
@@ -33,16 +33,30 @@ function GlobalProviders ({children}) {
     // Called when connection is opened.
     const connectionOpen = () => {
         console.log("CONNECTION OPENED");
-        sendJsonMessage("I have connected");
+        sendJsonMessage({
+            "type": "workspaces"
+        });
     };
 
     // Sets the message history
     const [messageHistory, setMessageHistory] = useState([]);
     useEffect(() => {
-        if (lastMessage !== null) {
+        if (lastJsonMessage !== null) {
             setMessageHistory((prev) => prev.concat(lastMessage));
+            receiveMessage(lastJsonMessage);
         }
-    }, [lastMessage]);
+    }, [lastJsonMessage]);
+
+
+    const receiveMessage = (msg) => {
+        switch (msg.type) {
+            case "workspaces":
+                console.log("Loaded workspace:", msg.data);
+                break;
+            default:
+                break;
+        }
+    };
 
 
     // Set the connection state and log to console
