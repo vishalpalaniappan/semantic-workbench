@@ -23,9 +23,9 @@ export function App () {
             import("./Components/FlowDiagram/FlowDiagram").then((m) => ({
                 default: m.default || m.FlowDiagram,
             })),
-        Flow: () =>
-            import("./Components/FlowDiagram/FlowDiagram").then((m) => ({
-                default: m.default || m.FlowDiagram,
+        DesignMetadata: () =>
+            import("./Components/DesignMetadata/DesignMetadata").then((m) => ({
+                default: m.default || m.DesignMetadata,
             })),
     }), []);
 

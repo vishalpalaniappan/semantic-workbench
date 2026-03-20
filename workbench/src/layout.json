@@ -141,12 +141,29 @@
                 {
                     "containerId": "fileTabsContainer",
                     "type": "container",
+                    "size": { 
+                        "initial": { "value": 400, "unit": "px", "type": "fixed" }
+                    }
+                },
+                {
+                    "type": "handleBar",
+                    "sibling1": "fileTabsContainer",
+                    "sibling2": "fileTabsContainer2"
+                },
+                {
+                    "containerId": "fileTabsContainer2",
+                    "type": "container",
                     "size": { "initial": { "type": "fill" }}
                 }
             ]
         },
         "fileTabsContainer": {
             "id": "fileTabsContainer",
+            "component": "DesignMetadata",
+            "background": "#1e1e1e"
+        },
+        "fileTabsContainer2": {
+            "id": "fileTabsContainer2",
             "background": "#1e1e1e"
         },
         "editorContainer": {
