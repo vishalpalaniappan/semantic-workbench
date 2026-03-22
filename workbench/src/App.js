@@ -27,6 +27,10 @@ export function App () {
             import("./Components/DesignMetadata/DesignMetadata").then((m) => ({
                 default: m.default || m.DesignMetadata,
             })),
+        PtyTerminal: () =>
+            import("./Components/PtyTerminal/PtyTerminal").then((m) => ({
+                default: m.default || m.PtyTerminal,
+            })),
     }), []);
 
     return (

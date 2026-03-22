@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 
 import PropTypes from "prop-types";
 import useWebSocket, {ReadyState} from "react-use-websocket";
@@ -16,6 +16,7 @@ GlobalProviders.propTypes = {
  */
 function GlobalProviders ({children}) {
     const [workspace, setWorkspace] = useState();
+    const termWriteRef = useRef(null);
 
     // Connect and setup auto reconnect
     const socketUrl = "ws://localhost:3002";
@@ -34,9 +35,8 @@ function GlobalProviders ({children}) {
 
     // Called when connection is opened.
     const connectionOpen = () => {
-        console.log("CONNECTION OPENED");
         sendJsonMessage({
-            "type": "workspaces"
+            "type": "workspaces",
         });
     };
 
@@ -45,16 +45,18 @@ function GlobalProviders ({children}) {
     useEffect(() => {
         if (lastJsonMessage !== null) {
             setMessageHistory((prev) => prev.concat(lastMessage));
-            receiveMessage(lastJsonMessage);
+            processMessage(lastJsonMessage);
         }
     }, [lastJsonMessage]);
 
 
-    const receiveMessage = (msg) => {
+    const processMessage = (msg) => {
         switch (msg.type) {
             case "workspaces":
-                console.log("Loaded workspace:", msg.data);
                 setWorkspace(msg.data);
+                break;
+            case "terminal_output":
+                termWriteRef.current?.(msg.data);
                 break;
             default:
                 break;
@@ -75,8 +77,13 @@ function GlobalProviders ({children}) {
         console.log("Websocket state:", connectionStatus);
     }, [readyState]);
 
+
+    const setTermWriter = (fn) => {
+        termWriteRef.current = fn;
+    };
+
     return (
-        <ServerContext.Provider value={{sendJsonMessage, workspace}}>
+        <ServerContext.Provider value={{sendJsonMessage, setTermWriter, workspace}}>
             {children}
         </ServerContext.Provider>
     );

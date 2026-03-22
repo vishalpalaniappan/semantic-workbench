@@ -11,7 +11,7 @@ const handleWSConnection = async function(request) {
 
     const onData = (data) => {
         if (ws.readyState === ws.OPEN) {
-            ws.send(JSON.stringify({ type: "output", data }));
+            ws.send(JSON.stringify({ type: "terminal_output", data }));
         }
     };
 

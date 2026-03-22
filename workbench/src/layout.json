@@ -78,6 +78,7 @@
         },
         "terminal": {
             "id": "terminal",
+            "component": "PtyTerminal",
             "background": "#252526"
         },
         "content": {
