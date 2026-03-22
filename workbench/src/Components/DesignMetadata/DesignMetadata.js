@@ -1,9 +1,8 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 
 import {FileBrowser} from "sample-ui-component-library";
 
 import ServerContext from "../../Providers/ServerContext";
-import Tree1 from "../../Tree1.json";
 
 import "./DesignMetadata.scss";
 
@@ -17,20 +16,24 @@ DesignMetadata.propTypes = {
 export function DesignMetadata () {
     const {workspace} = useContext(ServerContext);
 
+    const fileBrowserRef = useRef();
+
     const [dirTree, setDirTree] = useState([]);
 
     useEffect(() => {
         if (workspace) {
-            setDirTree(
-                <FileBrowser key={"dirTree"} tree={workspace}/>
-            );
+            fileBrowserRef.current.addFileTree(workspace);
         }
     }, [workspace]);
 
 
+    const onSelectFile = (selectedFile) => {
+        console.log("Selected file", selectedFile);
+    };
+
     return (
-        <div style={{padding: "0 3px"}}>
-            {dirTree}
+        <div className="filebrowser-container">
+            <FileBrowser ref={fileBrowserRef} onSelectFile={onSelectFile}/>
         </div>
     );
 }

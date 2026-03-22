@@ -18,7 +18,7 @@ const handleWSConnection = async function(request) {
         switch (msg["type"]) {
             case "workspaces":
                 const workspacePath = path.join(process.cwd(), 'workspace');
-                loadDir(workspacePath).then((folders) => {
+                loadDir(workspacePath, workspacePath).then((folders) => {
                     msg.data = folders;
                     wsConn.send(JSON.stringify(msg));
                 });

@@ -15,13 +15,13 @@ import "./App.scss";
  */
 export function App () {
     const registry = useMemo(() => ({
-        EditorVSCode: () =>
+        Flow: () =>
             import("./Components/FlowDiagram/FlowDiagram").then((m) => ({
                 default: m.default || m.FlowDiagram,
             })),
-        Stack: () =>
-            import("./Components/FlowDiagram/FlowDiagram").then((m) => ({
-                default: m.default || m.FlowDiagram,
+        EditorContainer: () =>
+            import("./Components/EditorContainer/EditorContainer").then((m) => ({
+                default: m.default || m.EditorContainer,
             })),
         DesignMetadata: () =>
             import("./Components/DesignMetadata/DesignMetadata").then((m) => ({
