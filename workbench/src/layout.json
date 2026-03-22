@@ -78,7 +78,7 @@
         },
         "terminal": {
             "id": "terminal",
-            "component": "Flow",
+            "component": "EditorContainer",
             "background": "#252526"
         },
         "content": {
