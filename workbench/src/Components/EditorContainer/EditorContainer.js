@@ -72,7 +72,7 @@ export function EditorContainer () {
     }, [workspace]);
 
     return (
-        <div className="editorContainer" style={{padding: "0 3px"}}>
+        <div className="editorContainer">
             <Editor ref={editorRef} />
         </div>
     );
