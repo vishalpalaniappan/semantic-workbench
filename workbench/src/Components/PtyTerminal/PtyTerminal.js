@@ -26,6 +26,31 @@ export function PtyTerminal () {
         if (!containerRef.current) return;
 
         const term = new Terminal({
+            theme: {
+                background: "#1e1e1e",
+                foreground: "#cccccc",
+                cursor: "#aeafad",
+                selectionBackground: "#264f78",
+
+                black: "#000000",
+                red: "#cd3131",
+                green: "#0dbc79",
+                yellow: "#e5e510",
+                blue: "#2472c8",
+                magenta: "#bc3fbc",
+                cyan: "#11a8cd",
+                white: "#e5e5e5",
+
+                brightBlack: "#666666",
+                brightRed: "#f14c4c",
+                brightGreen: "#23d18b",
+                brightYellow: "#f5f543",
+                brightBlue: "#3b8eea",
+                brightMagenta: "#d670d6",
+                brightCyan: "#29b8db",
+                brightWhite: "#ffffff",
+            },
+            fontFamily: "Cascadia Code, Consolas, monospace",
             cursorBlink: true,
             convertEol: true,
             fontSize: 14,
@@ -73,6 +98,7 @@ export function PtyTerminal () {
         <div className="terminal-wrapper">
             <div
                 ref={containerRef}
+                className="terminal-container"
                 style={{
                     width: "100%",
                     height: "100%",
