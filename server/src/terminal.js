@@ -14,9 +14,7 @@ export class TerminalSession extends EventEmitter {
     constructor(options = {}) {
         super();
 
-        this.shell =
-        options.shell ||
-        (os.platform() === "win32"
+        this.shell = options.shell || (os.platform() === "win32"
             ? "powershell.exe"
             : process.env.SHELL || "bash");
 
@@ -32,7 +30,7 @@ export class TerminalSession extends EventEmitter {
     start() {
         if (this.ptyProcess) return; 
 
-        this.ptyProcess = pty.spawn("/bin/bash", ["--noprofile", "--norc"], {
+        this.ptyProcess = pty.spawn("/bin/bash", ["--rcfile", "./terminal.bashrc", "-i"], {
             name: this.name,
             cwd: this.cwd,
             env: this.env,
@@ -42,7 +40,7 @@ export class TerminalSession extends EventEmitter {
 
         this.ptyProcess.onData(
             (data) => {
-                console.log("Data:", data);
+                console.log("Received from terminal:", data);
                 this.emit("data", data)
             }
         );
