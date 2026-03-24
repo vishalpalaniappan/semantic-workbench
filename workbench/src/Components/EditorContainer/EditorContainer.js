@@ -70,8 +70,6 @@ export function EditorContainer () {
     }, [workspace]);
 
     return (
-        <div className="editorContainer">
             <Editor ref={editorRef} />
-        </div>
     );
 }
