@@ -1,63 +1,27 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useState} from "react";
 
-import {
-    Controls,
-    ReactFlow,
-    ReactFlowProvider,
-    useEdgesState,
-    useNodesState,
-    useReactFlow
-} from "@xyflow/react";
-import PropTypes from "prop-types";
+import {BehavioralGraphBuilder} from "sample-ui-component-library";
+import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
-import "@xyflow/react/dist/style.css";
 import "./FlowDiagram.scss";
 
-Flow.propTypes = {
-    tree: PropTypes.object,
+FlowDiagram.propTypes = {
 };
 
 /**
- * Flow component which renders the dependency graph.
- * @param {Object} tree
- * @return {JSX.Element}
- */
-export function Flow ({tree}) {
-    const {fitView} = useReactFlow();
-    const [nodes, setNodes, onNodesChange] = useNodesState([]);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-
-    useEffect(() => {
-        if (tree) {
-            fitView();
-        }
-    }, [tree, fitView]);
-
-    return (
-        <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            nodesDraggable={false}
-            colorMode={"dark"}
-            fitView
-        >
-            <Controls />
-        </ReactFlow>
-    );
-};
-
-/**
- *
+ * Behavioral Control Graph Creator
  * @return {JSX.Element}
  */
 export function FlowDiagram () {
-    const [tree] = useState();
+    const [activeTool, setActiveTool] = useState();
+
+    useLayoutEventSubscription("tool:selected", (event) => {
+        setActiveTool(event.payload);
+    });
 
     return (
-        <ReactFlowProvider>
-            <Flow tree={tree} />
-        </ReactFlowProvider>
+        <div className="flow-wrapper">
+            <BehavioralGraphBuilder activeTool={activeTool} />
+        </div>
     );
-};
+}

@@ -1,6 +1,12 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
-import {ArrowsMove, Crosshair, Cursor, NodePlus, PersonPlus, PinMap, ShieldPlus} from "react-bootstrap-icons";
+import {
+    Cursor,
+    NodePlus,
+    Square,
+    Trash
+} from "react-bootstrap-icons";
+import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 
 import "./ToolBar.scss";
 
@@ -12,18 +18,43 @@ ToolBar.propTypes = {
  * @return {JSX.Element}
  */
 export function ToolBar () {
+    const [selectedTool, setSelectedTool] = useState("select");
+
+    const publish = useLayoutEventPublisher();
+
+    const selectTool = (tool) => {
+        setSelectedTool(tool);
+        publish({
+            type: "tool:selected",
+            payload: tool,
+            source: "tool-bar",
+        });
+    };
+
     return (
         <div className="toolbarWrapper">
             <div className="toolbarContainer">
-                <Cursor title="Select Behavior" className="icon"/>
-                <ArrowsMove title="Move Node" className="icon"/>
-                <NodePlus title="Add Behavior" className="icon"/>
-                <PersonPlus title="Add Participant" className="icon"/>
-                <ShieldPlus title="Add Invariant" className="icon"/>
+                <Cursor
+                    onClick={(e) => selectTool("select")}
+                    style={{color: selectedTool === "select" ? "white": "grey"}}
+                    title="Select"
+                    className="icon"
+                />
+                <Square
+                    onClick={(e) => selectTool("drop")}
+                    style={{color: selectedTool === "drop" ? "white": "grey"}}
+                    title="Add Node"
+                    className="icon"
+                />
+                <Trash
+                    onClick={(e) => selectTool("delete")}
+                    style={{color: selectedTool === "delete" ? "white": "grey"}}
+                    title="Delete Node"
+                    className="icon"
+                />
             </div>
             <div className="toolbarContainer bottom">
-                <Crosshair title="Map Behavior" className="icon"/>
-                <PinMap title="Map Participant" className="icon"/>
+
             </div>
 
         </div>
