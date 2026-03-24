@@ -23,9 +23,9 @@ export function App () {
             import("./Components/EditorContainer/EditorContainer").then((m) => ({
                 default: m.default || m.EditorContainer,
             })),
-        DesignMetadata: () =>
-            import("./Components/DesignMetadata/DesignMetadata").then((m) => ({
-                default: m.default || m.DesignMetadata,
+        FileSelector: () =>
+            import("./Components/FileSelector/FileSelector").then((m) => ({
+                default: m.default || m.FileSelector,
             })),
         PtyTerminal: () =>
             import("./Components/PtyTerminal/PtyTerminal").then((m) => ({

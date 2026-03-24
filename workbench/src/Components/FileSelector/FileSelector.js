@@ -5,16 +5,16 @@ import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 
 import ServerContext from "../../Providers/ServerContext";
 
-import "./DesignMetadata.scss";
+import "./FileSelector.scss";
 
-DesignMetadata.propTypes = {
+FileSelector.propTypes = {
 };
 
 /**
- * Component to display the design metadata.
+ * Component to select files from the workspace.
  * @return {JSX.Element}
  */
-export function DesignMetadata () {
+export function FileSelector () {
     const {workspace} = useContext(ServerContext);
 
     const fileBrowserRef = useRef();
@@ -26,7 +26,6 @@ export function DesignMetadata () {
         }
     }, [workspace]);
 
-
     const onSelectFile = (node) => {
         publish({
             type: "file:selected",
@@ -34,7 +33,6 @@ export function DesignMetadata () {
             source: "file-tree",
         });
     };
-
 
     return (
         <div className="filebrowser-container">

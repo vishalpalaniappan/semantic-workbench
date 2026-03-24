@@ -83,10 +83,6 @@
                     {
                         "name": "Terminal",
                         "component": "PtyTerminal"
-                    },
-                    {
-                        "name": "Flow",
-                        "component": "Flow"
                     }
                 ],
                 "showClose": true,
@@ -225,7 +221,7 @@
         },
         "fileTabsContainer": {
             "id": "fileTabsContainer",
-            "component": "DesignMetadata",
+            "component": "FileSelector",
             "menuBar": {
                 "showClose": true,
                 "closeContainerId": "menuContainer",
@@ -266,7 +262,7 @@
             "id": "leftMenuContainer2",
             "menuBar": {
                 "showClose": false,
-                "title": "File Browser3"
+                "title": "File Info"
             },
             "background": "#1e1e1e"
         },
@@ -274,7 +270,7 @@
             "id": "rightMenuContainer1",
             "menuBar": {
                 "showClose": false,
-                "title": "Behaviors"
+                "title": "Design Info"
             },
             "background": "#1e1e1e"
         },
@@ -282,7 +278,7 @@
             "id": "rightMenuContainer2",
             "menuBar": {
                 "showClose": false,
-                "title": "Participants"
+                "title": "Behaviors"
             },
             "background": "#1e1e1e"
         },
@@ -290,7 +286,7 @@
             "id": "rightMenuContainer3",
             "menuBar": {
                 "showClose": false,
-                "title": "Invariants"
+                "title": "Seleted Info"
             },
             "background": "#1e1e1e"
         },
