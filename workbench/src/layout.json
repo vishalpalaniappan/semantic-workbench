@@ -78,7 +78,20 @@
         },
         "terminal": {
             "id": "terminal",
-            "component": "PtyTerminal",
+            "tabsBar": {
+                "tabs": [
+                    {
+                        "name": "Terminal",
+                        "component": "PtyTerminal"
+                    },
+                    {
+                        "name": "Flow",
+                        "component": "Flow"
+                    }
+                ],
+                "showClose": true,
+                "closeContainerId": "terminal"
+            },
             "background": "#252526"
         },
         "content": {
@@ -133,6 +146,11 @@
         "fileTabsContainer": {
             "id": "fileTabsContainer",
             "component": "DesignMetadata",
+            "menuBar": {
+                "showClose": true,
+                "closeContainerId": "menuContainer",
+                "title": "File Browser"
+            },
             "background": "#1e1e1e"
         },
         "editorContainer": {
