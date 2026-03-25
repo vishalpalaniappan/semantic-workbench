@@ -19,7 +19,7 @@ This means that the workbench will contain a few unique modes:
 - Design Definition
 - Implementation
 - Mapping
-- Instrumention and Execution
+- Instrumentation and Execution
 - Automated Debugging
 - Learning
 - Automated Testing
@@ -28,7 +28,7 @@ All of these modes are intrinsic to the design feedback loop shown below and the
 
 ![alt text](docs/design_feedback_loop.jpg)
 
-By leveraging design driven automation, the design workbench establishes the structure need to practically enable the automatic management of software systems. Ultimately, this marks the shift away from the inherent uncertainty of traditional observability platforms and marks the arrival of deterministic understanding and complete automation enabled by the Design Learning Platform (DLP).
+By leveraging design-driven automation, the design workbench establishes the structure needed to practically enable the automatic management of software systems. Ultimately, this marks the shift away from the inherent uncertainty of traditional observability platforms and marks the arrival of deterministic understanding and complete automation enabled by the Design Learning Platform (DLP).
 
 ## Development
 
