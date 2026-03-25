@@ -41,6 +41,7 @@ function GlobalProviders ({children}) {
     };
 
     // Sets the message history
+    // eslint-disable-next-line no-unused-vars
     const [messageHistory, setMessageHistory] = useState([]);
     useEffect(() => {
         if (lastJsonMessage !== null) {
