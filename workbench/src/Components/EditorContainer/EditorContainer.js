@@ -27,6 +27,10 @@ export function EditorContainer () {
             return;
         }
 
+        if (!drop.activeData?.node || !drop.overData) {
+            return;
+        }
+
         const activeType = drop.activeData.type;
         const overType = drop.overData.type;
         const activeParent = drop.activeData.parentId;
