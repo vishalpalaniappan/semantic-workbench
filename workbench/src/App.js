@@ -35,6 +35,10 @@ export function App () {
             import("./Components/ToolBar/ToolBar").then((m) => ({
                 default: m.default || m.ToolBar,
             })),
+        StatusBar: () =>
+            import("./Components/StatusBar/StatusBar").then((m) => ({
+                default: m.default || m.StatusBar,
+            })),
     }), []);
 
     return (

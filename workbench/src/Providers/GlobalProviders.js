@@ -67,7 +67,7 @@ function GlobalProviders ({children}) {
     // Set the connection state and log to console
     const connectionStatus = {
         [ReadyState.CONNECTING]: "Connecting",
-        [ReadyState.OPEN]: "Open",
+        [ReadyState.OPEN]: "Connected",
         [ReadyState.CLOSING]: "Closing",
         [ReadyState.CLOSED]: "Closed",
         [ReadyState.UNINSTANTIATED]: "Uninstantiated",
@@ -83,7 +83,8 @@ function GlobalProviders ({children}) {
     };
 
     return (
-        <ServerContext.Provider value={{sendJsonMessage, setTermWriter, workspace}}>
+        // eslint-disable-next-line max-len
+        <ServerContext.Provider value={{sendJsonMessage, setTermWriter, workspace, connectionStatus}}>
             {children}
         </ServerContext.Provider>
     );
