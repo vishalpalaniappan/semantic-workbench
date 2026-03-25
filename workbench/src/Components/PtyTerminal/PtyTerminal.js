@@ -18,6 +18,9 @@ Terminal.propTypes = {
 export function PtyTerminal () {
     const {sendJsonMessage, setTermWriter, connectionStatus} = useContext(ServerContext);
 
+    // TODO: This component needs a lot of work, I had to disable strict mode
+    // for this to work. I will revisit this and make it more robust.
+
     const containerRef = useRef(null);
     const termRef = useRef(null);
     const fitRef = useRef(null);
