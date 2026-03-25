@@ -3,7 +3,7 @@ import path from "node:path";
 import loadDir from "./loadDir.js";
 import { TerminalSession } from "./terminal.js";
 
-const handleWSConnection = async function(request) {
+const handleWSConnection = async function (request) {
     // TODO: can rewrite this to accept only the requests from allowed origin
     const ws = request.accept(null, request.origin);
 
@@ -35,8 +35,8 @@ const handleWSConnection = async function(request) {
     terminal.on("stop", onTerminalStop);
     terminal.start();
 
-    ws.on('message', function (data) {
-        var msg = JSON.parse(data['utf8Data']);
+    ws.on("message", function (data) {
+        var msg = JSON.parse(data["utf8Data"]);
 
         if (!("type" in msg)) {
             msg.data = "Missing type";
@@ -45,31 +45,42 @@ const handleWSConnection = async function(request) {
         }
 
         switch (msg["type"]) {
-            case "workspaces":
-                const workspacePath = path.join(process.cwd(), 'workspace');
-                loadDir(workspacePath, workspacePath).then((folders) => {
-                    msg.data = folders;
-                    ws.send(JSON.stringify(msg));
-                });
+            case "workspaces": {
+                const workspacePath = path.join(process.cwd(), "workspace");
+                loadDir(workspacePath, workspacePath)
+                    .then((folders) => {
+                        msg.data = folders;
+                        ws.send(JSON.stringify(msg));
+                    })
+                    .catch((err) => {
+                        ws.send(JSON.stringify({ type: "error", data: err.message }));
+                    });
                 break;
-            case "terminal_input":
+            }
+            case "terminal_input": {
                 terminal.write(msg.data);
                 break;
-            case "terminal_resize":
+            }
+            case "terminal_resize": {
                 terminal.resize(msg.cols, msg.rows);
                 break;
-            case "terminal_start":
+            }
+            case "terminal_start": {
                 terminal.start();
                 break;
-            case "terminal_stop":
+            }
+            case "terminal_stop": {
                 terminal.stop();
                 break;
-            case "terminal_restart":
+            }
+            case "terminal_restart": {
                 terminal.restart();
                 break;
-            default:
-                ws.send(data['utf8Data']);
+            }
+            default: {
+                ws.send(data["utf8Data"]);
                 break;
+            }
         }
     });
 
@@ -80,7 +91,6 @@ const handleWSConnection = async function(request) {
         terminal.off("start", onTerminalStart);
         terminal.off("stop", onTerminalStop);
     });
-}
+};
 
 export default handleWSConnection;
-
