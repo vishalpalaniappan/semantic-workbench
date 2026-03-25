@@ -1,7 +1,7 @@
 # Design Workbench
 
 > [!NOTE]  
-> This repo is in development and the features listed below are in the pipeline. Currently the application ony supports a single workspace (workspace folder in server) but this will be extended to multiple workspaces after they layout manager is migrated to event driven structure.
+> This repo is in development and the features listed below are in the pipeline. Currently the application only supports a single workspace (workspace folder in server) but this will be extended to multiple workspaces after they layout manager is migrated to event driven structure.
 
 The Design Workbench is a Unified Development Environment (UDE) powered by design-driven [automation][automation]. At its core is an [engine][dal-engine-core-js] that enables users to formally specify designs in a Design Abstraction Language (DAL) through behaviors, participants, and semantic invariants. By mapping an implementation onto those behaviors, instrumented execution can be transformed back into the behavior defined by the design, a process known as the Semantic Transform (ST). The result is a fully automated, end-to-end diagnostic solution for software systems that is seamlessly integrated into the development process. 
 
