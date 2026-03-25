@@ -15,11 +15,20 @@ The traces which motivated the invariants are assigned to the invariant and serv
 
 The workbench also provides an interface to unambiguously define the domain structure of the design data. This will be leveraged by CLP to apply domain specific compression to the data, achieving true automation by enabling the design's behavior to be retained losslessly.
 
+This means that the workbench will contain a few unique modes:
+- Design Definition
+- Implementation
+- Mapping
+- Instrumention and Execution
+- Automated Debugging
+- Learning
+- Automated Testing
+
+All of these modes are intrinsic to the design feedback loop shown below and the workbench participates in this entire cycle. 
+
 ![alt text](docs/design_feedback_loop.jpg)
 
-By leveraging design driven automation, the feedback loop shown in the image above establishes the ability to automatically manage software systems. The design workbench establishes the structure need to practically realize this feedback loop.
-
-Ultimately, this marks the shift away from the inherent uncertainty of traditional observability platforms and marks the arrival of deterministic understanding and automation enabled by the Design Learning Platform (DLP).
+By leveraging design driven automation, the design workbench establishes the structure need to practically enable the automatic management of software systems. Ultimately, this marks the shift away from the inherent uncertainty of traditional observability platforms and marks the arrival of deterministic understanding and complete automation enabled by the Design Learning Platform (DLP).
 
 ## Development
 
