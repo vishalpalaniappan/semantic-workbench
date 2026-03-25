@@ -4,6 +4,7 @@ import {LayoutManager} from "ui-layout-manager-dev";
 
 import layout from "./layout.json";
 import GlobalProviders from "./Providers/GlobalProviders";
+import { DalEngineProvider } from "./Providers/DalEngineProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
@@ -42,10 +43,12 @@ export function App () {
     }), []);
 
     return (
-        <GlobalProviders>
-            <div className="vw-100 vh-100">
-                <LayoutManager registry={registry} ldf={layout}/>
-            </div>
-        </GlobalProviders>
+        <DalEngineProvider>
+            <GlobalProviders>
+                <div className="vw-100 vh-100">
+                    <LayoutManager registry={registry} ldf={layout}/>
+                </div>
+            </GlobalProviders>
+        </DalEngineProvider>
     );
 }
