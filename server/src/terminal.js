@@ -63,6 +63,7 @@ export class TerminalSession extends EventEmitter {
     }
 
     resize(cols, rows) {
+        if (!cols || !rows) return;
         this.cols = cols;
         this.rows = rows;
         this.ptyProcess?.resize(cols, rows);
