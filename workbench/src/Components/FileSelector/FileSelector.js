@@ -15,7 +15,7 @@ FileSelector.propTypes = {
  * @return {JSX.Element}
  */
 export function FileSelector () {
-    const workspace = useWorkspace();
+    const {workspace} = useWorkspace();
 
     const fileBrowserRef = useRef();
     const publish = useLayoutEventPublisher();

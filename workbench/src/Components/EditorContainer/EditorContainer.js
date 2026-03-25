@@ -15,7 +15,7 @@ import "./EditorContainer.scss";
  */
 export function EditorContainer () {
     const {connectionStatus} = useContext(ServerContext);
-    const workspace = useWorkspace();
+    const {workspace} = useWorkspace();
     const editorRef = useRef(null);
     const parentIdRef = useRef(null);
 

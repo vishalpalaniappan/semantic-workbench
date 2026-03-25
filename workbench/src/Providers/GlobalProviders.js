@@ -96,7 +96,7 @@ function GlobalProviders ({children}) {
         e.save = () => {
             const serialized = e.serialize();
             sendJsonMessageRef.current({
-                type: "save-engine",
+                type: "save_engine",
                 payload: {
                     "data": serialized,
                     "fileName": "engine.dal",
@@ -108,7 +108,7 @@ function GlobalProviders ({children}) {
 
     return (
         // eslint-disable-next-line max-len
-        <WorkspaceContext.Provider value={workspace}>
+        <WorkspaceContext.Provider value={{workspace}}>
             <DalEngineContext.Provider value={{engine}}>
                 <ServerContext.Provider value={{sendJsonMessage, setTermWriter, connectionStatus}}>
                     {children}
