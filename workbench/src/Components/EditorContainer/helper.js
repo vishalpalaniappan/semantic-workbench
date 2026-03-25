@@ -7,14 +7,11 @@
  * @return {Array} - The flattened tree with level information.
  */
 export const flattenTree = (tree, level = 0) => {
-    if (!level) {
-        level = 0;
-    }
     let rows = [];
     for (let i = 0; i < tree.length; i++) {
         const node = tree[i];
         node.level = level;
-        rows.push(node);
+        rows.push({...node, level});
         if (node?.children) {
             rows = rows.concat(flattenTree(node.children, level + 1));
         }
