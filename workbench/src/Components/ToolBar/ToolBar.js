@@ -1,8 +1,7 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useState} from "react";
 
 import {
     Cursor,
-    NodePlus,
     Square,
     Trash
 } from "react-bootstrap-icons";
