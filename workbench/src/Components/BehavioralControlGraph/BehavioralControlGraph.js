@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {BehavioralGraphBuilder} from "sample-ui-component-library";
 import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
-import {useDalEngine} from "../../Providers/DalEngineProvider";
+import { useDalEngine } from "../../Providers/GlobalProviders";
 
 import "./BehavioralControlGraph.scss";
 
@@ -17,10 +17,13 @@ BehavioralControlGraph.propTypes = {
 export function BehavioralControlGraph () {
     const [activeTool, setActiveTool] = useState();
 
-    const engine = useDalEngine();
+    const {engine} = useDalEngine();
 
     useEffect(() => {
         console.log(engine);
+        if (engine) {
+            engine.save();
+        }
     }, [engine]);
 
     useLayoutEventSubscription("tool:selected", (event) => {
