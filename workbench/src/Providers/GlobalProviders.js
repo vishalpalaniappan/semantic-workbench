@@ -19,6 +19,7 @@ GlobalProviders.propTypes = {
  */
 function GlobalProviders ({children}) {
     const [workspace, setWorkspace] = useState();
+    const [selectedBehavior, setSelectedBehavior] = useState();
     const termWriteRef = useRef(null);
     const sendJsonMessageRef = useRef(null);
 
@@ -92,7 +93,7 @@ function GlobalProviders ({children}) {
     };
 
     const engine = useMemo(() => {
-        const e = new DALEngine({name:"default"});
+        const e = new DALEngine({name: "default"});
         e.save = () => {
             const serialized = e.serialize();
             sendJsonMessageRef.current({
@@ -116,7 +117,7 @@ function GlobalProviders ({children}) {
 
     return (
         // eslint-disable-next-line max-len
-        <WorkspaceContext.Provider value={{workspace}}>
+        <WorkspaceContext.Provider value={{workspace, selectedBehavior, setSelectedBehavior}}>
             <DalEngineContext.Provider value={{engine}}>
                 <ServerContext.Provider value={{sendJsonMessage, setTermWriter, connectionStatus}}>
                     {children}
