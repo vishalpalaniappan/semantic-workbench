@@ -42,6 +42,10 @@ export function App () {
             import("./Components/BehaviorInfo/BehaviorInfo").then((m) => ({
                 default: m.default || m.BehaviorInfo,
             })),
+        GraphMenuBar: () =>
+            import("./Components/GraphMenuBar/GraphMenuBar").then((m) => ({
+                default: m.default || m.GraphMenuBar,
+            })),
     }), []);
 
     return (
