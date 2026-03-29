@@ -68,6 +68,18 @@ export function GraphMenuBar () {
         });
     };
 
+    const deleteGraph = useCallback(() => {
+        if (!selectedGraph) return;
+        engine.removeGraph(selectedGraph);
+        setGraphs(engine.graphs.getGraphNames());
+        setSelectedGraph(engine.graphs.getActiveGraph().name);
+        publish({
+            type: "graph:selected",
+            payload: null,
+            source: "graph-menu-bar",
+        });
+    }, [engine, selectedGraph, publish]);
+
     return (
         <div className="graphMenuBar">
             <div className="leftMenu"></div>
@@ -81,6 +93,7 @@ export function GraphMenuBar () {
                     ))}
                 </select>
                 <PlusSquare onClick={addgraph} className="icon"/>
+                <Trash onClick={deleteGraph} className="icon"/>
             </div>
         </div>
     );
