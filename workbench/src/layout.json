@@ -269,6 +269,7 @@
         },
         "rightMenuContainer1": {
             "id": "rightMenuContainer1",
+            "component": "BehaviorInfo",
             "menuBar": {
                 "showClose": false,
                 "title": "Design Info"
