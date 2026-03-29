@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 
 import PropTypes from "prop-types";
 import {useLayoutEventPublisher} from "ui-layout-manager-dev";
@@ -18,6 +18,7 @@ AddBehavior.propTypes = {
 export function AddBehavior ({close}) {
     const {engine} = useDalEngine();
     const [behavior, setBehavior] = useState("");
+    const [error, setError] = useState(null);
     const inputRef = useRef(null);
 
     const publish = useLayoutEventPublisher();
@@ -28,18 +29,23 @@ export function AddBehavior ({close}) {
         }
     }, [engine]);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = useCallback((event) => {
         event.preventDefault(); // stops page refresh
         if (behavior.trim() === "") {
             return;
         }
-        publish({
-            type: "add:behavior",
-            payload: behavior,
-            source: "add-behavior-modal",
-        });
-        close();
-    };
+        try {
+            engine.getNode(behavior);
+            setError(`Behavior with name "${behavior}" already exists.`);
+        } catch (BehaviorNotFoundError) {
+            publish({
+                type: "add:behavior",
+                payload: behavior,
+                source: "add-behavior-modal",
+            });
+            close();
+        }
+    }, [engine, behavior, publish, close]);
 
     return (
         <div className="add-behavior-modal">
@@ -55,6 +61,9 @@ export function AddBehavior ({close}) {
                     <button type="submit">Add Behavior</button>
                 </div>
             </form>
+            {error &&
+                <div className="behavior-error">{error}</div>
+            }
         </div>
     );
 }
