@@ -1,16 +1,15 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 
 import {BehavioralGraphBuilder} from "sample-ui-component-library";
 import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
+import WorkspaceContext from "../../Providers/WorkspaceContext";
 
 import "./BehavioralControlGraph.scss";
 
 BehavioralControlGraph.propTypes = {
 };
-
-let count = 0;
 
 /**
  * Behavioral Control Graph Creator
@@ -18,12 +17,15 @@ let count = 0;
  */
 export function BehavioralControlGraph () {
     const [activeTool, setActiveTool] = useState();
+    const {setSelectedBehavior} = useContext(WorkspaceContext);
     const graphRef = useRef(null);
 
     const {engine} = useDalEngine();
 
     useEffect(() => {
-        if (engine) {}
+        if (engine) {
+            graphRef.current.updateEngine(engine);
+        }
     }, [engine]);
 
     useLayoutEventSubscription("tool:selected", (event) => {
@@ -33,8 +35,7 @@ export function BehavioralControlGraph () {
     useLayoutEventSubscription("add:behavior", (event) => {
         console.log("Behavior submitted:", event.payload);
         if (graphRef.current) {
-            console.log(engine);
-            engine.addNode("behavior-" + count++ , []);
+            engine.addNode(event.payload, []);
             graphRef.current.updateEngine(engine);
         }
     }, [engine]);
@@ -65,6 +66,14 @@ export function BehavioralControlGraph () {
         [engine, graphRef]
     );
 
+    const selectBehavior = useCallback(
+        (behaviorId) => {
+            console.log("Selected behavior:", behaviorId);
+            setSelectedBehavior(behaviorId);
+        },
+        [setSelectedBehavior]
+    );
+
     return (
         <div className="flow-wrapper">
             <BehavioralGraphBuilder
@@ -72,7 +81,8 @@ export function BehavioralControlGraph () {
                 connectBehaviors={connectBehaviors}
                 deleteBehavior={deleteBehavior}
                 deleteTransition={deleteTransition}
-                activeTool={activeTool} />
+                activeTool={activeTool}
+                selectBehavior={selectBehavior} />
         </div>
     );
 }
