@@ -235,11 +235,6 @@
             "component": "EditorContainer",
             "background": "#1e1e1e"
         },
-        "FlowContainer": {
-            "id": "FlowContainer",
-            "component": "BehavioralControlGraph",
-            "background": "#1e1e1e"
-        },
         "designLayoutContainer": {
             "id": "designLayoutContainer",
             "type": "split",
@@ -252,11 +247,34 @@
                     "collapse": { "value": 100, "condition": "lessThan", "relative": "parent" }
                 },
                 {
-                    "containerId": "FlowContainer",
+                    "containerId": "FlowVerticalContainer",
                     "type": "container",
                     "size": { "initial": { "type": "fill" }}
                 }
             ],
+            "background": "#1e1e1e"
+        },
+        "FlowVerticalContainer": {
+            "id": "FlowVerticalContainer",
+            "type": "split",
+            "orientation": "vertical",
+            "children": [
+                {
+                    "containerId": "FlowContainer",
+                    "type": "container",
+                    "size": { "initial": { "type": "fill" }}
+
+                },
+                {
+                    "containerId": "graphMenuContainer",
+                    "type": "container",
+                    "size": { "initial": { "value": 30, "unit": "px", "type": "fixed" }}
+                }
+            ]
+        },
+        "FlowContainer": {
+            "id": "FlowContainer",
+            "component": "BehavioralControlGraph",
             "background": "#1e1e1e"
         },
         "leftMenuContainer2": {
@@ -269,6 +287,7 @@
         },
         "rightMenuContainer1": {
             "id": "rightMenuContainer1",
+            "component": "BehaviorInfo",
             "menuBar": {
                 "showClose": false,
                 "title": "Design Info"
@@ -295,6 +314,10 @@
             "id": "toolbarContainer",
             "component": "ToolBar",
             "background": "#1e1e1e"
+        },
+        "graphMenuContainer": {
+            "id": "graphMenuContainer",
+            "background": "#222222"
         }
     }
 }
