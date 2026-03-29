@@ -46,16 +46,11 @@ export function ToolBar () {
 
 
     const addBehavior = () => {
-        // const {id, closeModal} = openModal({
-        //     title: "Add Behavior",
-        //     render: ({close}) => {
-        //         return <AddBehavior close={close} />;
-        //     },
-        // });
-        publish({
-            type: "add:behavior",
-            payload: "test",
-            source: "tool-bar",
+        const {id, closeModal} = openModal({
+            title: "Add Behavior",
+            render: ({close}) => {
+                return <AddBehavior close={close} />;
+            },
         });
     };
 
