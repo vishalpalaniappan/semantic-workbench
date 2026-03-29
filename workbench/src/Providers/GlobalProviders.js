@@ -111,7 +111,9 @@ function GlobalProviders ({children}) {
     useEffect(() => {
         if (workspace) {
             const file = workspace.find((file)=>file.name === "engine.dal");
-            engine.deserialize(file.content);
+            if (file) {
+                engine.deserialize(file.content);
+            }
         }
     }, [workspace]);
 
