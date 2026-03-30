@@ -38,38 +38,32 @@ export function BehavioralControlGraph () {
         }
     }, [engine]);
 
-    const connectBehaviors = useCallback(
-        (from, to) => {
-            if (!to) return;
+    const connectBehaviors = useCallback((from, to) => {
+        if (!to) return;
+        try {
             engine.getNode(from.id).addGoToBehavior(to.id);
             graphRef.current.updateEngine(engine);
-        },
-        [graphRef, engine]
-    );
+        } catch (TransitionAlreadyExistsError) {
+            console.error(`The transition from ${from.id} to ${to.id} already exists.`);
+        }
+    }, [graphRef, engine]);
 
-    const deleteBehavior = useCallback(
-        (node) => {
-            engine.removeNode(node.id);
-            graphRef.current.updateEngine(engine);
-        },
-        [engine, graphRef]
-    );
+    const deleteBehavior = useCallback((node) => {
+        engine.removeNode(node.id);
+        graphRef.current.updateEngine(engine);
+        setSelectedBehavior(null);
+    }, [engine, graphRef, setSelectedBehavior]);
 
-    const deleteTransition = useCallback(
-        (edge) => {
-            const fromNode = engine.getNode(edge.from);
-            fromNode.removeGoToBehavior(edge.to);
-            graphRef.current.updateEngine(engine);
-        },
-        [engine, graphRef]
-    );
+    const deleteTransition = useCallback((edge) => {
+        const fromNode = engine.getNode(edge.from);
+        fromNode.removeGoToBehavior(edge.to);
+        graphRef.current.updateEngine(engine);
+        setSelectedBehavior(null);
+    }, [engine, graphRef, setSelectedBehavior]);
 
-    const selectBehavior = useCallback(
-        (behaviorId) => {
-            setSelectedBehavior(behaviorId);
-        },
-        [setSelectedBehavior]
-    );
+    const selectBehavior = useCallback((behaviorId) => {
+        setSelectedBehavior(behaviorId);
+    }, [setSelectedBehavior]);
 
     return (
         <div className="flow-wrapper">
