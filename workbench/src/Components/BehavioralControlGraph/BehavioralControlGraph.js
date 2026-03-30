@@ -32,19 +32,11 @@ export function BehavioralControlGraph () {
         setActiveTool(event.payload);
     });
 
-    useLayoutEventSubscription("add:behavior", (event) => {
-        console.log("Behavior submitted:", event.payload);
+    useLayoutEventSubscription("engine:update", (event) => {
         if (graphRef.current) {
-            engine.addNode(event.payload, []);
             graphRef.current.updateEngine(engine);
         }
     }, [engine]);
-
-    useLayoutEventSubscription("graph:selected", (event) => {
-        if (graphRef.current) {
-            graphRef.current.updateEngine(engine);
-        }
-    }, [engine, graphRef]);
 
     const connectBehaviors = useCallback(
         (from, to) => {
@@ -74,7 +66,6 @@ export function BehavioralControlGraph () {
 
     const selectBehavior = useCallback(
         (behaviorId) => {
-            console.log("Selected behavior:", behaviorId);
             setSelectedBehavior(behaviorId);
         },
         [setSelectedBehavior]

@@ -5,7 +5,7 @@ import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../../Providers/GlobalProviders";
 
-import "./AddBehavior.scss";
+import "./AddValue.scss";
 
 AddBehavior.propTypes = {
     close: PropTypes.func.isRequired,
@@ -30,17 +30,20 @@ export function AddBehavior ({close}) {
     }, [engine]);
 
     const handleSubmit = useCallback((event) => {
-        event.preventDefault(); // stops page refresh
+        event.preventDefault();
         if (behavior.trim() === "") {
+            setError("Behavior name must not be empty.");
             return;
         }
+        // If behavior already exists, show error.
+        // Otherwise, add behavior and close modal.
         try {
             engine.getNode(behavior);
             setError(`Behavior with name "${behavior}" already exists.`);
         } catch (BehaviorNotFoundError) {
+            engine.addNode(behavior, []);
             publish({
-                type: "add:behavior",
-                payload: behavior,
+                type: "engine:update",
                 source: "add-behavior-modal",
             });
             close();
@@ -48,21 +51,21 @@ export function AddBehavior ({close}) {
     }, [engine, behavior, publish, close]);
 
     return (
-        <div className="add-behavior-modal">
-            <div className="behavior-name-label">
+        <div className="add-value-modal">
+            <div className="value-name-label">
                 <span>Behavior Name:</span>
             </div>
-            <form className="behavior-name-input" onSubmit={handleSubmit}>
+            <form className="value-name-input" onSubmit={handleSubmit}>
                 <input
                     ref={inputRef}
                     value={behavior}
                     onChange={(e) => setBehavior(e.target.value)}/>
-                <div className="behavior-name-submit">
+                <div className="value-name-submit">
                     <button type="submit">Add Behavior</button>
                 </div>
             </form>
             {error &&
-                <div className="behavior-error">{error}</div>
+                <div className="value-error">{error}</div>
             }
         </div>
     );

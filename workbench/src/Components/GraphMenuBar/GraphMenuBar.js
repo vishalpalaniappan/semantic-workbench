@@ -1,11 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 
-import {
-    Cursor,
-    Floppy,
-    PlusSquare,
-    Trash
-} from "react-bootstrap-icons";
+import {PlusSquare, Trash} from "react-bootstrap-icons";
 import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 import {useModalManager} from "ui-layout-manager-dev";
 import {useLayoutEventSubscription} from "ui-layout-manager-dev";
@@ -14,9 +9,6 @@ import {useDalEngine} from "../../Providers/GlobalProviders";
 import {AddGraph} from "../Modals/AddBehavior/AddGraph";
 
 import "./GraphMenuBar.scss";
-
-GraphMenuBar.propTypes = {
-};
 
 /**
  * Graph Menu Bar Component
@@ -40,7 +32,7 @@ export function GraphMenuBar () {
     }, [engine]);
 
     const addgraph = () => {
-        const {id, closeModal} = openModal({
+        openModal({
             title: "Add Graph",
             render: ({close}) => {
                 return <AddGraph close={close} />;
@@ -51,21 +43,13 @@ export function GraphMenuBar () {
     useLayoutEventSubscription("add:graph", (event) => {
         setGraphs(engine.graphs.getGraphNames());
         setSelectedGraph(engine.graphs.getActiveGraph().name);
-        publish({
-            type: "graph:selected",
-            payload: null,
-            source: "graph-menu-bar",
-        });
+        publish({type: "engine:update"});
     }, [engine]);
 
     const selectGraph = (graphName) => {
         engine.selectGraph(graphName);
         setSelectedGraph(engine.graphs.getActiveGraph().name);
-        publish({
-            type: "graph:selected",
-            payload: graphName,
-            source: "graph-menu-bar",
-        });
+        publish({type: "engine:update"});
     };
 
     const deleteGraph = useCallback(() => {
@@ -73,11 +57,7 @@ export function GraphMenuBar () {
         engine.removeGraph(selectedGraph);
         setGraphs(engine.graphs.getGraphNames());
         setSelectedGraph(engine.graphs.getActiveGraph().name);
-        publish({
-            type: "graph:selected",
-            payload: null,
-            source: "graph-menu-bar",
-        });
+        publish({type: "engine:update"});
     }, [engine, selectedGraph, publish]);
 
     return (
