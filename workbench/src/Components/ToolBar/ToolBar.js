@@ -24,6 +24,11 @@ export function ToolBar () {
     const saveGraph = useCallback(() => {
         if (engine) {
             engine.save();
+            publish({
+                type: "status:set",
+                payload: "Graph saved successfully!",
+                source: "tool-bar",
+            });
         }
     }, [engine]);
 
