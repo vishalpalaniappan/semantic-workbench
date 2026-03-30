@@ -1,6 +1,7 @@
 import React, {useMemo} from "react";
 
 import {LayoutManager} from "ui-layout-manager-dev";
+import {LayoutEventProvider} from "ui-layout-manager-dev";
 
 import layout from "./layout.json";
 import GlobalProviders from "./Providers/GlobalProviders";
@@ -49,10 +50,12 @@ export function App () {
     }), []);
 
     return (
-        <GlobalProviders>
-            <div className="app-container">
-                <LayoutManager registry={registry} ldf={layout}/>
-            </div>
-        </GlobalProviders>
+        <LayoutEventProvider>
+            <GlobalProviders>
+                <div className="app-container">
+                    <LayoutManager registry={registry} ldf={layout}/>
+                </div>
+            </GlobalProviders>
+        </LayoutEventProvider>
     );
 }
