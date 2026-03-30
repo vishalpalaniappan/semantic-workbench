@@ -43,10 +43,8 @@ export function AddGraph ({close}) {
         } catch (UnknownGraph) {
             engine.createGraph(graph);
             engine.selectGraph(graph);
-            publish({
-                type: "engine:update",
-                source: "add-graph-modal",
-            });
+            publish({type: "add:graph", source: "add-graph-modal"});
+            publish({type: "engine:update", source: "add-graph-modal"});
             close();
         }
     }, [engine, graph, publish, close]);
