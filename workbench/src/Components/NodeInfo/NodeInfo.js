@@ -94,7 +94,7 @@ export function NodeInfo ({close}) {
 
                         <div className="behaviorInfo">
                             <span className="behaviorLabel">
-                                <Pencil style={{marginRight: "3px"}} />
+                                <Pencil style={{marginRight: "5px", color: "grey"}} />
                                 {selectedBehavior}
                             </span>
                         </div>
@@ -103,6 +103,7 @@ export function NodeInfo ({close}) {
 
                         <div className="participantInfo">
                             <div className="participantsRow">
+
                                 <select id="car-select" className="selectParticipants"
                                     value={participant}
                                     disabled={participants.length === 0 || !participant}
@@ -115,13 +116,16 @@ export function NodeInfo ({close}) {
                                         <option>Add a participant...</option>
                                     }
                                 </select>
+
                                 <PlusSquare title={"Add Participant"}
                                     onClick={addParticipant}
                                     className="icon"/>
                                 <Trash title={"Delete Participant"}
                                     onClick={deleteParticipant}
                                     className="icon"/>
+
                             </div>
+
                             {
                                 (participant && participant.length > 0) &&
                                 <div className="participantsContent">
