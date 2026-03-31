@@ -1,11 +1,10 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 
 import PropTypes from "prop-types";
 import {Geo, Pencil, Plus, PlusSquare, Trash} from "react-bootstrap-icons";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import WorkspaceContext from "../../Providers/WorkspaceContext";
-
 import {Invariant} from "./Invariant/Invariant";
 
 import "./Participants.scss";
@@ -22,9 +21,23 @@ export function Participants ({close}) {
     const {engine} = useDalEngine();
     const {selectedBehavior} = useContext(WorkspaceContext);
 
-    const addParticipant = () => {
+    useEffect(() => {
+        if (selectedBehavior) {}
+    }, [selectedBehavior]);
 
-    };
+    const getParticipants = useCallback(() => {
+        if (selectedBehavior) {
+            return engine.getNode(selectedBehavior).getBehavior().participants;
+        }
+        return [];
+    }, [selectedBehavior, engine]);
+
+    const addParticipant = useCallback(() => {
+        if (selectedBehavior) {
+            const node = engine.getNode(selectedBehavior);
+            node.getBehavior().addParticipant("test");
+        }
+    }, [engine, selectedBehavior]);
 
     const deleteParticipant = () => {
 
@@ -34,7 +47,9 @@ export function Participants ({close}) {
         <div className="participantsContainer">
             <div className="participantsRow">
                 <select className="selectParticipants">
-                    <option>Book</option>
+                    {getParticipants().map((participant, index) => (
+                        <option key={index}>{participant.name}</option>
+                    ))}
                 </select>
                 <PlusSquare title={"Add Participant"} onClick={addParticipant} className="icon"/>
                 <Trash title={"Delete Participant"} onClick={deleteParticipant} className="icon"/>
