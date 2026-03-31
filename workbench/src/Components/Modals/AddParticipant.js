@@ -43,7 +43,7 @@ export function AddParticipant ({close}) {
             const participantInstance = engine.createParticipant({name: participant});
             engine.getNode(selectedBehavior).getBehavior().addParticipant(participantInstance);
             publish({
-                type: "engine:update",
+                type: "participants:update",
                 source: "add-participant-modal",
             });
             close();

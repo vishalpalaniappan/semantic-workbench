@@ -26,7 +26,7 @@ export function Participants ({close}) {
     const [participants, setParticipants] = useState([]);
     const {openModal} = useModalManager();
 
-    useLayoutEventSubscription("engine:update", (event) => {
+    useLayoutEventSubscription("participants:update", (event) => {
         if (selectedBehavior) {
             const behavior = engine.getNode(selectedBehavior).getBehavior();
             setParticipants([...behavior.getParticipants()]);
@@ -60,6 +60,9 @@ export function Participants ({close}) {
             {
                 selectedBehavior &&
                 <div className="participantsContainer">
+                    <div className="participantsTitle">
+                        Participants
+                    </div>
                     <div className="participantsRow">
                         <select className="selectParticipants">
                             {(participants && participants.length > 0) && 
