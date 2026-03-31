@@ -29,7 +29,7 @@
     flex-direction: column;
     padding: 10px;
     flex:1;
-
+    min-height: 0;
 
     .participantsLabel {
         font-size:16px;
@@ -64,8 +64,17 @@
 }
 
 .nodeInfoContainer > .participantInfo > .participantsContent {
+    display:flex;
+    flex-direction: column;
+    gap: 5px;
     flex:1;
-    background-color: rgb(124, 2, 2);
+    background-color: rgb(71, 28, 28);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    scrollbar-color: #47474766 #252526;
+    scrollbar-width: thin;
+    font-size:14px;
 }
 
 .noSelect {
