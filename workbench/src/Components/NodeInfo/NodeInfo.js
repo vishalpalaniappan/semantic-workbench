@@ -27,18 +27,23 @@ export function NodeInfo ({close}) {
     const [participant, setParticipant] = useState(null);
     const {openModal} = useModalManager();
 
+    // Add particients modal updates the participants list when a
+    // participant is added and emits this event, so we listen
+    // and update.
     useLayoutEventSubscription("participants:update", (event) => {
         if (selectedBehavior) {
             updateParticipants(event.payload);
         }
     }, [engine, participants, setParticipants, selectedBehavior]);
 
+    // When the selected behavior changes, it updates the participants.
     useEffect(() => {
         if (engine && selectedBehavior) {
             updateParticipants();
         }
     }, [selectedBehavior, engine]);
 
+    // Open the modal to add a participant.
     const addParticipant = useCallback(() => {
         if (selectedBehavior) {
             openModal({
@@ -50,6 +55,7 @@ export function NodeInfo ({close}) {
         }
     }, [engine, selectedBehavior]);
 
+    // Delete the currently selected participant.
     const deleteParticipant = useCallback(() => {
         if (engine && selectedBehavior && participant) {
             const behavior = engine.getNode(selectedBehavior).getBehavior();
@@ -60,8 +66,9 @@ export function NodeInfo ({close}) {
 
     /**
      * Given the selected behavior, it sets the participants and
-     * selects the last participant in the list. If there are no
-     * participants, it sets the selected participant to null.
+     * selects the last participant in the list.
+     * If a participant name is provided, it selects that participant.
+     * If there are no participants, it sets the selected participant to null.
      */
     const updateParticipants = useCallback((participantName) => {
         if (selectedBehavior) {
@@ -82,25 +89,24 @@ export function NodeInfo ({close}) {
         <>
             {
                 selectedBehavior ?
-                    <div className="participantsContainer">
-                        <div className="participantsTitle">
-                        Node Info
+                    <div className="nodeInfoContainer">
+                        <div className="nodeInfoTitle">Node Info</div>
+
+                        <div className="behaviorInfoContainer">
+                            <div className="behaviorLabel">Behavior:</div>
+                            <div className="behaviorInfo">{selectedBehavior}</div>
                         </div>
-                        <div className="nodeBehaviorInfo">
-                        Behavior: {selectedBehavior}
-                        </div>
-                        <div className="participantsLabel">
-                        Participants:
-                        </div>
+
+                        <div className="participantsLabel">Participants:    </div>
                         <div className="participantsRow">
                             <select id="car-select" className="selectParticipants"
                                 value={participant}
                                 disabled={participants.length === 0 || !participant}
                                 onChange={(e) => setParticipant(e.target.value)}>
                                 {(participants && participants.length > 0) &&
-                            participants.map((participant, index) => (
-                                <option key={index}>{participant.getName()}</option>
-                            ))}
+                                    participants.map((participant, index) => (
+                                        <option key={index}>{participant.getName()}</option>
+                                    ))}
                                 {(participants.length === 0 || !participant) &&
                                     <option>Add a participant...</option>
                                 }

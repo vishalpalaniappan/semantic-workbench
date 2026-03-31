@@ -1,27 +1,48 @@
 
-.participantsContainer {
+.nodeInfoContainer {
     display:flex;
     flex-direction: column;
     height:100%;
 }
 
-
-.participantsContainer > .nodeBehaviorInfo {
-    font-size:13px;
-    color:white;
-    padding: 10px 10px;
-    border-bottom: solid 1px rgb(73, 73, 73);  
+.nodeInfoContainer > .nodeInfoTitle {
+    font-size: 13px;
+    background: #202020;
+    color:rgb(158, 158, 158);
+    padding: 5px 10px;
 }
 
-.participantsContainer > .participantsLabel {
-    font-size:13px;
+.nodeInfoContainer > .behaviorInfoContainer {
+    display:flex;
+    flex-direction: column;
+    padding:10px;
+    background: #141414;
+}
+
+.nodeInfoContainer > .behaviorInfoContainer > .behaviorLabel {
+    color:grey;
+    font-size:12px;
+    padding-bottom: 3px;
+}
+.nodeInfoContainer> .behaviorInfoContainer > .behaviorInfo {
+    font-size:15px;
+    color:rgb(122, 122, 122);
+}
+
+.nodeInfoContainer > .nodeBehaviorInfo {
+    font-size:14px;
+    color:rgb(243, 243, 243);
+}
+
+.nodeInfoContainer > .participantsLabel {
+    font-size:16px;
     color:grey;
     margin-left: 10px;
     margin-bottom: 5px; 
     margin-top: 10px;
 }
 
-.participantsContainer > .participantsTitle {
+.nodeInfoContainer > .participantsTitle {
     font-size: 16px;
     background: #333;
     color:rgb(158, 158, 158);
@@ -30,14 +51,14 @@
     margin-bottom: 5px;
 }
 
-.participantsContainer > .participantsRow {
+.nodeInfoContainer > .participantsRow {
     height: 20px;
     width: 100%;
     display: flex;
     flex-direction: row;
 }
 
-.participantsContainer > .participantsRow > .selectParticipants {
+.nodeInfoContainer > .participantsRow > .selectParticipants {
     flex:1;
     margin:0 10px;
     background-color: #333;
@@ -45,18 +66,18 @@
     border: none;
 }
 
-.participantsContainer > .participantsRow > .icon {
+.nodeInfoContainer > .participantsRow > .icon {
     color:grey;
     cursor: pointer;
     margin: 0 5px;
 }
 
-.participantsContainer > .participantsRow > .icon:hover {
+.nodeInfoContainer > .participantsRow > .icon:hover {
     color: white;
 }
 
  
-.participantsContainer > .participantsContent {
+.nodeInfoContainer > .participantsContent {
     display:flex;
     flex:1;
     padding:10px;
@@ -71,7 +92,7 @@
 }
 
 
-.participantsContainer > .participantsContent  > .addInvariantPlaceholder {
+.nodeInfoContainer > .participantsContent  > .addInvariantPlaceholder {
     height: 25px;
     width:100%;
     color:grey;
