@@ -90,40 +90,43 @@ export function NodeInfo ({close}) {
             {
                 selectedBehavior ?
                     <div className="nodeInfoContainer">
-                        <div className="nodeInfoTitle">Node Info</div>
+                        <div className="nodeInfoTitle">Behavior</div>
 
-                        <div className="behaviorInfoContainer">
-                            <div className="behaviorLabel">Behavior:</div>
-                            <div className="behaviorInfo">{selectedBehavior}</div>
+                        <div className="behaviorInfo">
+                            <span className="behaviorLabel">
+                                <Pencil style={{marginRight: "3px"}} />
+                                {selectedBehavior}
+                            </span>
                         </div>
 
-                        <div className="participantsLabel">Participants:    </div>
-                        <div className="participantsRow">
-                            <select id="car-select" className="selectParticipants"
-                                value={participant}
-                                disabled={participants.length === 0 || !participant}
-                                onChange={(e) => setParticipant(e.target.value)}>
-                                {(participants && participants.length > 0) &&
-                                    participants.map((participant, index) => (
-                                        <option key={index}>{participant.getName()}</option>
-                                    ))}
-                                {(participants.length === 0 || !participant) &&
-                                    <option>Add a participant...</option>
-                                }
-                            </select>
-                            <PlusSquare title={"Add Participant"}
-                                onClick={addParticipant}
-                                className="icon"/>
-                            <Trash title={"Delete Participant"}
-                                onClick={deleteParticipant}
-                                className="icon"/>
-                        </div>
-                        <div className="participantsContent">
-                            {/* <Invariant invariant={"Min String Length"}/>
-                            <Invariant invariant={"Max Size"}/> */}
-                            <div className="addInvariantPlaceholder">
-                                <Plus title={"Add Invariant"} className="icon"/>
-                            Add Invariant
+                        <div className="nodeInfoTitle">Participants</div>
+
+                        <div className="participantInfo">
+                            <div className="participantsRow">
+                                <select id="car-select" className="selectParticipants"
+                                    value={participant}
+                                    disabled={participants.length === 0 || !participant}
+                                    onChange={(e) => setParticipant(e.target.value)}>
+                                    {(participants && participants.length > 0) &&
+                                        participants.map((participant, index) => (
+                                            <option key={index}>{participant.getName()}</option>
+                                        ))}
+                                    {(participants.length === 0 || !participant) &&
+                                        <option>Add a participant...</option>
+                                    }
+                                </select>
+                                <PlusSquare title={"Add Participant"}
+                                    onClick={addParticipant}
+                                    className="icon"/>
+                                <Trash title={"Delete Participant"}
+                                    onClick={deleteParticipant}
+                                    className="icon"/>
+                            </div>
+                            <div className="participantsContent">
+                                <div className="addInvariantPlaceholder">
+                                    <Plus title={"Add Invariant"} className="icon"/>
+                                Add Invariant
+                                </div>
                             </div>
                         </div>
                     </div>:
