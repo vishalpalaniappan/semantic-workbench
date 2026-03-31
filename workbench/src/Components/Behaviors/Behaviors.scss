@@ -10,7 +10,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    margin: 10px 0;
+    margin-top:10px  0;
 }
 
 .behaviorsContainer > .behaviorsRow > .selectBehaviors {
@@ -35,7 +35,53 @@
     display:flex;
     flex:1;
     padding:10px;
+    flex-direction: column;
+    gap:10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    scrollbar-color: #47474766 #252526;
+    scrollbar-width: thin;
+    font-size:14px;
 }
 
+.behaviorsContainer > .behaviorsContent  > .addBehaviorPlaceholder {
+    height: 25px;
+    width:100%;
+    color:grey;
+    border-radius: 5px;
+    border: dashed 1px grey;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size:13px;
+    cursor: pointer;
+
+    .icon {
+        font-size:20px;
+        display: flex;
+        align-self: center;
+    }
+}
+
+.behaviorsContainer > .behaviorsContent  > .addBehaviorPlaceholder:hover {
+    color:white;
+}
+
+.behaviorsContainer > .behaviorsContent  > .participantCard {
+    height: 30px;
+    width:100%;
+    color:rgb(161, 161, 161);
+    border: solid 1px grey;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size:13px;
+}
+
+.behaviorsContainer > .behaviorsContent  > .selected  {
+    color:rgb(255, 255, 255);
+    border: solid 1px rgb(255, 208, 121);
+}
 
 

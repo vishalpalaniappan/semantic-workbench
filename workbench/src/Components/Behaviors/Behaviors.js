@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 
 import PropTypes from "prop-types";
-import {Geo, PlusSquare, Trash} from "react-bootstrap-icons";
+import {Geo, Plus, PlusSquare, Trash} from "react-bootstrap-icons";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import WorkspaceContext from "../../Providers/WorkspaceContext";
@@ -37,7 +37,20 @@ export function Behaviors ({close}) {
                 <Trash title={"Delete Behavior"} onClick={deleteBehavior} className="icon"/>
                 <Geo title={"Behavior Mapping"} className="icon"/>
             </div>
-            <div className="behaviorsContent"></div>
+            <div className="behaviorsContent">
+
+                <div className="participantCard">
+                    Librarian
+                </div>
+                <div className="participantCard selected">
+                    Book
+                </div>
+
+                <div className="addBehaviorPlaceholder">
+                    <Plus title={"Add Behavior"} className="icon"/>
+                    Add Participant
+                </div>
+            </div>
         </div>
     );
 }

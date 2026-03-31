@@ -162,10 +162,10 @@
                     "containerId": "fileTabsContainer",
                     "type": "container",
                     "size": { 
-                        "initial": { "value": 350, "unit": "px", "type": "fixed" },
+                        "initial": { "value": 200, "unit": "px", "type": "fixed" },
                         "min": { "value": 51, "unit": "px"}
                     },
-                    "collapse": { "value": 400, "condition": "lessThan", "relative": "parent" }
+                    "collapse": { "value": 150, "condition": "lessThan", "relative": "parent" }
                 },
                 {
                     "type": "handleBar",
@@ -189,23 +189,9 @@
                     "containerId": "rightMenuContainer1",
                     "type": "container",
                     "size": { 
-                        "initial": { "value": 80, "unit": "px", "type": "fixed" },
+                        "initial": { "value": 60, "unit": "px", "type": "fixed" },
                         "min": { "value": 51, "unit": "px"}
                     }
-                },
-                {
-                    "containerId": "rightMenuContainer2",
-                    "type": "container",
-                    "size": { 
-                        "initial": { "value": 250, "unit": "px", "type": "fixed" },
-                        "min": { "value": 51, "unit": "px"}
-                    },
-                    "collapse": { "value": 500, "condition": "lessThan", "relative": "parent" }
-                },
-                {
-                    "type": "handleBar",
-                    "sibling1": "rightMenuContainer2",
-                    "sibling2": "rightMenuContainer3"
                 },
                 {
                     "containerId": "rightMenuContainer3",
@@ -276,22 +262,13 @@
             "id": "leftMenuContainer2",
             "menuBar": {
                 "showClose": false,
-                "title": "File Info"
+                "title": "Mapping"
             },
             "background": "#1e1e1e"
         },
         "rightMenuContainer1": {
             "id": "rightMenuContainer1",
             "component": "BehaviorInfo",
-            "background": "#1e1e1e"
-        },
-        "rightMenuContainer2": {
-            "id": "rightMenuContainer2",
-            "component": "Behaviors",
-            "menuBar": {
-                "showClose": false,
-                "title": "Behaviors"
-            },
             "background": "#1e1e1e"
         },
         "rightMenuContainer3": {
