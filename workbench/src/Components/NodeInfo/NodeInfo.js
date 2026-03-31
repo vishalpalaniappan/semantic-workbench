@@ -117,7 +117,7 @@ export function NodeInfo ({close}) {
 
                                 <PlusSquare title={"Add Participant"}
                                     onClick={addParticipant}
-                                    style={{marginRight: "5px", marginLeft: "0px"}}
+                                    style={{marginRight: "8px", marginLeft: "0px"}}
                                     className="icon"/>
 
                                 <select id="car-select" className="selectParticipants"
