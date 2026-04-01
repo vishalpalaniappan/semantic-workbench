@@ -26,6 +26,11 @@ export function GraphMenuBar () {
     const [graphs, setGraphs] = useState([]);
     const [selectedGraph, setSelectedGraph] = useState("");
 
+    useLayoutEventSubscription("add:graph", (event) => {
+        setGraphs(engine.graphs.getGraphNames());
+        setSelectedGraph(engine.graphs.getActiveGraph().name);
+        publish({type: "engine:update"});
+    }, [engine]);
 
     useEffect(() => {
         if (engine) {
@@ -42,12 +47,6 @@ export function GraphMenuBar () {
             },
         });
     };
-
-    useLayoutEventSubscription("add:graph", (event) => {
-        setGraphs(engine.graphs.getGraphNames());
-        setSelectedGraph(engine.graphs.getActiveGraph().name);
-        publish({type: "engine:update"});
-    }, [engine]);
 
     const selectGraph = (graphName) => {
         engine.selectGraph(graphName);
