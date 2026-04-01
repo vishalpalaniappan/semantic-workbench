@@ -98,3 +98,16 @@ export const useInvariants = () => {
         return participant ? participant.getInvariants() : [];
     }, [engine, selectedBehaviorId, selectedParticipantId]);
 };
+
+/**
+ * Returns a list of invariant types from the engine.
+ * @return {Object}
+ */
+export const useInvariantTypes = () => {
+    const {engine} = useDalEngine();
+
+    return useMemo(() => {
+        if (!engine) return [];
+        return engine.invariant_types;
+    }, [engine]);
+};
