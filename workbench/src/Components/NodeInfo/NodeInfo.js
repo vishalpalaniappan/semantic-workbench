@@ -30,9 +30,10 @@ NodeInfo.propTypes = {
  */
 export function NodeInfo ({close}) {
     const {engine} = useDalEngine();
-    const {selectedBehavior} = useContext(WorkspaceContext);
+    const {selectedBehavior, selectedParticipant, setSelectedParticipant} = useContext(WorkspaceContext);
     const [participants, setParticipants] = useState([]);
     const [participant, setParticipant] = useState(null);
+    const [invariants, setInvariants] = useState([]);
     const {openModal} = useModalManager();
 
     // Add particients modal updates the participants list when a
@@ -98,6 +99,15 @@ export function NodeInfo ({close}) {
     }, [engine, participants, setParticipants, selectedBehavior]);
 
 
+    useEffect(() => {
+        if (participants && participant) {
+            const p = participants.find((p) => p.getName() === participant);
+            setSelectedParticipant(p);
+            setInvariants([...p.getInvariants()]);
+        }
+    }, [participant, participants, setSelectedParticipant]);
+
+
     /**
      * Adds an invariant to current participant.
      */
@@ -109,6 +119,13 @@ export function NodeInfo ({close}) {
             },
         });
     }, [engine, selectedBehavior, participant]);
+
+    useLayoutEventSubscription("invariants:update", (event) => {
+        if (selectedParticipant) {
+            setInvariants([...selectedParticipant.getInvariants()]);
+        }
+    }, [engine, selectedParticipant]);
+
 
     return (
         <>
@@ -156,6 +173,12 @@ export function NodeInfo ({close}) {
                             </div>
 
                             <div className="participantsContent">
+                                {
+                                    selectedParticipant &&
+                                    selectedParticipant.getInvariants().map((invariant, index) => (
+                                        <Invariant key={index} invariant={invariant.name} />
+                                    ))
+                                }
 
                             </div>
 
