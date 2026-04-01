@@ -5,7 +5,7 @@ import {BehavioralGraphBuilder} from "sample-ui-component-library";
 import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {setSelectedBehavior} from "../../Store/appSlice";
+import {setSelectedBehavior, setSelectedParticipant} from "../../Store/appSlice";
 import {useSelectedGraph} from "../../Store/useAppSelection";
 import {useSelectedBehavior} from "../../Store/useAppSelection";
 
@@ -62,6 +62,12 @@ export function BehavioralControlGraph () {
 
     const selectBehavior = useCallback((id) => {
         dispatch(setSelectedBehavior(id ? engine.getNode(id).getBehavior().name : null));
+        const behavior = engine.getNode(id).getBehavior();
+        if (behavior.getParticipants().length > 0) {
+            dispatch(setSelectedParticipant(behavior.getParticipants()[0].getName()));
+        } else {
+            dispatch(setSelectedParticipant(null));
+        }
     }, [dispatch, engine]);
 
     return (

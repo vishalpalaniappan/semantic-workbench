@@ -4,8 +4,10 @@ import {useSelector} from "react-redux";
 
 import {useDalEngine} from "../Providers/GlobalProviders";
 import {
+    selectCounter,
     selectSelectedBehaviorId,
     selectSelectedGraphId,
+    selectSelectedInvariantId,
     selectSelectedParticipantId
 } from "./appSelectors";
 
@@ -48,15 +50,24 @@ export const useSelectedParticipant = () => {
     const selectedParticipantId = useSelector(selectSelectedParticipantId);
 
     return useMemo(() => {
-        if (!selectedBehaviorId) return null;
+        if (!selectedBehaviorId || !selectedParticipantId) return null;
         const behavior = engine.getNode(selectedBehaviorId).getBehavior();
-
-        if (selectedParticipantId === null) {
-            return behavior.getParticipant(behavior.getParticipants()[0]?.getName());
-        } else {
-            return behavior.getParticipant(selectedParticipantId);
-        }
+        return behavior.getParticipant(selectedParticipantId);
     }, [engine, selectedBehaviorId, selectedParticipantId]);
+};
+
+export const useSelectedInvariant = () => {
+    const {engine} = useDalEngine();
+    const selectedBehaviorId = useSelector(selectSelectedBehaviorId);
+    const selectedParticipantId = useSelector(selectSelectedParticipantId);
+    const selectedInvariantId = useSelector(selectSelectedInvariantId);
+
+    return useMemo(() => {
+        if (!selectedBehaviorId || !selectedParticipantId || !selectedInvariantId) return null;
+        const behavior = engine.getNode(selectedBehaviorId).getBehavior();
+        const participant = behavior.getParticipant(selectedParticipantId);
+        return participant.getInvariant(selectedInvariantId);
+    }, [engine, selectedBehaviorId, selectedParticipantId, selectedInvariantId]);
 };
 
 /**
@@ -95,13 +106,14 @@ export const useInvariants = () => {
     const {engine} = useDalEngine();
     const selectedBehaviorId = useSelector(selectSelectedBehaviorId);
     const selectedParticipantId = useSelector(selectSelectedParticipantId);
+    const counter = useSelector(selectCounter);
 
     return useMemo(() => {
         if (!selectedBehaviorId || !selectedParticipantId) return [];
         const behavior = engine.getNode(selectedBehaviorId).getBehavior();
         const participant = behavior.getParticipant(selectedParticipantId);
         return participant ? participant.getInvariants() : [];
-    }, [engine, selectedBehaviorId, selectedParticipantId]);
+    }, [engine, selectedBehaviorId, selectedParticipantId, counter]);
 };
 
 /**

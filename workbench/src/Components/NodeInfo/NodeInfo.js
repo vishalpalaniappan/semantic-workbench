@@ -8,7 +8,7 @@ import {useModalManager} from "ui-layout-manager-dev";
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import {setSelectedParticipant} from "../../Store/appSlice";
 import {useSelectedBehavior, useSelectedParticipant} from "../../Store/useAppSelection";
-import {useParticipants} from "../../Store/useAppSelection";
+import {useInvariants, useParticipants} from "../../Store/useAppSelection";
 import {AddInvariant} from "../Modals/AddInvariant";
 import {AddParticipant} from "../Modals/AddParticipant";
 import {Invariant} from "./Invariant/Invariant";
@@ -29,9 +29,18 @@ export function NodeInfo ({close}) {
     const {openModal} = useModalManager();
     const dispatch = useDispatch();
 
+    const invariants = useInvariants();
     const participants = useParticipants();
-    const selectedBehavior = useSelectedBehavior();
     const participant = useSelectedParticipant();
+    const selectedBehavior = useSelectedBehavior();
+
+    useEffect(() => {
+        console.log("asfasdf", participant, participants);
+        if (participants && participants.length > 0 && participant === null) {
+            dispatch(setSelectedParticipant(participants[0].getName()));
+            console.log("DISAPTCHED");
+        }
+    }, [participant, participants]);
 
     const addInvariant = useCallback(() => {
         participant && openModal({
@@ -110,12 +119,12 @@ export function NodeInfo ({close}) {
                             </div>
 
                             <div className="participantsContent">
-                                {/* {
+                                {
                                     invariants &&
                                     invariants.map((invariant, index) => (
                                         <Invariant key={index} invariant={invariant.name} />
                                     ))
-                                } */}
+                                }
 
                             </div>
 

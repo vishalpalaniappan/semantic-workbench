@@ -1,11 +1,12 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
 
 import PropTypes from "prop-types";
-import {useLayoutEventPublisher} from "ui-layout-manager-dev";
+import {useDispatch} from "react-redux";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import WorkspaceContext from "../../Providers/WorkspaceContext";
+import {incrementCounter, setSelectedInvariant} from "../../Store/appSlice";
 import {useInvariantTypes} from "../../Store/useAppSelection";
+import {useSelectedParticipant} from "../../Store/useAppSelection";
 
 import "./AddValue.scss";
 
@@ -21,13 +22,14 @@ AddInvariant.propTypes = {
  * @return {JSX.Element}
  */
 export function AddInvariant ({close}) {
-    const {selectedParticipant} = useContext(WorkspaceContext);
     const {engine} = useDalEngine();
     const [chosenInvariant, setChosenInvariant] = useState("");
     const [invariantTypeInstance, setInvariantTypeInstance] = useState([]);
     const [propertyDivs, setPropertyDivs] = useState(null);
 
-    const publish = useLayoutEventPublisher();
+    const dispatch = useDispatch();
+
+    const selectedParticipant = useSelectedParticipant();
 
     const invariantTypes = useInvariantTypes();
 
@@ -71,12 +73,10 @@ export function AddInvariant ({close}) {
         // instance and use function to assign invariant type.
         _invariant.invariantType = invariantTypeInstance;
         selectedParticipant.addInvariant(_invariant);
-        publish({
-            type: "invariants:update",
-            source: "add-behavior-modal",
-        });
+        dispatch(setSelectedInvariant(_invariant.name));
+        dispatch(incrementCounter());
         close();
-    }, [engine, chosenInvariant, invariantTypeInstance, selectedParticipant, publish, close]);
+    }, [engine, chosenInvariant, invariantTypeInstance, selectedParticipant, dispatch, close]);
 
     return (
         <form className="add-value-modal" onSubmit={handleSubmit}>
