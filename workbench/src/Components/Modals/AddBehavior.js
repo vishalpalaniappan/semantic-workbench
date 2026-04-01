@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useRef, useState} from "react";
 
 import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
-import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import {setSelectedBehavior} from "../../Store/appSlice";
@@ -25,8 +24,6 @@ export function AddBehavior ({close}) {
 
     const dispatch = useDispatch();
 
-    const publish = useLayoutEventPublisher();
-
     useEffect(() => {
         if (inputRef.current) {
             inputRef.current.focus();
@@ -39,7 +36,6 @@ export function AddBehavior ({close}) {
             setError("Behavior name must not be empty.");
             return;
         }
-        // If behavior already exists, show error.
         try {
             engine.getNode(behavior);
             setError(`Behavior with name "${behavior}" already exists.`);
@@ -48,7 +44,7 @@ export function AddBehavior ({close}) {
             dispatch(setSelectedBehavior(behavior));
             close();
         }
-    }, [engine, behavior, publish, close, dispatch]);
+    }, [engine, behavior, close, dispatch]);
 
     return (
         <div className="add-value-modal">
