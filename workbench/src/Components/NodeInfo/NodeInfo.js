@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import {Pencil, PlusSquare, Trash} from "react-bootstrap-icons";
 import {useDispatch} from "react-redux";
 import {useModalManager} from "ui-layout-manager-dev";
-import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import {setSelectedParticipant} from "../../Store/appSlice";
@@ -29,6 +28,7 @@ export function NodeInfo ({close}) {
     const {engine} = useDalEngine();
     const {openModal} = useModalManager();
     const dispatch = useDispatch();
+
     const selectedBehavior = useSelectedBehavior();
     const participants = useParticipants();
     const participant = useSelectedParticipant();
@@ -87,7 +87,7 @@ export function NodeInfo ({close}) {
                                     className="icon"/>
 
                                 <select id="car-select" className="selectParticipants"
-                                    value={participant}
+                                    value={participant?.getName()}
                                     disabled={!participants || participants.length === 0}
                                     onChange={(e) => dispatch(
                                         setSelectedParticipant(e.target.value)
