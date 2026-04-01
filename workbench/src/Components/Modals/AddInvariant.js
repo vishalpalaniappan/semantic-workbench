@@ -24,7 +24,7 @@ export function AddInvariant ({close}) {
     const {engine} = useDalEngine();
     const [invariants, setInvariants] = useState([]);
     const [selectedInvariant, setSelectedInvariant] = useState("");
-    const [invariantInstance, setInvariantInstance] = useState([]);
+    const [invariantTypeInstance, setInvariantTypeInstance] = useState([]);
     const [propertyDivs, setPropertyDivs] = useState(null);
 
     const publish = useLayoutEventPublisher();
@@ -61,7 +61,7 @@ export function AddInvariant ({close}) {
             </div>;
 
             setPropertyDivs([nameDiv, ...optionDivs, submitButton]);
-            setInvariantInstance(instance);
+            setInvariantTypeInstance(instance);
         }
     }, [selectedInvariant, engine]);
 
@@ -75,13 +75,14 @@ export function AddInvariant ({close}) {
     const handleSubmit = useCallback((event) => {
         event.preventDefault();
         const _invariant = engine.createInvariant({name: Date.now().toString()});
+        _invariant.invariantType = invariantTypeInstance;
         selectedParticipant.addInvariant(_invariant);
         publish({
             type: "invariants:update",
             source: "add-behavior-modal",
         });
         close();
-    }, [engine, selectedInvariant, invariantInstance]);
+    }, [engine, selectedInvariant, invariantTypeInstance]);
 
     return (
         <form className="add-value-modal" onSubmit={handleSubmit}>
@@ -100,7 +101,7 @@ export function AddInvariant ({close}) {
                 </select>
             </div>
             {
-                invariantInstance && propertyDivs
+                invariantTypeInstance && propertyDivs
             }
         </form>
     );
