@@ -41,9 +41,9 @@ export function GraphMenuBar () {
     };
 
     const selectGraph = (graphName) => {
-        dispatch(setSelectedGraph(graphName));
         engine.selectGraph(graphName);
-        setSelectedBehavior(null);
+        dispatch(setSelectedGraph(graphName));
+        dispatch(setSelectedBehavior(null));
     };
 
     const deleteGraph = useCallback(() => {
