@@ -38,3 +38,16 @@ export const useParticipants = () => {
         return behavior.getParticipants();
     }, [engine, selectedBehaviorId]);
 };
+
+export const useInvariants = () => {
+    const {engine} = useDalEngine();
+    const selectedBehaviorId = useSelector(selectSelectedBehaviorId);
+    const selectedParticipantId = useSelector(selectSelectedParticipantId);
+
+    return useMemo(() => {
+        if (!selectedBehaviorId || !selectedParticipantId) return [];
+        const behavior = engine.getNode(selectedBehaviorId).getBehavior();
+        const participant = behavior.getParticipant(selectedParticipantId);
+        return participant ? participant.getInvariants() : [];
+    }, [engine, selectedBehaviorId, selectedParticipantId]);
+};
