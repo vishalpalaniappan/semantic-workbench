@@ -3,15 +3,23 @@ import {createSlice} from "@reduxjs/toolkit";
 const appSlice = createSlice({
     name: "app",
     initialState: {
-        value: null,
+        selectedBehavior: null,
+        selectedParticipant: null,
+        selectedGraph: null,
     },
     reducers: {
-        setValue(state, action) {
-            state.value = action.payload;
+        setSelectedBehavior(state, action) {
+            state.selectedBehavior = action.payload;
+        },
+        setSelectedParticipant(state, action) {
+            state.selectedParticipant = action.payload;
+        },
+        setSelectedGraph(state, action) {
+            state.selectedGraph = action.payload;
         },
     },
 });
 
-export const {setValue} = appSlice.actions;
+export const {setSelectedBehavior, setSelectedParticipant, setSelectedGraph} = appSlice.actions;
 
 export default appSlice.reducer;
