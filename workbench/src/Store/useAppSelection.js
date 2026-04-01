@@ -56,6 +56,10 @@ export const useSelectedParticipant = () => {
     }, [engine, selectedBehaviorId, selectedParticipantId]);
 };
 
+/**
+ * Returns the selected invariant from engine (given a behavior and participant)
+ * @return {Object}
+ */
 export const useSelectedInvariant = () => {
     const {engine} = useDalEngine();
     const selectedBehaviorId = useSelector(selectSelectedBehaviorId);
