@@ -1,9 +1,11 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
 
 import PropTypes from "prop-types";
+import {useDispatch} from "react-redux";
 import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
+import {setSelectedBehavior} from "../../Store/appSlice";
 
 import "./AddValue.scss";
 
@@ -20,6 +22,8 @@ export function AddBehavior ({close}) {
     const [behavior, setBehavior] = useState("");
     const [error, setError] = useState(null);
     const inputRef = useRef(null);
+
+    const dispatch = useDispatch();
 
     const publish = useLayoutEventPublisher();
 
@@ -41,13 +45,10 @@ export function AddBehavior ({close}) {
             setError(`Behavior with name "${behavior}" already exists.`);
         } catch (BehaviorNotFoundError) {
             engine.addNode(behavior, []);
-            publish({
-                type: "engine:update",
-                source: "add-behavior-modal",
-            });
+            dispatch(setSelectedBehavior(behavior));
             close();
         }
-    }, [engine, behavior, publish, close]);
+    }, [engine, behavior, publish, close, dispatch]);
 
     return (
         <div className="add-value-modal">

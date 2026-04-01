@@ -30,7 +30,6 @@ export function GraphMenuBar () {
 
     useLayoutEventSubscription("add:graph", (event) => {
         dispatch(setSelectedGraph(engine.graphs.getActiveGraph().name));
-        publish({type: "engine:update"});
     }, [engine, dispatch]);
 
     useEffect(() => {
@@ -53,14 +52,12 @@ export function GraphMenuBar () {
         dispatch(setSelectedGraph(graphName));
         engine.selectGraph(graphName);
         setSelectedBehavior(null);
-        publish({type: "engine:update"});
     };
 
     const deleteGraph = useCallback(() => {
         if (!selectedGraph) return;
-        engine.removeGraph(selectedGraph);
+        engine.removeGraph(selectedGraph.name);
         dispatch(setSelectedGraph(engine.graphs.getActiveGraph().name));
-        publish({type: "engine:update"});
     }, [engine, selectedGraph, publish, dispatch]);
 
     return (

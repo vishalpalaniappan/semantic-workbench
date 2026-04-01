@@ -7,6 +7,7 @@ import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import {setSelectedBehavior} from "../../Store/appSlice";
 import {useSelectedGraph} from "../../Store/useAppSelection";
+import {useSelectedBehavior} from "../../Store/useAppSelection";
 
 import "./BehavioralControlGraph.scss";
 
@@ -23,29 +24,18 @@ export function BehavioralControlGraph () {
 
     const {engine} = useDalEngine();
     const selectedGraph = useSelectedGraph();
+    const selectedBehavior = useSelectedBehavior();
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (selectedGraph) {
-            graphRef.current.updateEngine(engine);
-        }
-    }, [selectedGraph, engine]);
 
     useEffect(() => {
         if (engine) {
             graphRef.current.updateEngine(engine);
         }
-    }, [engine]);
+    }, [selectedGraph, selectedBehavior, engine]);
 
     useLayoutEventSubscription("tool:selected", (event) => {
         setActiveTool(event.payload);
     });
-
-    useLayoutEventSubscription("engine:update", (event) => {
-        if (graphRef.current) {
-            graphRef.current.updateEngine(engine);
-        }
-    }, [engine]);
 
     const connectBehaviors = useCallback((from, to) => {
         if (!to) return;
