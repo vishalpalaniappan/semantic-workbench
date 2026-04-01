@@ -61,14 +61,8 @@ export function BehavioralControlGraph () {
         setSelectedBehavior(null);
     }, [engine, graphRef, setSelectedBehavior]);
 
-    const selectBehavior = useCallback((behaviorId) => {
-        if (behaviorId) {
-            setSelectedBehavior(
-                engine.getNode(behaviorId).getBehavior()
-            );
-        } else {
-            setSelectedBehavior(null);
-        }
+    const selectBehavior = useCallback((id) => {
+        setSelectedBehavior(id ? engine.getNode(id).getBehavior() : null);
     }, [setSelectedBehavior]);
 
     return (
