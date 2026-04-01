@@ -1,12 +1,12 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 
-import {useDalEngine} from "../../Providers/GlobalProviders";
-import {incrementCounter, setSelectedInvariant} from "../../Store/appSlice";
-import {useInvariantTypes} from "../../Store/useAppSelection";
-import {useSelectedParticipant} from "../../Store/useAppSelection";
+import { useDalEngine } from "../../Providers/GlobalProviders";
+import { incrementCounter, setSelectedInvariant } from "../../Store/appSlice";
+import { useInvariantTypes } from "../../Store/useAppSelection";
+import { useSelectedParticipant } from "../../Store/useAppSelection";
 
 import "./AddValue.scss";
 
@@ -21,7 +21,7 @@ AddInvariant.propTypes = {
  * provided by the modal manager.
  * @return {JSX.Element}
  */
-export function AddInvariant ({close}) {
+export function AddInvariant({ close }) {
     const {engine} = useDalEngine();
 
     const dispatch = useDispatch();
@@ -44,48 +44,71 @@ export function AddInvariant ({close}) {
         if (!chosenInvariant) return;
         const instance = new engine.invariant_types[chosenInvariant]();
 
-        const nameDiv = <>
-            <div className="value-name-label"> <span>Name:</span></div>
-            <div className="value-name-input">
-                <input 
-                    value={invariantName}
-                    onChange={(e) => setInvariantName(e.target.value)}>
-                </input>
-            </div>
-        </>;
+        const nameDiv = (
+            <>
+                <div className="value-name-label">
+                    {" "}
+                    <span>Name:</span>
+                </div>
+                <div className="value-name-input">
+                    <input
+                        value={invariantName}
+                        onChange={(e) => setInvariantName(e.target.value)}
+                    ></input>
+                </div>
+            </>
+        );
         const optionDivs = Object.keys(instance.properties).map((key) => (
             <>
                 <div className="value-name-label">
                     <span>{instance.properties[key].label}:</span>
                 </div>
-                <div className="value-name-input" key={key} >
-                    <input type="text" ></input>
+                <div className="value-name-input" key={key}>
+                    <input type="text"></input>
                 </div>
             </>
         ));
-        const submitButton = <div className="invariant-name-submit">
-            <button type="submit">Add Invariant</button>
-        </div>;
+        const submitButton = (
+            <div className="invariant-name-submit">
+                <button type="submit">Add Invariant</button>
+            </div>
+        );
 
         setPropertyDivs([nameDiv, ...optionDivs, submitButton]);
         setInvariantTypeInstance(instance);
     }, [chosenInvariant, engine, invariantName]);
 
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault();
-        if (invariantName.trim() === "") {
-            setError("Invariant name must not be empty.");
-            return;
-        }
-        const _invariant = engine.createInvariant({name: invariantName});
-        // TODO: get values from input fields and set them to the invariant
-        // instance and use function to assign invariant type.
-        _invariant.invariantType = invariantTypeInstance;
-        selectedParticipant.addInvariant(_invariant);
-        dispatch(setSelectedInvariant(_invariant.name));
-        dispatch(incrementCounter());
-        close();
-    }, [engine, invariantName, invariantTypeInstance, selectedParticipant, dispatch, close]);
+    const handleSubmit = useCallback(
+        (event) => {
+            event.preventDefault();
+            if (invariantName.trim() === "") {
+                setError("Invariant name must not be empty.");
+                return;
+            }
+            const _invariant = engine.createInvariant({ name: invariantName });
+            // TODO: get values from input fields and set them to the invariant
+            // instance and use function to assign invariant type.
+            _invariant.invariantType = invariantTypeInstance;
+            selectedParticipant.addInvariant(_invariant);
+            dispatch(setSelectedInvariant(_invariant.name));
+            dispatch(incrementCounter());
+            close();
+        },
+        [
+            engine,
+            invariantName,
+            invariantTypeInstance,
+            selectedParticipant,
+            dispatch,
+            close,
+        ]
+    );
+
+    useEffect(() => {
+        const handleKeyDown = (event) => (event.key === "Escape") && close();
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [close]);
 
     return (
         <form className="add-value-modal" onSubmit={handleSubmit}>
@@ -95,7 +118,8 @@ export function AddInvariant ({close}) {
             <div className="value-name-input">
                 <select
                     value={chosenInvariant}
-                    onChange={(e) => setChosenInvariant(e.target.value)}>
+                    onChange={(e) => setChosenInvariant(e.target.value)}
+                >
                     {Object.keys(invariantTypes).map((invariant) => (
                         <option key={invariant} value={invariant}>
                             {invariant}
@@ -103,12 +127,12 @@ export function AddInvariant ({close}) {
                     ))}
                 </select>
             </div>
-            {
-                invariantTypeInstance && propertyDivs
-            }
-            {error &&
-                <div style={{float:"right"}} className="value-error">{error}</div>
-            }
+            {invariantTypeInstance && propertyDivs}
+            {error && (
+                <div style={{ float: "right" }} className="value-error">
+                    {error}
+                </div>
+            )}
         </form>
     );
 }

@@ -50,6 +50,12 @@ export function AddParticipant ({close}) {
         }
     }, [engine, participant, close, selectedBehavior, dispatch]);
 
+    useEffect(() => {
+        const handleKeyDown = (event) => (event.key === "Escape") && close();
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [close]);
+
     return (
         <div className="add-value-modal">
             <div className="value-name-label">
