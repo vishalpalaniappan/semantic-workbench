@@ -29,8 +29,8 @@ export function NodeInfo ({close}) {
     const {openModal} = useModalManager();
     const dispatch = useDispatch();
 
-    const selectedBehavior = useSelectedBehavior();
     const participants = useParticipants();
+    const selectedBehavior = useSelectedBehavior();
     const participant = useSelectedParticipant();
 
     const addInvariant = useCallback(() => {
