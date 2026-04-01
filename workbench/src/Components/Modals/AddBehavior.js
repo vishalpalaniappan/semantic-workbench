@@ -36,7 +36,6 @@ export function AddBehavior ({close}) {
             return;
         }
         // If behavior already exists, show error.
-        // Otherwise, add behavior and close modal.
         try {
             engine.getNode(behavior);
             setError(`Behavior with name "${behavior}" already exists.`);

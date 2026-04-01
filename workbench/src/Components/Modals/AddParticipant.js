@@ -38,7 +38,6 @@ export function AddParticipant ({close}) {
             return;
         }
         // If participant with provided name already exists, show error.
-        // Otherwise, add participant and close modal.
         try {
             const participantInstance = engine.createParticipant({name: participant});
             selectedBehavior.addParticipant(participantInstance);

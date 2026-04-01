@@ -40,12 +40,13 @@ export function AddInvariant ({close}) {
 
     useEffect(() => {
         if (selectedInvariant) {
-            console.log(`Selected invariant: ${selectedInvariant}`);
             const instance = new engine.invariant_types[selectedInvariant]();
-            setInvariantInstance(instance);
 
-            const keys = Object.keys(instance.properties);
-            const divs = keys.map((key) => (
+            const nameDiv = <>
+                <div className="value-name-label"> <span>Name:</span></div>
+                <div className="value-name-input"><input type="text" ></input></div>
+            </>;
+            const optionDivs = Object.keys(instance.properties).map((key) => (
                 <>
                     <div className="value-name-label">
                         <span>{instance.properties[key].label}:</span>
@@ -55,11 +56,12 @@ export function AddInvariant ({close}) {
                     </div>
                 </>
             ));
-
-            const button = <div className="invariant-name-submit">
+            const submitButton = <div className="invariant-name-submit">
                 <button type="submit">Add Invariant</button>
             </div>;
-            setPropertyDivs([...divs, button]);
+
+            setPropertyDivs([nameDiv, ...optionDivs, submitButton]);
+            setInvariantInstance(instance);
         }
     }, [selectedInvariant, engine]);
 

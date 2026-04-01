@@ -36,7 +36,6 @@ export function AddGraph ({close}) {
             return;
         }
         // If graph already exists, show error.
-        // Otherwise, add graph and close modal.
         try {
             engine.graphs.getGraph(graph);
             setError(`Graph with name "${graph}" already exists.`);
