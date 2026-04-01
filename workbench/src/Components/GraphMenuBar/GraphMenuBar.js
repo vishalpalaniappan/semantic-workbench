@@ -25,7 +25,6 @@ export function GraphMenuBar () {
     const dispatch = useDispatch();
     const {setSelectedBehavior} = useContext(WorkspaceContext);
 
-
     const graphs = useGraphs();
     const selectedGraph = useSelectedGraph();
 
@@ -69,7 +68,7 @@ export function GraphMenuBar () {
             <div className="leftMenu"></div>
             <div className="rightMenu">
                 <label>Selected Graph:</label>
-                <select value={selectedGraph} onChange={(e) => selectGraph(e.target.value)}>
+                <select value={selectedGraph?.name} onChange={(e) => selectGraph(e.target.value)}>
                     {graphs.map((graph) => (
                         <option key={graph} value={graph}>
                             {graph}
