@@ -186,7 +186,19 @@
             "orientation": "vertical",
             "children": [
                 {
-                    "containerId": "rightMenuContainer3",
+                    "containerId": "behaviorInfoContainer",
+                    "type": "container",
+                    "size": { 
+                        "initial": { "value": 200, "unit": "px", "type": "fixed" }
+                    }
+                },
+                {
+                    "type": "handleBar",
+                    "sibling1": "behaviorInfoContainer",
+                    "sibling2": "participantInfoContainer"
+                },
+                {
+                    "containerId": "participantInfoContainer",
                     "type": "container",
                     "size": { "initial": { "type": "fill" }}
                 }
@@ -257,8 +269,12 @@
             },
             "background": "#1e1e1e"
         },
-        "rightMenuContainer3": {
-            "id": "rightMenuContainer3",
+        "behaviorInfoContainer": {
+            "id": "behaviorInfoContainer",
+            "background": "#1e1e1e"
+        },
+        "participantInfoContainer": {
+            "id": "participantInfoContainer",
             "component": "NodeInfo",
             "background": "#1e1e1e"
         },
