@@ -2,9 +2,7 @@ import React, {useCallback, useContext, useEffect, useState} from "react";
 
 import {PlusSquare, Trash} from "react-bootstrap-icons";
 import {useDispatch} from "react-redux";
-import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 import {useModalManager} from "ui-layout-manager-dev";
-import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import WorkspaceContext from "../../Providers/WorkspaceContext";
@@ -21,16 +19,11 @@ import "./GraphMenuBar.scss";
 export function GraphMenuBar () {
     const {engine} = useDalEngine();
     const {openModal} = useModalManager();
-    const publish = useLayoutEventPublisher();
     const dispatch = useDispatch();
     const {setSelectedBehavior} = useContext(WorkspaceContext);
 
     const graphs = useGraphs();
     const selectedGraph = useSelectedGraph();
-
-    useLayoutEventSubscription("add:graph", (event) => {
-        dispatch(setSelectedGraph(engine.graphs.getActiveGraph().name));
-    }, [engine, dispatch]);
 
     useEffect(() => {
         if (engine) {
@@ -48,7 +41,6 @@ export function GraphMenuBar () {
     };
 
     const selectGraph = (graphName) => {
-        console.log(graphName);
         dispatch(setSelectedGraph(graphName));
         engine.selectGraph(graphName);
         setSelectedBehavior(null);
@@ -58,7 +50,7 @@ export function GraphMenuBar () {
         if (!selectedGraph) return;
         engine.removeGraph(selectedGraph.name);
         dispatch(setSelectedGraph(engine.graphs.getActiveGraph().name));
-    }, [engine, selectedGraph, publish, dispatch]);
+    }, [engine, selectedGraph, dispatch]);
 
     return (
         <div className="graphMenuBar">
