@@ -60,10 +60,11 @@ export const useSelectedParticipant = () => {
  */
 export const useGraphs = () => {
     const {engine} = useDalEngine();
+    const graphId = useSelector(selectSelectedGraphId);
 
     return useMemo(() => {
         return engine.graphs.getGraphNames();
-    }, [engine]);
+    }, [engine, graphId]);
 };
 
 /**
