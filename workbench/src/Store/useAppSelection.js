@@ -9,6 +9,10 @@ import {
     selectSelectedParticipantId
 } from "./appSelectors";
 
+/**
+ * Returns the selected graph from the engine.
+ * @return {Object}
+ */
 export const useSelectedGraph = () => {
     const {engine} = useDalEngine();
     const selectedGraphId = useSelector(selectSelectedGraphId);
@@ -20,6 +24,40 @@ export const useSelectedGraph = () => {
     }, [engine, selectedGraphId]);
 };
 
+/**
+ * Returns the selected behavior from the engine.
+ * @return {Object}
+ */
+export const useSelectedBehavior = () => {
+    const {engine} = useDalEngine();
+    const selectedBehaviorId = useSelector(selectSelectedBehaviorId);
+
+    return useMemo(() => {
+        if (!selectedBehaviorId) return null;
+        return engine.getNode(selectedBehaviorId).getBehavior();
+    }, [engine, selectedBehaviorId]);
+};
+
+/**
+ * Returns the selected participant from the engine (given a behavior).
+ * @return {Object}
+ */
+export const useSelectedParticipant = () => {
+    const {engine} = useDalEngine();
+    const selectedBehaviorId = useSelector(selectSelectedBehaviorId);
+    const selectedParticipantId = useSelector(selectSelectedParticipantId);
+
+    return useMemo(() => {
+        if (!selectedParticipantId || !selectedBehaviorId) return null;
+        const behavior = engine.getNode(selectedBehaviorId).getBehavior();
+        return behavior.getParticipant(selectedParticipantId);
+    }, [engine, selectedBehaviorId, selectedParticipantId]);
+};
+
+/**
+ * Returns a list of graphs from the engine.
+ * @return {Object}
+ */
 export const useGraphs = () => {
     const {engine} = useDalEngine();
 
@@ -28,6 +66,10 @@ export const useGraphs = () => {
     }, [engine]);
 };
 
+/**
+ * Returns a list of participants from the selected behavior.
+ * @return {Object}
+ */
 export const useParticipants = () => {
     const {engine} = useDalEngine();
     const selectedBehaviorId = useSelector(selectSelectedBehaviorId);
@@ -39,6 +81,10 @@ export const useParticipants = () => {
     }, [engine, selectedBehaviorId]);
 };
 
+/**
+ * Returns a list of invariants from the selected participant.
+ * @return {Object}
+ */
 export const useInvariants = () => {
     const {engine} = useDalEngine();
     const selectedBehaviorId = useSelector(selectSelectedBehaviorId);
