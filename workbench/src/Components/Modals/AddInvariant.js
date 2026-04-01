@@ -22,13 +22,43 @@ export function AddInvariant ({close}) {
     const {selectedBehavior} = useContext(WorkspaceContext);
     const {engine} = useDalEngine();
     const [invariants, setInvariants] = useState([]);
+    const [selectedInvariant, setSelectedInvariant] = useState("");
+    const [invariantInstance, setInvariantInstance] = useState([]);
+    const [propertyDivs, setPropertyDivs] = useState(null);
 
     useEffect(() => {
         if (engine) {
             const invList = Object.keys(engine.invariant_types);
             setInvariants(invList);
+            setSelectedInvariant(invList[0] || "");
+            console.log(engine.invariant_types);
         }
     }, [engine]);
+
+    useEffect(() => {
+        if (selectedInvariant) {
+            console.log(`Selected invariant: ${selectedInvariant}`);
+            const instance = new engine.invariant_types[selectedInvariant]();
+            setInvariantInstance(instance);
+
+            const keys = Object.keys(instance.properties);
+            const divs = keys.map((key) => (
+                <>
+                    <div className="value-name-label">
+                        <span>{instance.properties[key].label}:</span>
+                    </div>
+                    <div className="value-name-input" key={key} >
+                        <input type="text" ></input>
+                    </div>
+                </>
+            ));
+
+            const button = <div className="invariant-name-submit">
+                <button type="submit">Add Behavior</button>
+            </div>;
+            setPropertyDivs([...divs, button]);
+        }
+    }, [selectedInvariant, engine]);
 
 
     const handleSubmit = useCallback((event) => {
@@ -40,15 +70,20 @@ export function AddInvariant ({close}) {
             <div className="value-name-label">
                 <span>Invariants:</span>
             </div>
-            <form className="value-name-input" onSubmit={handleSubmit}>
-                <select>
+            <div className="value-name-input" onSubmit={handleSubmit}>
+                <select
+                    value={selectedInvariant}
+                    onChange={(e) => setSelectedInvariant(e.target.value)}>
                     {invariants.map((invariant) => (
                         <option key={invariant} value={invariant}>
                             {invariant}
                         </option>
                     ))}
                 </select>
-            </form>
+            </div>
+            {
+                invariantInstance && propertyDivs
+            }
         </div>
     );
 }

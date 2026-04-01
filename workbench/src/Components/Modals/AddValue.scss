@@ -23,7 +23,6 @@
     background:#333;
     border: solid 1px grey;
     flex: 1;
-    margin-right:10px;
 }
 
 .add-value-modal > .value-name-input >.value-name-submit {
@@ -39,6 +38,7 @@
     font-size: 14px;
     cursor: pointer;
     border-radius: 4px;
+    margin-left:10px;
 }
 
 .add-value-modal > .value-error {
@@ -46,5 +46,22 @@
     font-size: 14px;
     padding-left:10px;
     color:#ff7474;
+}
+
+
+.invariant-name-submit {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px 5px 0px;
+    button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    
 }
 
