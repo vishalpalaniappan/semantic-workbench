@@ -48,6 +48,7 @@ export function GraphMenuBar () {
         if (!selectedGraph) return;
         engine.removeGraph(selectedGraph.name);
         dispatch(setSelectedGraph(engine.graphs.getActiveGraph().name));
+        dispatch(setSelectedBehavior(null));
     }, [engine, selectedGraph, dispatch]);
 
     return (
