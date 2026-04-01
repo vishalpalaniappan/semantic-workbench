@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 
 import PropTypes from "prop-types";
 import {useLayoutEventPublisher} from "ui-layout-manager-dev";
@@ -13,6 +13,9 @@ AddGraph.propTypes = {
 
 /**
  * Add AddGraph modal body component.
+ * @param {props} props
+ * @param {function} props.close - Function to close the modal,
+ * provided by the modal manager.
  * @return {JSX.Element}
  */
 export function AddGraph ({close}) {
@@ -35,7 +38,6 @@ export function AddGraph ({close}) {
             setError("Graph name must not be empty.");
             return;
         }
-        // If graph already exists, show error.
         try {
             engine.graphs.getGraph(graph);
             setError(`Graph with name "${graph}" already exists.`);
@@ -62,9 +64,7 @@ export function AddGraph ({close}) {
                     <button type="submit">Add Graph</button>
                 </div>
             </form>
-            {error &&
-                <div className="value-error">{error}</div>
-            }
+            {error && <div className="value-error">{error}</div>}
         </div>
     );
 }

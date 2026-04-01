@@ -20,10 +20,9 @@ AddInvariant.propTypes = {
  * @return {JSX.Element}
  */
 export function AddInvariant ({close}) {
-    const {selectedBehavior, selectedParticipant} = useContext(WorkspaceContext);
+    const {selectedParticipant} = useContext(WorkspaceContext);
     const {engine} = useDalEngine();
-    const [invariants, setInvariants] = useState([]);
-    const [selectedInvariant, setSelectedInvariant] = useState("");
+    const [chosenInvariant, setChosenInvariant] = useState("");
     const [invariantTypeInstance, setInvariantTypeInstance] = useState([]);
     const [propertyDivs, setPropertyDivs] = useState(null);
 
@@ -31,50 +30,42 @@ export function AddInvariant ({close}) {
 
     useEffect(() => {
         if (engine) {
-            const invList = Object.keys(engine.invariant_types);
-            setInvariants(invList);
-            setSelectedInvariant(invList[0] || "");
-            console.log(engine.invariant_types);
+            setChosenInvariant(Object.keys(engine.invariant_types)[0] || "");
         }
     }, [engine]);
 
     useEffect(() => {
-        if (selectedInvariant) {
-            const instance = new engine.invariant_types[selectedInvariant]();
+        if (!chosenInvariant) return;
+        const instance = new engine.invariant_types[chosenInvariant]();
 
-            const nameDiv = <>
-                <div className="value-name-label"> <span>Name:</span></div>
-                <div className="value-name-input"><input type="text" ></input></div>
-            </>;
-            const optionDivs = Object.keys(instance.properties).map((key) => (
-                <>
-                    <div className="value-name-label">
-                        <span>{instance.properties[key].label}:</span>
-                    </div>
-                    <div className="value-name-input" key={key} >
-                        <input type="text" ></input>
-                    </div>
-                </>
-            ));
-            const submitButton = <div className="invariant-name-submit">
-                <button type="submit">Add Invariant</button>
-            </div>;
+        const nameDiv = <>
+            <div className="value-name-label"> <span>Name:</span></div>
+            <div className="value-name-input"><input type="text" ></input></div>
+        </>;
+        const optionDivs = Object.keys(instance.properties).map((key) => (
+            <>
+                <div className="value-name-label">
+                    <span>{instance.properties[key].label}:</span>
+                </div>
+                <div className="value-name-input" key={key} >
+                    <input type="text" ></input>
+                </div>
+            </>
+        ));
+        const submitButton = <div className="invariant-name-submit">
+            <button type="submit">Add Invariant</button>
+        </div>;
 
-            setPropertyDivs([nameDiv, ...optionDivs, submitButton]);
-            setInvariantTypeInstance(instance);
-        }
-    }, [selectedInvariant, engine]);
-
-    useEffect(() => {
-        if (selectedParticipant) {
-            console.log(selectedParticipant);
-        }
-    }, [selectedParticipant]);
+        setPropertyDivs([nameDiv, ...optionDivs, submitButton]);
+        setInvariantTypeInstance(instance);
+    }, [chosenInvariant, engine]);
 
 
     const handleSubmit = useCallback((event) => {
         event.preventDefault();
         const _invariant = engine.createInvariant({name: Date.now().toString()});
+        // TODO: get values from input fields and set them to the invariant
+        // instance and use function to assign invariant type.
         _invariant.invariantType = invariantTypeInstance;
         selectedParticipant.addInvariant(_invariant);
         publish({
@@ -82,7 +73,7 @@ export function AddInvariant ({close}) {
             source: "add-behavior-modal",
         });
         close();
-    }, [engine, selectedInvariant, invariantTypeInstance]);
+    }, [engine, chosenInvariant, invariantTypeInstance, selectedParticipant, publish, close]);
 
     return (
         <form className="add-value-modal" onSubmit={handleSubmit}>
@@ -91,9 +82,9 @@ export function AddInvariant ({close}) {
             </div>
             <div className="value-name-input">
                 <select
-                    value={selectedInvariant}
-                    onChange={(e) => setSelectedInvariant(e.target.value)}>
-                    {invariants.map((invariant) => (
+                    value={chosenInvariant}
+                    onChange={(e) => setChosenInvariant(e.target.value)}>
+                    {Object.keys(engine.invariant_types).map((invariant) => (
                         <option key={invariant} value={invariant}>
                             {invariant}
                         </option>

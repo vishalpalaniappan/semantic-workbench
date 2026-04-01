@@ -37,7 +37,6 @@ export function AddParticipant ({close}) {
             setError("Participant name must not be empty.");
             return;
         }
-        // If participant with provided name already exists, show error.
         try {
             const participantInstance = engine.createParticipant({name: participant});
             selectedBehavior.addParticipant(participantInstance);
@@ -66,9 +65,7 @@ export function AddParticipant ({close}) {
                     <button type="submit">Add Participant</button>
                 </div>
             </form>
-            {error &&
-                <div className="value-error">{error}</div>
-            }
+            {error && <div className="value-error">{error}</div>}
         </div>
     );
 }
