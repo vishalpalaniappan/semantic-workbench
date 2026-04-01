@@ -31,6 +31,8 @@ export function AddInvariant ({close}) {
     const [chosenInvariant, setChosenInvariant] = useState("");
     const [invariantTypeInstance, setInvariantTypeInstance] = useState([]);
     const [propertyDivs, setPropertyDivs] = useState(null);
+    const [invariantName, setInvariantName] = useState("");
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (engine) {
@@ -44,7 +46,12 @@ export function AddInvariant ({close}) {
 
         const nameDiv = <>
             <div className="value-name-label"> <span>Name:</span></div>
-            <div className="value-name-input"><input type="text" ></input></div>
+            <div className="value-name-input">
+                <input 
+                    value={invariantName}
+                    onChange={(e) => setInvariantName(e.target.value)}>
+                </input>
+            </div>
         </>;
         const optionDivs = Object.keys(instance.properties).map((key) => (
             <>
@@ -62,11 +69,15 @@ export function AddInvariant ({close}) {
 
         setPropertyDivs([nameDiv, ...optionDivs, submitButton]);
         setInvariantTypeInstance(instance);
-    }, [chosenInvariant, engine]);
+    }, [chosenInvariant, engine, invariantName]);
 
     const handleSubmit = useCallback((event) => {
         event.preventDefault();
-        const _invariant = engine.createInvariant({name: Date.now().toString()});
+        if (invariantName.trim() === "") {
+            setError("Invariant name must not be empty.");
+            return;
+        }
+        const _invariant = engine.createInvariant({name: invariantName});
         // TODO: get values from input fields and set them to the invariant
         // instance and use function to assign invariant type.
         _invariant.invariantType = invariantTypeInstance;
@@ -74,7 +85,7 @@ export function AddInvariant ({close}) {
         dispatch(setSelectedInvariant(_invariant.name));
         dispatch(incrementCounter());
         close();
-    }, [engine, chosenInvariant, invariantTypeInstance, selectedParticipant, dispatch, close]);
+    }, [engine, invariantName, invariantTypeInstance, selectedParticipant, dispatch, close]);
 
     return (
         <form className="add-value-modal" onSubmit={handleSubmit}>
@@ -94,6 +105,9 @@ export function AddInvariant ({close}) {
             </div>
             {
                 invariantTypeInstance && propertyDivs
+            }
+            {error &&
+                <div style={{float:"right"}} className="value-error">{error}</div>
             }
         </form>
     );
