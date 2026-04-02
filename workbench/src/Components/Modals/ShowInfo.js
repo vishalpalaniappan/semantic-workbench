@@ -45,6 +45,7 @@ export function ShowInfo ({close, args}) {
                 options={{
                     minimap: {enabled: false},
                     lineNumbers: "off",
+                    wordWrap: "on",
                     scrollBeyondLastLine: false,
                 }}
             />
