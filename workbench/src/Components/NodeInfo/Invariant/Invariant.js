@@ -36,7 +36,6 @@ export function Invariant ({invariant}) {
         <div className="participantCard">
             <span>{invariant.getName()}</span>
             <div className="icons">
-                <Pencil title={"Edit Invariant"} onClick={deleteInvariant}className="icon"/>
                 <Trash title={"Delete Invariant"} onClick={deleteInvariant} className="icon"/>
             </div>
         </div>
