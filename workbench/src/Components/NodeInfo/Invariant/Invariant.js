@@ -2,17 +2,16 @@ import React, {useCallback, useContext, useEffect, useState} from "react";
 
 import PropTypes from "prop-types";
 import {Pencil, Trash} from "react-bootstrap-icons";
+import {useDispatch} from "react-redux";
 
 import {useDalEngine} from "../../../Providers/GlobalProviders";
+import {incrementCounter} from "../../../Store/appSlice";
 import {useSelectedParticipant} from "../../../Store/useAppSelection";
-import { incrementCounter } from "../../../Store/appSlice";
-
-import { useDispatch } from "react-redux";
 
 import "./Invariant.scss";
 
 Invariant.propTypes = {
-    invariant: PropTypes.string,
+    invariant: PropTypes.object.isRequired,
 };
 
 /**
