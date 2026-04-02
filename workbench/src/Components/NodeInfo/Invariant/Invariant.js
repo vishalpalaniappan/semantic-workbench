@@ -6,7 +6,8 @@ import {useDispatch} from "react-redux";
 
 import {useDalEngine} from "../../../Providers/GlobalProviders";
 import {incrementCounter} from "../../../Store/appSlice";
-import {useSelectedParticipant} from "../../../Store/useAppSelection";
+import {setSelectedInvariant} from "../../../Store/appSlice";
+import {useSelectedParticipant, useSelectedInvariant} from "../../../Store/useAppSelection";
 
 import "./Invariant.scss";
 
@@ -23,6 +24,8 @@ export function Invariant ({invariant}) {
     const dispatch = useDispatch();
 
     const participant = useSelectedParticipant();
+    const selectedInvariant = useSelectedInvariant();
+
 
     const deleteInvariant = useCallback(() => {
         if (engine && invariant && participant) {
@@ -31,8 +34,15 @@ export function Invariant ({invariant}) {
         }
     }, [engine, invariant, participant]);
 
+    const selectParticipant = useCallback(() => {
+        if (invariant) {
+            dispatch(setSelectedInvariant(invariant.getName()));
+        }
+    }, [invariant, dispatch]);
+
     return (
-        <div className="participantCard">
+        <div className={`participantCard ${selectedInvariant === invariant ? "selected" : ""}`}
+            onClick={selectParticipant}>
             <span>{invariant.getName()}</span>
             <div className="icons">
                 <Trash title={"Delete Invariant"} onClick={deleteInvariant} className="icon"/>
