@@ -20,6 +20,7 @@ GlobalProviders.propTypes = {
  */
 function GlobalProviders ({children}) {
     const [workspace, setWorkspace] = useState();
+    const [mapping, setMapping] = useState(new Map());
     const termWriteRef = useRef(null);
     const sendJsonMessageRef = useRef(null);
 
@@ -52,7 +53,7 @@ function GlobalProviders ({children}) {
     };
 
     // eslint-disable-next-line no-unused-vars
-    const [, setMessageHistory] = useState([]);
+    const [messageHistory, setMessageHistory] = useState([]);
     useEffect(() => {
         if (lastJsonMessage !== null) {
             setMessageHistory((prev) => prev.concat(lastMessage));
@@ -163,17 +164,19 @@ function GlobalProviders ({children}) {
     /**
      * Update workspace with provided mapping.
      * @param {String} filePath Path of the file to update.
-     * @param {Object} newValue The new mapping value to set.
+     * @param {Object} map The new mapping value to set.
      */
-    const updateMapping = (filePath, newValue) => {
-        setWorkspace((prev) =>
-            prev.map((item) =>
-                item.path === filePath
-                    ? {...item, "mapping": newValue}
-                    : item
-            )
-        );
+    const updateMapping = (filePath, map) => {
+        setMapping((prev) => {
+            const next = new Map(prev);
+            next.set(filePath, map);
+            return next;
+        });
     };
+
+    useEffect(() => {
+        console.log("Updated mapping:", mapping);
+    }, [mapping]);
 
     /**
      * Load the engine from the workspace if an engine.dal file is present.
