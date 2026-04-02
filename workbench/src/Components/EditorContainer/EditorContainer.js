@@ -15,7 +15,7 @@ import "./EditorContainer.scss";
  */
 export function EditorContainer () {
     const {connectionStatus} = useContext(ServerContext);
-    const {workspace} = useWorkspace();
+    const {workspace, mapping} = useWorkspace();
     const editorRef = useRef(null);
     const parentIdRef = useRef(null);
 
@@ -74,7 +74,19 @@ export function EditorContainer () {
         for (let i = 0; i < 4; i++) {
             editorRef.current.addTab(files[Math.floor(Math.random() * 2) + 1]);
         }
+
+        editorRef.current.setMode(2);
     }, [workspace, connectionStatus]);
+
+    useEffect(() => {
+        if (!mapping || mapping.size === 0) return;
+
+        for (const [filePath, map] of mapping.entries()) {
+            const pathSplit = filePath.split("/");
+            const fileName = pathSplit[pathSplit.length - 1];
+            editorRef.current.setMapping(fileName, map);
+        }
+    }, [mapping, editorRef]);
 
     return (
         <Editor ref={editorRef} />

@@ -174,10 +174,6 @@ function GlobalProviders ({children}) {
         });
     };
 
-    useEffect(() => {
-        console.log("Updated mapping:", mapping);
-    }, [mapping]);
-
     /**
      * Load the engine from the workspace if an engine.dal file is present.
      * @param {Object} workspace Workspace object.
@@ -191,7 +187,7 @@ function GlobalProviders ({children}) {
 
     return (
         // eslint-disable-next-line max-len
-        <WorkspaceContext.Provider value={{workspace}}>
+        <WorkspaceContext.Provider value={{workspace, mapping}}>
             <DalEngineContext.Provider value={{engine}}>
                 <ServerContext.Provider value={{sendJsonMessage, setTermWriter, connectionStatus}}>
                     {children}
