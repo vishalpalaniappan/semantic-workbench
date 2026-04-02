@@ -60,10 +60,6 @@ export function NodeInfo ({}) {
         }
     }, [engine, selectedBehavior, participant]);
 
-    const editParticipant = useCallback(() => {
-        // TODO: Implement edit participant functionality here.
-    }, [engine, selectedBehavior, participant]);
-
     const updateParticipants = useCallback((participantName) => {
         if (!participants) return;
         if (participants.length > 0 && participantName) {
@@ -106,9 +102,6 @@ export function NodeInfo ({}) {
                                         <option>Add a participant...</option>
                                     }
                                 </select>
-                                <Pencil title={"Edit Participant"}
-                                    onClick={editParticipant}
-                                    className="icon"/>
                                 <Trash title={"Delete Participant"}
                                     onClick={deleteParticipant}
                                     className="icon"/>
