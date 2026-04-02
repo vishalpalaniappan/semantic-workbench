@@ -43,7 +43,7 @@ export function ShowInfo ({close, args}) {
                 readOnly={true}
                 onMount={handleEditorMount}
                 options={{
-                    minimap: {enabled: true},
+                    minimap: {enabled: false},
                     lineNumbers: "off",
                     scrollBeyondLastLine: false,
                 }}
