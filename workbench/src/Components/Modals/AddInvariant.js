@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 
-import { useDalEngine } from "../../Providers/GlobalProviders";
-import { incrementCounter, setSelectedInvariant } from "../../Store/appSlice";
-import { useInvariantTypes } from "../../Store/useAppSelection";
-import { useSelectedParticipant } from "../../Store/useAppSelection";
+import {useDalEngine} from "../../Providers/GlobalProviders";
+import {incrementCounter, setSelectedInvariant} from "../../Store/appSlice";
+import {useInvariantTypes} from "../../Store/useAppSelection";
+import {useSelectedParticipant} from "../../Store/useAppSelection";
+import {saveInvariantPropValues} from "./helper";
 
 import "./AddValue.scss";
 
@@ -96,10 +97,15 @@ export function AddInvariant({ close }) {
                 setError("Invariant name must not be empty.");
                 return;
             }
-            const _invariant = engine.createInvariant({ name: invariantName });
-            // TODO: get values from input fields and set them to the invariant
-            // instance and use function to assign invariant type.
+            const _invariant = engine.createInvariant({name: invariantName});
             _invariant.invariantType = invariantTypeInstance;
+
+            try {
+                saveInvariantPropValues(_invariant, propertyInputs);
+            } catch (error) {
+                setError(error.message);
+                return;
+            }
             selectedParticipant.addInvariant(_invariant);
             dispatch(setSelectedInvariant(_invariant.name));
             dispatch(incrementCounter());
@@ -110,6 +116,7 @@ export function AddInvariant({ close }) {
             invariantName,
             invariantTypeInstance,
             selectedParticipant,
+            propertyInputs,
             dispatch,
             close,
         ]
