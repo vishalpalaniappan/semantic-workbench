@@ -162,10 +162,10 @@
                     "containerId": "fileTabsContainer",
                     "type": "container",
                     "size": { 
-                        "initial": { "value": 350, "unit": "px", "type": "fixed" },
+                        "initial": { "value": 200, "unit": "px", "type": "fixed" },
                         "min": { "value": 51, "unit": "px"}
                     },
-                    "collapse": { "value": 400, "condition": "lessThan", "relative": "parent" }
+                    "collapse": { "value": 150, "condition": "lessThan", "relative": "parent" }
                 },
                 {
                     "type": "handleBar",
@@ -186,37 +186,21 @@
             "orientation": "vertical",
             "children": [
                 {
-                    "containerId": "rightMenuContainer1",
+                    "containerId": "selectedInfoContainer",
                     "type": "container",
                     "size": { 
-                        "initial": { "value": 200, "unit": "px", "type": "fixed" },
-                        "min": { "value": 51, "unit": "px"}
-                    },
-                    "collapse": { "value": 400, "condition": "lessThan", "relative": "parent" }
+                        "initial": { "value": 190, "unit": "px", "type": "fixed" }
+                    }
                 },
                 {
                     "type": "handleBar",
-                    "sibling1": "rightMenuContainer1",
-                    "sibling2": "rightMenuContainer3"
+                    "sibling1": "selectedInfoContainer",
+                    "sibling2": "participantInfoContainer"
                 },
                 {
-                    "containerId": "rightMenuContainer2",
+                    "containerId": "participantInfoContainer",
                     "type": "container",
                     "size": { "initial": { "type": "fill" }}
-                },
-                {
-                    "type": "handleBar",
-                    "sibling1": "rightMenuContainer2",
-                    "sibling2": "rightMenuContainer3"
-                },
-                {
-                    "containerId": "rightMenuContainer3",
-                    "type": "container",
-                    "size": { 
-                        "initial": { "value": 200, "unit": "px", "type": "fixed" },
-                        "min": { "value": 51, "unit": "px"}
-                    },
-                    "collapse": { "value": 500, "condition": "lessThan", "relative": "parent" }
                 }
             ]
         },
@@ -235,11 +219,6 @@
             "component": "EditorContainer",
             "background": "#1e1e1e"
         },
-        "FlowContainer": {
-            "id": "FlowContainer",
-            "component": "BehavioralControlGraph",
-            "background": "#1e1e1e"
-        },
         "designLayoutContainer": {
             "id": "designLayoutContainer",
             "type": "split",
@@ -252,49 +231,63 @@
                     "collapse": { "value": 100, "condition": "lessThan", "relative": "parent" }
                 },
                 {
-                    "containerId": "FlowContainer",
+                    "containerId": "FlowVerticalContainer",
                     "type": "container",
                     "size": { "initial": { "type": "fill" }}
                 }
             ],
             "background": "#1e1e1e"
         },
+        "FlowVerticalContainer": {
+            "id": "FlowVerticalContainer",
+            "type": "split",
+            "orientation": "vertical",
+            "children": [
+                {
+                    "containerId": "FlowContainer",
+                    "type": "container",
+                    "size": { "initial": { "type": "fill" }}
+
+                },
+                {
+                    "containerId": "graphMenuContainer",
+                    "type": "container",
+                    "size": { "initial": { "value": 30, "unit": "px", "type": "fixed" }}
+                }
+            ]
+        },
+        "FlowContainer": {
+            "id": "FlowContainer",
+            "component": "BehavioralControlGraph",
+            "background": "#1e1e1e"
+        },
         "leftMenuContainer2": {
             "id": "leftMenuContainer2",
             "menuBar": {
                 "showClose": false,
-                "title": "File Info"
+                "title": "Mapping"
             },
             "background": "#1e1e1e"
         },
-        "rightMenuContainer1": {
-            "id": "rightMenuContainer1",
-            "menuBar": {
-                "showClose": false,
-                "title": "Design Info"
-            },
+        "selectedInfoContainer": {
+            "id": "selectedInfoContainer",
+            "component": "SelectedInfo",
             "background": "#1e1e1e"
         },
-        "rightMenuContainer2": {
-            "id": "rightMenuContainer2",
-            "menuBar": {
-                "showClose": false,
-                "title": "Behaviors"
-            },
-            "background": "#1e1e1e"
-        },
-        "rightMenuContainer3": {
-            "id": "rightMenuContainer3",
-            "menuBar": {
-                "showClose": false,
-                "title": "Seleted Info"
-            },
+        "participantInfoContainer": {
+            "id": "participantInfoContainer",
+            "component": "NodeInfo",
             "background": "#1e1e1e"
         },
         "toolbarContainer": {
             "id": "toolbarContainer",
             "component": "ToolBar",
             "background": "#1e1e1e"
+        },
+        "graphMenuContainer": {
+            "id": "graphMenuContainer",
+            "component": "GraphMenuBar",
+            "background": "#222222"
         }
     }
 }

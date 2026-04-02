@@ -40,7 +40,7 @@ export class TerminalSession extends EventEmitter {
 
         this.ptyProcess.onData(
             (data) => {
-                console.log("Received from terminal:", data);
+                // console.log("Received from terminal:", data);
                 this.emit("data", data)
             }
         );
@@ -58,11 +58,12 @@ export class TerminalSession extends EventEmitter {
             // TODO: Restart?
             return;
         }
-        console.log("Writing to terminal:", data);
+        // console.log("Writing to terminal:", data);
         this.ptyProcess?.write(data);
     }
 
     resize(cols, rows) {
+        if (!cols || !rows) return;
         this.cols = cols;
         this.rows = rows;
         this.ptyProcess?.resize(cols, rows);

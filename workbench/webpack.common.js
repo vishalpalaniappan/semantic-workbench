@@ -56,6 +56,9 @@ module.exports = {
         },
         extensions: [".json", ".js", ".jsx"],
         modules: ["node_modules"],
+        alias: {
+            "elkjs/lib/elk-api": "elkjs/lib/elk-api.js",
+        },
     },
     optimization: {
         moduleIds: "deterministic",

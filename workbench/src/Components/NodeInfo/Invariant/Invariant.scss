@@ -1,0 +1,40 @@
+
+.participantsContent  > .participantCard {
+    height: 30px;
+    min-height: 30px;
+    color:rgb(161, 161, 161);
+    border: dashed 1px grey;
+    display:flex;
+    flex-direction: row;    
+    justify-content: space-between;
+    align-items: center;
+    font-size:13px;
+    padding:10px 10px;
+}
+
+.participantsContent  > .selected  {
+    color:rgb(255, 255, 255);
+    border: dashed 1px rgb(255, 208, 121);
+}
+
+.participantsContent  > .participantCard > .icons{
+    display:flex;
+    flex-direction: row;    
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+
+    .icon {
+        color:rgb(161, 161, 161);
+        cursor: pointer;
+    }
+
+    .icon:hover {
+        color:rgb(255, 255, 255);
+    }
+}
+
+
+
+
+

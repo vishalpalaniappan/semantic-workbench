@@ -3,6 +3,7 @@ import React, {useContext, useEffect, useRef} from "react";
 import {Editor} from "sample-ui-component-library";
 import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
+import {useWorkspace} from "../../Providers/GlobalProviders";
 import ServerContext from "../../Providers/ServerContext";
 import {flattenTree} from "./helper";
 
@@ -13,7 +14,8 @@ import "./EditorContainer.scss";
  * @return {JSX.Element}
  */
 export function EditorContainer () {
-    const {workspace, connectionStatus} = useContext(ServerContext);
+    const {connectionStatus} = useContext(ServerContext);
+    const {workspace} = useWorkspace();
     const editorRef = useRef(null);
     const parentIdRef = useRef(null);
 

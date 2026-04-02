@@ -1,9 +1,9 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, {useEffect, useRef} from "react";
 
 import {FileBrowser} from "sample-ui-component-library";
 import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 
-import ServerContext from "../../Providers/ServerContext";
+import {useWorkspace} from "../../Providers/GlobalProviders";
 
 import "./FileSelector.scss";
 
@@ -15,7 +15,7 @@ FileSelector.propTypes = {
  * @return {JSX.Element}
  */
 export function FileSelector () {
-    const {workspace} = useContext(ServerContext);
+    const {workspace} = useWorkspace();
 
     const fileBrowserRef = useRef();
     const publish = useLayoutEventPublisher();

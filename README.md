@@ -30,6 +30,10 @@ All of these modes are intrinsic to the design feedback loop shown below and the
 
 By leveraging design-driven automation, the design workbench establishes the structure needed to practically enable the automatic management of software systems. Ultimately, this marks the shift away from the inherent uncertainty of traditional observability platforms and marks the arrival of deterministic understanding and complete automation enabled by the Design Learning Platform (DLP).
 
+Currently, the workbench has been updated to enable the specification of designs through the UI and save it to the server. A rough overview of the UI is presented below. As the appliation is developed further, I will dedicate time to improving the documentation and how to use it.
+
+![alt text](docs/UI_Overview.JPG)
+
 ## Development
 
 There are two main components in this application, the server and the workbench. You can run each component independently by following the readme in each folder, or you can use the npm scripts in the root folder of the repo.
