@@ -49,6 +49,10 @@ export function App () {
             import("./Components/NodeInfo/NodeInfo").then((m) => ({
                 default: m.default || m.NodeInfo,
             })),
+        SelectedInfo: () =>
+            import("./Components/SelectedInfo/SelectedInfo").then((m) => ({
+                default: m.default || m.SelectedInfo,
+            })),
     }), []);
 
     return (

@@ -186,15 +186,15 @@
             "orientation": "vertical",
             "children": [
                 {
-                    "containerId": "behaviorInfoContainer",
+                    "containerId": "selectedInfoContainer",
                     "type": "container",
                     "size": { 
-                        "initial": { "value": 200, "unit": "px", "type": "fixed" }
+                        "initial": { "value": 190, "unit": "px", "type": "fixed" }
                     }
                 },
                 {
                     "type": "handleBar",
-                    "sibling1": "behaviorInfoContainer",
+                    "sibling1": "selectedInfoContainer",
                     "sibling2": "participantInfoContainer"
                 },
                 {
@@ -269,8 +269,9 @@
             },
             "background": "#1e1e1e"
         },
-        "behaviorInfoContainer": {
-            "id": "behaviorInfoContainer",
+        "selectedInfoContainer": {
+            "id": "selectedInfoContainer",
+            "component": "SelectedInfo",
             "background": "#1e1e1e"
         },
         "participantInfoContainer": {
