@@ -1,10 +1,12 @@
 import React, {useCallback, useState} from "react";
 
-import {Floppy, PlusSquare} from "react-bootstrap-icons";
+import {Crosshair, Floppy, PencilSquare, PlusSquare} from "react-bootstrap-icons";
+import {useDispatch} from "react-redux";
 import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 import {useModalManager} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
+import {setDesignMode, setMappingMode} from "../../Store/appSlice";
 import {AddBehavior} from "../Modals/AddBehavior";
 
 import "./ToolBar.scss";
@@ -17,6 +19,8 @@ export function ToolBar () {
     const [selectedTool, setSelectedTool] = useState("select");
 
     const {openModal} = useModalManager();
+
+    const dispatch = useDispatch();
 
     const publish = useLayoutEventPublisher();
     const {engine} = useDalEngine();
@@ -61,6 +65,16 @@ export function ToolBar () {
                 />
             </div>
             <div className="toolbarContainer bottom">
+                <PencilSquare
+                    onClick={() => dispatch(setDesignMode())}
+                    title="Design Mode"
+                    className="icon"
+                />
+                <Crosshair
+                    onClick={() => dispatch(setMappingMode())}
+                    title="Mapping Mode"
+                    className="icon"
+                />
                 <Floppy
                     onClick={(e) => saveGraph()}
                     title="Save Graph"

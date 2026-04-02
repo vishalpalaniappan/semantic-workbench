@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {useDalEngine} from "../Providers/GlobalProviders";
 import {
     selectCounter,
+    selectMode,
     selectSelectedBehaviorId,
     selectSelectedGraphId,
     selectSelectedInvariantId,
@@ -132,4 +133,14 @@ export const useInvariantTypes = () => {
         if (!engine) return [];
         return engine.invariant_types;
     }, [engine]);
+};
+
+
+/**
+ * Returns the current application mode.
+ * @return {number} 1 for design mode, 2 for mapping mode
+ */
+export const useAppMode = () => {
+    const mode = useSelector(selectMode);
+    return mode;
 };

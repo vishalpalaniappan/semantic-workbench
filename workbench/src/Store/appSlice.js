@@ -7,7 +7,7 @@ const appSlice = createSlice({
         selectedParticipant: null,
         selectedGraph: null,
         selectedInvariant: null,
-        mode: "design",
+        mode: 1, // 1 for design, 2 for mapping
         counter: 0,
     },
     reducers: {
@@ -33,6 +33,12 @@ const appSlice = createSlice({
             // console.log("Setting selected invariant to:", action.payload);
             state.selectedInvariant = action.payload;
         },
+        setDesignMode (state, action) {
+            state.mode = 1;
+        },
+        setMappingMode (state, action) {
+            state.mode = 2;
+        },
         incrementCounter (state) {
             /**
              * TODO:
@@ -49,7 +55,7 @@ const appSlice = createSlice({
     },
 });
 
-export const {setSelectedBehavior, setSelectedParticipant,
+export const {setSelectedBehavior, setSelectedParticipant,setMappingMode, setDesignMode,
     setSelectedGraph, setSelectedInvariant, incrementCounter} = appSlice.actions;
 
 export default appSlice.reducer;

@@ -7,6 +7,8 @@ import {useWorkspace} from "../../Providers/GlobalProviders";
 import ServerContext from "../../Providers/ServerContext";
 import {flattenTree} from "./helper";
 
+import { useAppMode } from "../../Store/useAppSelection";
+
 import "./EditorContainer.scss";
 
 /**
@@ -18,6 +20,7 @@ export function EditorContainer () {
     const {workspace, mapping} = useWorkspace();
     const editorRef = useRef(null);
     const parentIdRef = useRef(null);
+    const mode = useAppMode();
 
     useLayoutEventSubscription("file:selected", (event) => {
         editorRef.current.addTab(event.payload);
@@ -74,9 +77,15 @@ export function EditorContainer () {
         for (let i = 0; i < 4; i++) {
             editorRef.current.addTab(files[Math.floor(Math.random() * 2) + 1]);
         }
-
-        editorRef.current.setMode(2);
     }, [workspace, connectionStatus]);
+
+    useEffect(() => {
+        if (mode === 1) {
+            editorRef.current.setMode(1);
+        } else if (mode === 2) {
+            editorRef.current.setMode(2);
+        }
+    }, [mode, editorRef]);
 
     useEffect(() => {
         if (!mapping || mapping.size === 0) return;
