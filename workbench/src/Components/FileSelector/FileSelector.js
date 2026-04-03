@@ -36,7 +36,7 @@ export function FileSelector () {
              * TODO: This is temporary because I haven't made
              * the libraries match, I will fix this soon. The
              * engine saves path as key and doesn't have some
-             * necessary keys.
+             * necessary keys
              */
             for (const file of files) {
                 file["uid"] = file.name;
