@@ -104,8 +104,8 @@ export function AddInvariant ({close}) {
 
         try {
             saveInvariantPropValues(_invariant, propertyInputs);
-        } catch (error) {
-            setError(error.message);
+        } catch (err) {
+            setError(err.message);
             return;
         }
         selectedParticipant.addInvariant(_invariant);

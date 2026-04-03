@@ -45,7 +45,7 @@ export function FileSelector () {
             title: "Add File",
             render: ({close}) => {return <AddFile close={close} />;},
         });
-    }, [engine]);
+    }, []);
 
     return (
         <div className="filebrowser-container">

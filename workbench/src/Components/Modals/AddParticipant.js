@@ -47,8 +47,8 @@ export function AddParticipant ({close}) {
             selectedBehavior.addParticipant(participantInstance);
             dispatch(setSelectedParticipant(participant));
             close();
-        } catch (ParticipantAlreadyExistsError) {
-            setError(`Participant with name "${participant}" already exists.`);
+        } catch (err) {
+            setError(err.toString());
         }
     }, [engine, description, participant, close, selectedBehavior, dispatch]);
 

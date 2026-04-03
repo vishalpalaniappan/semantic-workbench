@@ -44,7 +44,7 @@ export function AddGraph ({close}) {
         try {
             engine.graphs.getGraph(graph);
             setError(`Graph with name "${graph}" already exists.`);
-        } catch (UnknownGraph) {
+        } catch (err) {
             engine.createGraph(graph, description);
             dispatch(setSelectedGraph(graph));
             close();

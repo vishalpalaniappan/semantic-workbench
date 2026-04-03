@@ -32,7 +32,7 @@ export function AddFile ({close}) {
         if (inputRef.current) {
             inputRef.current.focus();
         }
-    }, [engine]);
+    }, []);
 
     const handleSubmit = useCallback(() => {
         if (fileName.trim() === "") {
@@ -42,10 +42,10 @@ export function AddFile ({close}) {
         try {
             engine.addFile(fileName, fileName, "");
             close();
-        } catch (Error) {
-            setError(`File with name "${fileName}" already exists.`);
+        } catch (err) {
+            setError(err.toString());
         }
-    }, [engine, fileName, close, selectedBehavior, dispatch]);
+    }, [engine, fileName, close]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
