@@ -65,6 +65,7 @@ function GlobalProviders ({children}) {
     const processMessage = (msg) => {
         switch (msg.type) {
             case "workspaces":
+                // TODO: Migrate to loading workspace from engine.
                 setWorkspace(msg.data);
                 break;
             case "terminal_output":
