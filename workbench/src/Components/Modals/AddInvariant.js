@@ -83,7 +83,7 @@ export function AddInvariant ({close}) {
         ));
         const submitButton = (
             <div className="invariant-name-submit">
-                <button type="submit">Add Invariant</button>
+                <button onClick={handleSubmit}>Add Invariant</button>
             </div>
         );
 
@@ -140,7 +140,7 @@ export function AddInvariant ({close}) {
     }, [close, invariantName, propertyInputs]);
 
     return (
-        <form className="add-value-modal" onSubmit={handleSubmit}>
+        <div className="add-value-modal" >
             <div className="value-name-label">
                 <span>Invariants:</span>
             </div>
@@ -162,6 +162,6 @@ export function AddInvariant ({close}) {
                     {error}
                 </div>
             )}
-        </form>
+        </div>
     );
 }
