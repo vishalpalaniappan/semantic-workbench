@@ -3,8 +3,24 @@
     height:100%;
     display:flex;
     flex-direction: column;
+}
+
+.filebrowser-container > .browser-container {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+}
+
+.filebrowser-container > .browser-container > .browser-overflow {
+    height: 100%;
+    width: 100%;
     overflow-y: auto;
     scrollbar-gutter: stable;
     scrollbar-color: #47474766 #252526;
     scrollbar-width: thin;
+}
+
+.filebrowser-container > .menu {
+    height: 20px;
+    background-color: red;
 }
