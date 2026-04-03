@@ -83,13 +83,13 @@ export function AddInvariant ({close}) {
         ));
         const submitButton = (
             <div className="invariant-name-submit">
-                <button type="submit">Add Invariant</button>
+                <button onClick={handleSubmit}>Add Invariant</button>
             </div>
         );
 
         setPropertyDivs([nameDiv, ...optionDivs, submitButton]);
         setInvariantTypeInstance(instance);
-    }, [chosenInvariant, engine, propertyInputs, invariantName]);
+    }, [chosenInvariant, handleSubmit, engine, propertyInputs, invariantName]);
 
     const handleSubmit = useCallback(() => {
         if (invariantName.trim() === "") {
@@ -140,7 +140,7 @@ export function AddInvariant ({close}) {
     }, [close, invariantName, propertyInputs]);
 
     return (
-        <form className="add-value-modal" onSubmit={handleSubmit}>
+        <div className="add-value-modal" >
             <div className="value-name-label">
                 <span>Invariants:</span>
             </div>
@@ -162,6 +162,6 @@ export function AddInvariant ({close}) {
                     {error}
                 </div>
             )}
-        </form>
+        </div>
     );
 }
