@@ -37,9 +37,7 @@ export function FileSelector () {
     return (
         <div className="filebrowser-container">
             <div className="browser-container">
-                <div className="browser-overflow">
-                    <FileBrowser ref={fileBrowserRef} onSelectFile={onSelectFile}/>
-                </div>
+                <FileBrowser ref={fileBrowserRef} onSelectFile={onSelectFile}/>
             </div>
             <div className="menu">
 
