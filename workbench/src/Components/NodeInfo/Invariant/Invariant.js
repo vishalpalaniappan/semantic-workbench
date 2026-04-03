@@ -27,14 +27,16 @@ export function Invariant ({invariant}) {
     const selectedInvariant = useSelectedInvariant();
 
 
-    const deleteInvariant = useCallback(() => {
+    const deleteInvariant = useCallback((e) => {
+        e.stopPropagation();
         if (engine && invariant && participant) {
             participant.removeInvariant(invariant);
             dispatch(incrementCounter());
         }
     }, [engine, invariant, participant]);
 
-    const selectParticipant = useCallback(() => {
+    const selectParticipant = useCallback((e) => {
+        e.stopPropagation();
         if (invariant) {
             dispatch(setSelectedInvariant(invariant.getName()));
         }
