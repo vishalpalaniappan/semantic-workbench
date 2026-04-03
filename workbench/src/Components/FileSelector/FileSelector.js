@@ -3,6 +3,8 @@ import React, {useEffect, useRef} from "react";
 import {FileBrowser} from "sample-ui-component-library";
 import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 
+import {Floppy, PlusSquare, Trash} from "react-bootstrap-icons";
+
 import {useWorkspace} from "../../Providers/GlobalProviders";
 
 import "./FileSelector.scss";
@@ -40,7 +42,9 @@ export function FileSelector () {
                 <FileBrowser ref={fileBrowserRef} onSelectFile={onSelectFile}/>
             </div>
             <div className="menu">
-
+                <Floppy className="icon"/>
+                <PlusSquare className="icon"/>
+                <Trash className="icon"/>
             </div>
         </div>
     );

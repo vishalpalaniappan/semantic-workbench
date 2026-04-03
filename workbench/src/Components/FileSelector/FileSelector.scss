@@ -11,6 +11,22 @@
     min-height: 0;
 }
 .filebrowser-container > .menu {
-    height: 20px;
-    background-color: red;
+    height: 25px;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 7px;
+    align-items: center;
+    padding-right: 10px;
+    background-color: #222222;
+
+    .icon {
+        color:grey;
+        font-size:15px;
+    }
+
+    .icon:hover {
+        color:white;
+        cursor: pointer;
+    }
 }
