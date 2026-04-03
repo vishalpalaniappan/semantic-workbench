@@ -7,6 +7,7 @@ import {useModalManager} from "ui-layout-manager-dev";
 
 import {useWorkspace} from "../../Providers/GlobalProviders";
 import {useDalEngine} from "../../Providers/GlobalProviders";
+import {useEngineFiles} from "../../Store/useAppSelection";
 import {AddFile} from "../Modals/AddFile";
 
 import "./FileSelector.scss";
@@ -21,6 +22,7 @@ FileSelector.propTypes = {
 export function FileSelector () {
     const {workspace} = useWorkspace();
     const {engine} = useDalEngine();
+    const files = useEngineFiles();
     const {openModal} = useModalManager();
 
     const fileBrowserRef = useRef();
@@ -28,9 +30,27 @@ export function FileSelector () {
 
     useEffect(() => {
         if (workspace) {
+            console.log(workspace);
             fileBrowserRef.current.addFileTree(workspace);
         }
     }, [workspace]);
+
+    useEffect(() => {
+        if (files && files.length > 0) {
+            /**
+             * TODO: This is temporary because I haven't made
+             * the libraries match, I will fix this soon. The 
+             * engine saves path as key and doesn't have some
+             * necessary keys.
+             */
+            for (const file of files) {
+                file["uid"] = file.name;
+                file["path"] = file.key;
+                file["type"] = "file";
+            }
+            fileBrowserRef.current.addFileTree(files);
+        }
+    }, [files]);
 
     const onSelectFile = (node) => {
         publish({

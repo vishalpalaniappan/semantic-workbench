@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {setSelectedParticipant} from "../../Store/appSlice";
+import {incrementCounter} from "../../Store/appSlice";
 import {useSelectedBehavior} from "../../Store/useAppSelection";
 
 import "./AddValue.scss";
@@ -41,11 +41,12 @@ export function AddFile ({close}) {
         }
         try {
             engine.addFile(fileName, fileName, "");
-            close();
         } catch (err) {
             setError(err.toString());
         }
-    }, [engine, fileName, close]);
+        dispatch(incrementCounter());
+        close();
+    }, [engine, dispatch, fileName, close]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
