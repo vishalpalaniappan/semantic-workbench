@@ -58,7 +58,7 @@ export function FileSelector () {
     const deleteFile = useCallback(() => {
         if (activeTab) {
             try {
-                dispatch(deleteFileThunk(engine, activeTab));
+                dispatch(deleteFileThunk(activeTab));
             } catch (err) {
                 console.error(err);
             }

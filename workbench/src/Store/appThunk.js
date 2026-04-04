@@ -7,7 +7,7 @@
 
 import {incrementCounter, setActiveTab, setSelectedParticipant} from "./appSlice";
 
-export const deleteFileThunk = (engine, fileId) => (dispatch, getState) => {
+export const deleteFileThunk = (fileId) => (dispatch, getState, {engine}) => {
     const files = engine.getFiles();
     const index = files.findIndex((file) => file.uid === fileId);
     let newUid = null;
