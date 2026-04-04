@@ -58,7 +58,6 @@ export function AddInvariant ({close}) {
         const nameDiv = (
             <>
                 <div className="value-name-label">
-                    {" "}
                     <span>Name:</span>
                 </div>
                 <div className="value-name-input">
@@ -105,16 +104,15 @@ export function AddInvariant ({close}) {
             return;
         }
 
-        let _invariant;
         try {
-            _invariant = engine.createInvariant({
+            const inv = engine.createInvariant({
                 name: invariantName,
                 description: description,
             });
-            _invariant.invariantType = invariantTypeInstance;
-            saveInvariantPropValues(_invariant, propertyInputs);
-            selectedParticipant.addInvariant(_invariant);
-            dispatch(setSelectedInvariant(_invariant.name));
+            inv.invariantType = invariantTypeInstance;
+            saveInvariantPropValues(inv, propertyInputs);
+            selectedParticipant.addInvariant(inv);
+            dispatch(setSelectedInvariant(inv.name));
             dispatch(incrementCounter());
             close();
         } catch (err) {
