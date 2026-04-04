@@ -1,11 +1,13 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, {useCallback, useContext, useEffect, useRef} from "react";
 
+import {useDispatch} from "react-redux";
 import {Editor} from "sample-ui-component-library";
 import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
 import {useWorkspace} from "../../Providers/GlobalProviders";
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import ServerContext from "../../Providers/ServerContext";
+import {setActiveTab} from "../../Store/appSlice";
 import {useEngineFiles} from "../../Store/useAppSelection";
 import {useActiveTab} from "../../Store/useAppSelection";
 
@@ -24,6 +26,7 @@ export function EditorContainer () {
     const files = useEngineFiles();
 
     const activeTab = useActiveTab();
+    const dispatch = useDispatch();
 
     // Close tabs of files that were deleted, and update saved content
     useEffect(() => {
@@ -87,6 +90,10 @@ export function EditorContainer () {
         }
     });
 
+    const onSelectTab = useCallback((tabId) => {
+        dispatch(setActiveTab(tabId));
+    }, [dispatch]);
+
     useEffect(() => {
         if (!workspace) return;
         parentIdRef.current = crypto.randomUUID();
@@ -94,6 +101,6 @@ export function EditorContainer () {
     }, [workspace, connectionStatus]);
 
     return (
-        <Editor ref={editorRef} />
+        <Editor ref={editorRef} onSelectTab={onSelectTab}/>
     );
 }
