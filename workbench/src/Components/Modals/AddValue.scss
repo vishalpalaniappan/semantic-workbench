@@ -32,6 +32,13 @@
     flex: 1;
 }
 
+.add-value-modal > .value-name-input > select {
+    margin-right: 10px;
+    background-color: #333;
+    color: rgb(184, 184, 184);
+    padding: 4px;
+}
+
 .add-value-modal > .value-name-input > textarea {
     font-size: 16px;
     color:white;

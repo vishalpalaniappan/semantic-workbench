@@ -4,27 +4,24 @@ import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {setSelectedParticipant} from "../../Store/appSlice";
-import {useSelectedBehavior} from "../../Store/useAppSelection";
+import {incrementCounter} from "../../Store/appSlice";
+import {setActiveTab} from "../../Store/appSlice";
 
 import "./AddValue.scss";
 
-AddParticipant.propTypes = {
+AddFile.propTypes = {
     close: PropTypes.func.isRequired,
 };
 
 /**
- * Add Participant modal body component.
+ * Add File modal body component.
  * @return {JSX.Element}
  */
-export function AddParticipant ({close}) {
+export function AddFile ({close}) {
     const {engine} = useDalEngine();
-
-    const selectedBehavior= useSelectedBehavior();
     const dispatch = useDispatch();
 
-    const [participant, setParticipant] = useState("");
-    const [description, setDescription] = useState("");
+    const [fileName, setFileName] = useState("");
     const [error, setError] = useState(null);
 
     const inputRef = useRef(null);
@@ -33,24 +30,22 @@ export function AddParticipant ({close}) {
         if (inputRef.current) {
             inputRef.current.focus();
         }
-    }, [engine]);
+    }, []);
 
     const handleSubmit = useCallback(() => {
-        if (participant.trim() === "") {
-            setError("Participant name must not be empty.");
+        if (fileName.trim() === "") {
+            setError("File name must not be empty.");
             return;
         }
         try {
-            const participantInstance = engine.createParticipant({
-                name: participant, description: description,
-            });
-            selectedBehavior.addParticipant(participantInstance);
-            dispatch(setSelectedParticipant(participant));
+            const newFile = engine.addFile(fileName, fileName, "");
+            dispatch(setActiveTab(newFile.uid));
+            dispatch(incrementCounter());
             close();
         } catch (err) {
             setError(err.toString());
         }
-    }, [engine, description, participant, close, selectedBehavior, dispatch]);
+    }, [engine, dispatch, fileName, close]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -64,28 +59,20 @@ export function AddParticipant ({close}) {
         };
         document.addEventListener("keydown", handleKeyDown);
         return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [close, handleSubmit, participant]);
+    }, [close, handleSubmit, fileName]);
 
     return (
         <div className="add-value-modal">
             <div className="value-name-label">
-                <span>Participant Name:</span>
+                <span>File Name:</span>
             </div>
             <div className="value-name-input">
                 <input ref={inputRef}
-                    value={participant}
-                    onChange={(e) => setParticipant(e.target.value)}></input>
-            </div>
-            <div className="value-name-label">
-                <span>Description:</span>
-            </div>
-            <div className="value-name-input">
-                <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}></textarea>
+                    value={fileName}
+                    onChange={(e) => setFileName(e.target.value)}></input>
             </div>
             <div className="invariant-name-submit">
-                <button type="button" onClick={handleSubmit}>Add Participant</button>
+                <button type="button" onClick={handleSubmit}>Add File</button>
             </div>
             {error && (
                 <div style={{float: "right"}} className="value-error">

@@ -4,11 +4,14 @@ import {useSelector} from "react-redux";
 
 import {useDalEngine} from "../Providers/GlobalProviders";
 import {
+    selectActiveTab,
     selectCounter,
+    selectLastSaved,
     selectSelectedBehaviorId,
     selectSelectedGraphId,
     selectSelectedInvariantId,
-    selectSelectedParticipantId
+    selectSelectedParticipantId,
+    selectStatusMsg
 } from "./appSelectors";
 
 /**
@@ -132,4 +135,54 @@ export const useInvariantTypes = () => {
         if (!engine) return [];
         return engine.invariant_types;
     }, [engine]);
+};
+
+/**
+ * Returns a list of engine files.
+ * @return {Object}
+ */
+export const useEngineFiles = () => {
+    const {engine} = useDalEngine();
+    const counter = useSelector(selectCounter);
+
+    return useMemo(() => {
+        if (!engine) return null;
+        return [...engine.getFiles()];
+    }, [engine, counter]);
+};
+
+/**
+ * Returns the currently active tab.
+ * @return {Object}
+ */
+export const useActiveTab = () => {
+    const activeTab = useSelector(selectActiveTab);
+
+    return useMemo(() => {
+        return activeTab;
+    }, [activeTab]);
+};
+
+/**
+ * Returns the current status message.
+ * @return {Object}
+ */
+export const useStatusMsg = () => {
+    const statusMsg = useSelector(selectStatusMsg);
+
+    return useMemo(() => {
+        return statusMsg;
+    }, [statusMsg]);
+};
+
+/**
+ * Returns the last saved date time.
+ * @return {Date} Last saved date
+ */
+export const useLastSaved = () => {
+    const lastSaved = useSelector(selectLastSaved);
+
+    return useMemo(() => {
+        return lastSaved;
+    }, [lastSaved]);
 };

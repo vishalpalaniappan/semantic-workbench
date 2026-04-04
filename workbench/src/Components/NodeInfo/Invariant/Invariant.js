@@ -23,19 +23,18 @@ export function Invariant ({invariant}) {
     const {engine} = useDalEngine();
     const dispatch = useDispatch();
 
-    const participant = useSelectedParticipant();
+    const selectedParticipant = useSelectedParticipant();
     const selectedInvariant = useSelectedInvariant();
-
 
     const deleteInvariant = useCallback((e) => {
         e.stopPropagation();
-        if (engine && invariant && participant) {
-            participant.removeInvariant(invariant);
+        if (engine && invariant && selectedParticipant) {
+            selectedParticipant.removeInvariant(invariant);
             dispatch(incrementCounter());
         }
-    }, [engine, invariant, participant]);
+    }, [engine, invariant, selectedParticipant]);
 
-    const selectParticipant = useCallback((e) => {
+    const selectInvariant = useCallback((e) => {
         e.stopPropagation();
         if (invariant) {
             dispatch(setSelectedInvariant(invariant.getName()));
@@ -44,7 +43,7 @@ export function Invariant ({invariant}) {
 
     return (
         <div className={`participantCard ${selectedInvariant === invariant ? "selected" : ""}`}
-            onClick={selectParticipant}>
+            onClick={selectInvariant}>
             <span>{invariant.getName()}</span>
             <div className="icons">
                 <Trash title={"Delete Invariant"} onClick={deleteInvariant} className="icon"/>

@@ -1,13 +1,14 @@
-import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 
 import {DALEngine} from "dal-engine-core-js-lib-dev";
 import PropTypes from "prop-types";
+import {useDispatch} from "react-redux";
 import useWebSocket, {ReadyState} from "react-use-websocket";
-import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 
+import {setActiveTab, setLastSaved} from "../Store/appSlice";
+import {setStatusMsg} from "../Store/appSlice";
 import DalEngineContext from "./DalEngineContext";
 import ServerContext from "./ServerContext";
-import WorkspaceContext from "./WorkspaceContext";
 
 GlobalProviders.propTypes = {
     children: PropTypes.node,
@@ -22,18 +23,17 @@ function GlobalProviders ({children}) {
     const [workspace, setWorkspace] = useState();
     const termWriteRef = useRef(null);
     const sendJsonMessageRef = useRef(null);
+    const engineRef = useRef(null);
 
-    const publish = useLayoutEventPublisher();
+    const dispatch = useDispatch();
 
     // Connect and setup auto reconnect
     const socketUrl = "ws://localhost:3002";
     const {
-        // sendMessage,
         sendJsonMessage,
         lastMessage,
         lastJsonMessage,
         readyState,
-        // getWebSocket,
     } = useWebSocket(socketUrl, {
         onOpen: () => connectionOpen(),
         shouldReconnect: (closeEvent) => true,
@@ -43,8 +43,6 @@ function GlobalProviders ({children}) {
         sendJsonMessageRef.current = sendJsonMessage;
     }, [sendJsonMessage]);
 
-
-    // Called when connection is opened.
     const connectionOpen = () => {
         sendJsonMessage({
             "type": "workspaces",
@@ -61,7 +59,6 @@ function GlobalProviders ({children}) {
         }
     }, [lastJsonMessage]);
 
-
     const processMessage = (msg) => {
         switch (msg.type) {
             case "workspaces":
@@ -71,24 +68,16 @@ function GlobalProviders ({children}) {
                 termWriteRef.current?.(msg.data);
                 break;
             case "design_save_successful":
-                publish({
-                    type: "status:set",
-                    payload: "Design saved successfully!",
-                    source: "websocket-handler",
-                });
+                dispatch(setLastSaved(new Date().toISOString()));
+                dispatch(setStatusMsg("Design saved successfully!"));
                 break;
             case "design_save_failed":
-                publish({
-                    type: "status:set",
-                    payload: "Failed to save design.",
-                    source: "websocket-handler",
-                });
+                dispatch(setStatusMsg("Failed to save design."));
                 break;
             default:
                 break;
         }
     };
-
 
     // Set the connection state and log to console
     const connectionStatus = {
@@ -103,48 +92,61 @@ function GlobalProviders ({children}) {
         console.log("Websocket state:", connectionStatus);
     }, [readyState]);
 
-
     const setTermWriter = (fn) => {
         termWriteRef.current = fn;
     };
+
+    const saveEngine = useCallback(() => {
+        const currentEngine = engineRef.current;
+        if (!currentEngine) return;
+        for (const file of currentEngine.getFiles()) {
+            file.content = file.updatedContent;
+        }
+        const serialized = currentEngine.serialize();
+        sendJsonMessageRef.current({
+            type: "save_engine",
+            payload: {
+                "data": serialized,
+                "fileName": "engine.dal",
+            },
+        });
+    }, []);
 
     const engine = useMemo(() => {
         const e = new DALEngine({
             name: "default",
             description: "Default engine",
         });
-        e.save = () => {
-            const serialized = e.serialize();
-            sendJsonMessageRef.current({
-                type: "save_engine",
-                payload: {
-                    "data": serialized,
-                    "fileName": "engine.dal",
-                },
-            });
-        };
         return e;
     }, []);
 
+    useEffect(() => {
+        engineRef.current = engine;
+        engine.save = saveEngine;
+    }, [engine, saveEngine]);
 
     useEffect(() => {
         if (workspace) {
-            const file = workspace.find((file)=>file.name === "engine.dal");
+            const file = workspace.find((file) => {
+                return file.name === "engine.dal";
+            });
             if (file) {
                 engine.deserialize(file.content);
+                const files = engine.getFiles();
+                if (files.length > 0) {
+                    dispatch(setActiveTab(files[0].uid));
+                }
             }
         }
-    }, [workspace]);
+    }, [workspace, engine]);
 
     return (
         // eslint-disable-next-line max-len
-        <WorkspaceContext.Provider value={{workspace}}>
-            <DalEngineContext.Provider value={{engine}}>
-                <ServerContext.Provider value={{sendJsonMessage, setTermWriter, connectionStatus}}>
-                    {children}
-                </ServerContext.Provider>
-            </DalEngineContext.Provider>
-        </WorkspaceContext.Provider>
+        <DalEngineContext.Provider value={{engine}}>
+            <ServerContext.Provider value={{sendJsonMessage, setTermWriter, connectionStatus}}>
+                {children}
+            </ServerContext.Provider>
+        </DalEngineContext.Provider>
     );
 };
 
@@ -152,14 +154,6 @@ export const useDalEngine = function () {
     const context = useContext(DalEngineContext);
     if (!context) {
         throw new Error("useDalEngine must be used within a GlobalProvider");
-    }
-    return context;
-};
-
-export const useWorkspace = function () {
-    const context = useContext(WorkspaceContext);
-    if (!context) {
-        throw new Error("useWorkspace must be used within a GlobalProvider");
     }
     return context;
 };

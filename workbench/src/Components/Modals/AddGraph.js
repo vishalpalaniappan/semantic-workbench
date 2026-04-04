@@ -34,7 +34,7 @@ export function AddGraph ({close}) {
         if (inputRef.current) {
             inputRef.current.focus();
         }
-    }, [engine]);
+    }, []);
 
     const handleSubmit = useCallback((event) => {
         if (graph.trim() === "") {
@@ -42,12 +42,12 @@ export function AddGraph ({close}) {
             return;
         }
         try {
-            engine.graphs.getGraph(graph);
-            setError(`Graph with name "${graph}" already exists.`);
-        } catch (UnknownGraph) {
             engine.createGraph(graph, description);
             dispatch(setSelectedGraph(graph));
             close();
+            engine.graphs.getGraph(graph);
+        } catch (err) {
+            setError(err.toString());
         }
     }, [description, engine, graph, close, dispatch]);
 
@@ -63,7 +63,7 @@ export function AddGraph ({close}) {
         };
         document.addEventListener("keydown", handleKeyDown);
         return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [close, graph]);
+    }, [close, handleSubmit]);
 
     return (
         <div className="add-value-modal">

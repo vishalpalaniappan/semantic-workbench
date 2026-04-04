@@ -1,11 +1,14 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 
+import {useDispatch} from "react-redux";
 import {Editor} from "sample-ui-component-library";
 import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
-import {useWorkspace} from "../../Providers/GlobalProviders";
+import {useDalEngine} from "../../Providers/GlobalProviders";
 import ServerContext from "../../Providers/ServerContext";
-import {flattenTree} from "./helper";
+import {setActiveTab} from "../../Store/appSlice";
+import {useEngineFiles} from "../../Store/useAppSelection";
+import {useActiveTab, useLastSaved} from "../../Store/useAppSelection";
 
 import "./EditorContainer.scss";
 
@@ -15,13 +18,51 @@ import "./EditorContainer.scss";
  */
 export function EditorContainer () {
     const {connectionStatus} = useContext(ServerContext);
-    const {workspace} = useWorkspace();
+    const {engine} = useDalEngine();
     const editorRef = useRef(null);
     const parentIdRef = useRef(null);
+    const files = useEngineFiles();
+    const lastSaved = useLastSaved();
+    const [editorLoaded, setEditorLoaded] = useState(false);
 
-    useLayoutEventSubscription("file:selected", (event) => {
-        editorRef.current.addTab(event.payload);
-    });
+    const activeTab = useActiveTab();
+    const dispatch = useDispatch();
+
+    // Close tabs of files that were deleted, and update saved content
+    useEffect(() => {
+        if (files) {
+            const _tabs = editorRef.current.getTabs();
+            for (let i = 0; i < _tabs.length; i++) {
+                const _tab = _tabs[i];
+                if (!files.find((file) => file.uid === _tab.uid)) {
+                    editorRef.current.closeTab(_tab.uid);
+                }
+            }
+        }
+    }, [files]);
+
+    useEffect(() => {
+        if (lastSaved && files && editorRef.current) {
+            /**
+             * Inside editor, the content of the tab is saved in
+             * updatedContent key. When updatedContent and content keys are
+             * not the same, it means the file is dirty (shows icon on tab).
+             * When the file is saved onto the server, the updated content
+             * is set to the content key of the file, so we need to update
+             * the content of the tab to reflect that.
+             */
+            editorRef.current.getTabs().forEach((tab) => {
+                editorRef.current.setContent(tab, tab.content);
+            });
+        }
+    }, [lastSaved]);
+
+    useEffect(() => {
+        if (activeTab && engine && editorRef.current) {
+            const activeTabFile = engine.getFile(activeTab);
+            editorRef.current.addTab(activeTabFile);
+        }
+    }, [activeTab, editorRef.current, engine]);
 
     useLayoutEventSubscription("drag:drop", (event) => {
         const drop = event.payload;
@@ -64,19 +105,20 @@ export function EditorContainer () {
         }
     });
 
+    const onSelectTab = useCallback((tab) => {
+        if (editorLoaded) {
+            dispatch(setActiveTab(tab && tab.uid));
+        } else {
+            setEditorLoaded(true);
+        }
+    }, [dispatch, editorLoaded]);
+
     useEffect(() => {
-        if (!workspace) return;
         parentIdRef.current = crypto.randomUUID();
         editorRef.current.setTabGroupId(parentIdRef.current);
-
-        // This is only for demo purposes, I am randomly loading 2 files.
-        const files = flattenTree(workspace).filter((node) => node.type === "file");
-        for (let i = 0; i < 4; i++) {
-            editorRef.current.addTab(files[Math.floor(Math.random() * 2) + 1]);
-        }
-    }, [workspace, connectionStatus]);
+    }, [connectionStatus]);
 
     return (
-        <Editor ref={editorRef} />
+        <Editor ref={editorRef} onSelectTab={onSelectTab}/>
     );
 }

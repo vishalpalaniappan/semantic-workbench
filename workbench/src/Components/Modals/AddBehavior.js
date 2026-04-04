@@ -41,14 +41,11 @@ export function AddBehavior ({close}) {
             return;
         }
         try {
-            engine.getNode(behavior);
-            setError(`Behavior with name "${behavior}" already exists.`);
-        } catch (error) {
             engine.addNode(behavior, description, [], isAtomic, isDesignFork);
             dispatch(setSelectedBehavior(behavior));
-            setTimeout(() => {
-                close();
-            }, 0);
+            close();
+        } catch (err) {
+            setError(err.toString());
         }
     }, [engine, behavior, description, close, isAtomic, isDesignFork, dispatch]);
 

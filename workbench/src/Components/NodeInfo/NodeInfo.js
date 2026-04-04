@@ -30,21 +30,15 @@ export function NodeInfo ({}) {
     const dispatch = useDispatch();
     const invariants = useInvariants();
     const participants = useParticipants();
-    const participant = useSelectedParticipant();
+    const selectedParticipant = useSelectedParticipant();
     const selectedBehavior = useSelectedBehavior();
 
-    useEffect(() => {
-        if (participants && participants.length > 0 && participant === null) {
-            dispatch(setSelectedParticipant(participants[0].getName()));
-        }
-    }, [participant, participants, dispatch]);
-
     const addInvariant = useCallback(() => {
-        participant && openModal({
+        selectedParticipant && openModal({
             title: "Add Invariant",
             render: ({close}) => {return <AddInvariant close={close} />;},
         });
-    }, [engine, selectedBehavior, participant]);
+    }, [engine, selectedBehavior, selectedParticipant]);
 
     const addParticipant = useCallback(() => {
         selectedBehavior && openModal({
@@ -54,19 +48,18 @@ export function NodeInfo ({}) {
     }, [engine, selectedBehavior]);
 
     const deleteParticipant = useCallback(() => {
-        if (engine && selectedBehavior && participant) {
-            selectedBehavior.removeParticipant(participant);
+        if (engine && selectedBehavior && selectedParticipant) {
+            selectedBehavior.removeParticipant(selectedParticipant);
             updateParticipants();
         }
-    }, [engine, selectedBehavior, participant]);
+    }, [engine, selectedBehavior, selectedParticipant]);
 
     const updateParticipants = useCallback((participantName) => {
         if (!participants) return;
         if (participants.length > 0 && participantName) {
             dispatch(setSelectedParticipant(participantName));
         } else if (participants.length > 0) {
-            const lastParticipantName = participants[participants.length - 1].getName();
-            dispatch(setSelectedParticipant(lastParticipantName));
+            dispatch(setSelectedParticipant(participants[participants.length - 1].getName()));
         } else {
             dispatch(setSelectedParticipant(null));
         }
@@ -89,7 +82,7 @@ export function NodeInfo ({}) {
                                     className="icon"/>
 
                                 <select id="car-select" className="selectParticipants"
-                                    value={participant?.getName()}
+                                    value={selectedParticipant?.getName()}
                                     disabled={!participants || participants.length === 0}
                                     onChange={(e) => dispatch(
                                         setSelectedParticipant(e.target.value)
@@ -98,7 +91,7 @@ export function NodeInfo ({}) {
                                         participants.map((participant, index) => (
                                             <option key={index}>{participant.getName()}</option>
                                         ))}
-                                    {(!participants || participants.length === 0 || !participant) &&
+                                    {(!participants || participants.length === 0) &&
                                         <option>Add a participant...</option>
                                     }
                                 </select>

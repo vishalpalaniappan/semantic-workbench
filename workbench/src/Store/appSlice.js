@@ -7,6 +7,10 @@ const appSlice = createSlice({
         selectedParticipant: null,
         selectedGraph: null,
         selectedInvariant: null,
+        statusMsg: null,
+        tabs: null,
+        activeTab: null,
+        lastSaved: null,
         counter: 0,
     },
     reducers: {
@@ -28,9 +32,19 @@ const appSlice = createSlice({
             state.selectedInvariant = null;
             state.selectedGraph = action.payload;
         },
-        setSelectedInvariant(state, action) {
+        setSelectedInvariant (state, action) {
             // console.log("Setting selected invariant to:", action.payload);
             state.selectedInvariant = action.payload;
+        },
+        setActiveTab (state, action) {
+            // console.log("Setting active tab to:", action.payload);
+            state.activeTab = action.payload;
+        },
+        setStatusMsg (state, action) {
+            state.statusMsg = action.payload;
+        },
+        setLastSaved (state, action) {
+            state.lastSaved = action.payload;
         },
         incrementCounter (state) {
             /**
@@ -48,7 +62,7 @@ const appSlice = createSlice({
     },
 });
 
-export const {setSelectedBehavior, setSelectedParticipant,
+export const {setSelectedBehavior, setSelectedParticipant, setActiveTab, setStatusMsg, setLastSaved,
     setSelectedGraph, setSelectedInvariant, incrementCounter} = appSlice.actions;
 
 export default appSlice.reducer;

@@ -67,6 +67,14 @@ export function AddInvariant ({close}) {
                         onChange={(e) => setInvariantName(e.target.value)}
                     ></input>
                 </div>
+                <div className="value-name-label">
+                    <span>Description:</span>
+                </div>
+                <div className="value-name-input">
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}></textarea>
+                </div>
             </>
         );
         const optionDivs = Object.keys(instance.properties).map((key) => (
@@ -89,29 +97,29 @@ export function AddInvariant ({close}) {
 
         setPropertyDivs([nameDiv, ...optionDivs, submitButton]);
         setInvariantTypeInstance(instance);
-    }, [chosenInvariant, handleSubmit, engine, propertyInputs, invariantName]);
+    }, [chosenInvariant, handleSubmit, engine, propertyInputs, description, invariantName]);
 
     const handleSubmit = useCallback(() => {
         if (invariantName.trim() === "") {
             setError("Invariant name must not be empty.");
             return;
         }
-        const _invariant = engine.createInvariant({
-            name: invariantName,
-            description: description,
-        });
-        _invariant.invariantType = invariantTypeInstance;
 
+        let _invariant;
         try {
+            _invariant = engine.createInvariant({
+                name: invariantName,
+                description: description,
+            });
+            _invariant.invariantType = invariantTypeInstance;
             saveInvariantPropValues(_invariant, propertyInputs);
-        } catch (error) {
-            setError(error.message);
-            return;
+            selectedParticipant.addInvariant(_invariant);
+            dispatch(setSelectedInvariant(_invariant.name));
+            dispatch(incrementCounter());
+            close();
+        } catch (err) {
+            setError(err.message);
         }
-        selectedParticipant.addInvariant(_invariant);
-        dispatch(setSelectedInvariant(_invariant.name));
-        dispatch(incrementCounter());
-        close();
     },
     [
         description,
@@ -137,7 +145,7 @@ export function AddInvariant ({close}) {
         };
         document.addEventListener("keydown", handleKeyDown);
         return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [close, invariantName, propertyInputs]);
+    }, [close, handleSubmit]);
 
     return (
         <div className="add-value-modal" >
@@ -147,11 +155,16 @@ export function AddInvariant ({close}) {
             <div className="value-name-input">
                 <select
                     value={chosenInvariant}
-                    onChange={(e) => setChosenInvariant(e.target.value)}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onClick={(e) => e.stopPropagation()}
+                    onChange={(e) => {
+                        e.stopPropagation();
+                        setChosenInvariant(e.target.value);
+                    }}
                 >
                     {Object.keys(invariantTypes).map((invariant) => (
                         <option key={invariant} value={invariant}>
-                            {invariant}
+                            {new invariantTypes[invariant]().label}
                         </option>
                     ))}
                 </select>
