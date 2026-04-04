@@ -164,7 +164,7 @@ export function AddInvariant ({close}) {
                 >
                     {Object.keys(invariantTypes).map((invariant) => (
                         <option key={invariant} value={invariant}>
-                            {invariant}
+                            {new invariantTypes[invariant]().label}
                         </option>
                     ))}
                 </select>
