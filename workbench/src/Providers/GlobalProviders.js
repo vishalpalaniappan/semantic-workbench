@@ -23,6 +23,7 @@ function GlobalProviders ({children}) {
     const [workspace, setWorkspace] = useState();
     const termWriteRef = useRef(null);
     const sendJsonMessageRef = useRef(null);
+    const engineRef = useRef(null);
 
     const dispatch = useDispatch();
 
@@ -96,11 +97,12 @@ function GlobalProviders ({children}) {
     };
 
     const saveEngine = useCallback(() => {
-        for (const file of engine.getFiles()) {
+        const currentEngine = engineRef.current;
+        if (!currentEngine) return;
+        for (const file of currentEngine.getFiles()) {
             file.content = file.updatedContent;
         }
-        console.log("saving");
-        const serialized = engine.serialize();
+        const serialized = currentEngine.serialize();
         sendJsonMessageRef.current({
             type: "save_engine",
             payload: {
@@ -108,15 +110,19 @@ function GlobalProviders ({children}) {
                 "fileName": "engine.dal",
             },
         });
-    }, [engine]);
+    }, []);
 
     const engine = useMemo(() => {
         const e = new DALEngine({
             name: "default",
             description: "Default engine",
         });
-        e.save = saveEngine;
         return e;
+    }, []);
+
+    useEffect(() => {
+        engineRef.current = engine;
+        engine.save = saveEngine;
     }, [engine, saveEngine]);
 
     useEffect(() => {
