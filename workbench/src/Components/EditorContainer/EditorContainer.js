@@ -40,11 +40,11 @@ export function EditorContainer () {
     }, [files]);
 
     useEffect(() => {
-        if (activeTab) {
+        if (activeTab && engine && editorRef.current) {
             const source = engine.getFile(activeTab);
             editorRef.current.addTab(source);
         }
-    }, [activeTab, engine]);
+    }, [activeTab, editorRef.current, engine]);
 
     useLayoutEventSubscription("drag:drop", (event) => {
         const drop = event.payload;

@@ -6,7 +6,7 @@ import {useDispatch} from "react-redux";
 import useWebSocket, {ReadyState} from "react-use-websocket";
 import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 
-import {incrementCounter} from "../Store/appSlice";
+import {incrementCounter, setActiveTab} from "../Store/appSlice";
 import DalEngineContext from "./DalEngineContext";
 import ServerContext from "./ServerContext";
 import WorkspaceContext from "./WorkspaceContext";
@@ -142,9 +142,12 @@ function GlobalProviders ({children}) {
             });
             if (file) {
                 engine.deserialize(file.content);
+                if (engine.getFiles().length > 0) {
+                    dispatch(setActiveTab(engine.getFiles()[0].uid));
+                }
             }
         }
-    }, [workspace]);
+    }, [workspace, engine]);
 
     return (
         // eslint-disable-next-line max-len
