@@ -8,6 +8,7 @@ import {useModalManager} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import {incrementCounter, setActiveTab} from "../../Store/appSlice";
+import {deleteFileThunk} from "../../Store/appThunk";
 import {useActiveTab, useEngineFiles} from "../../Store/useAppSelection";
 import {AddFile} from "../Modals/AddFile";
 
@@ -57,14 +58,7 @@ export function FileSelector () {
     const deleteFile = useCallback(() => {
         if (activeTab) {
             try {
-                const index = files.findIndex((file) => file.uid === activeTab);
-                if (index === 0 && files.length > 1) {
-                    dispatch(setActiveTab(files[index + 1].uid));
-                } else if (index > 0) {
-                    dispatch(setActiveTab(files[index - 1].uid));
-                }
-                engine.removeFile(activeTab);
-                dispatch(incrementCounter());
+                dispatch(deleteFileThunk(engine, activeTab));
             } catch (err) {
                 console.error(err);
             }
