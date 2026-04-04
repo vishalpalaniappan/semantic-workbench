@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 
 import {Floppy, PlusSquare, Trash} from "react-bootstrap-icons";
 import {useDispatch} from "react-redux";
@@ -7,7 +7,7 @@ import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 import {useModalManager} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {incrementCounter, setActiveTab, setTabs} from "../../Store/appSlice";
+import {incrementCounter, setActiveTab} from "../../Store/appSlice";
 import {useActiveTab, useEngineFiles} from "../../Store/useAppSelection";
 import {AddFile} from "../Modals/AddFile";
 
@@ -35,7 +35,8 @@ export function FileSelector () {
             fileBrowserRef.current.addFileTree(files);
             if (activeTab) {
                 // TODO: This find step is because the file browser does not
-                // reference file from UID, I need to update it.
+                // reference file from UID, I need to update the component
+                // so that it uses the UID.
                 const file = files.find((file) => file.uid === activeTab);
                 fileBrowserRef.current.selectNode(file);
             }
