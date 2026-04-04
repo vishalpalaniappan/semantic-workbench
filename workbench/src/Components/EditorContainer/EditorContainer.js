@@ -60,7 +60,6 @@ export function EditorContainer () {
     useEffect(() => {
         if (activeTab && engine && editorRef.current) {
             const activeTabFile = engine.getFile(activeTab);
-            console.log("activeTabFile", activeTabFile);
             editorRef.current.addTab(activeTabFile);
         }
     }, [activeTab, editorRef.current, engine]);
