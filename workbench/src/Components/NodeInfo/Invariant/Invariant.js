@@ -23,17 +23,16 @@ export function Invariant ({invariant}) {
     const {engine} = useDalEngine();
     const dispatch = useDispatch();
 
-    const participant = useSelectedParticipant();
+    const selectedParticipant = useSelectedParticipant();
     const selectedInvariant = useSelectedInvariant();
-
 
     const deleteInvariant = useCallback((e) => {
         e.stopPropagation();
-        if (engine && invariant && participant) {
-            participant.removeInvariant(invariant);
+        if (engine && invariant && selectedParticipant) {
+            selectedParticipant.removeInvariant(invariant);
             dispatch(incrementCounter());
         }
-    }, [engine, invariant, participant]);
+    }, [engine, invariant, selectedParticipant]);
 
     const selectParticipant = useCallback((e) => {
         e.stopPropagation();
