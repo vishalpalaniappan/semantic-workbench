@@ -67,6 +67,14 @@ export function AddInvariant ({close}) {
                         onChange={(e) => setInvariantName(e.target.value)}
                     ></input>
                 </div>
+                <div className="value-name-label">
+                    <span>Description:</span>
+                </div>
+                <div className="value-name-input">
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}></textarea>
+                </div>
             </>
         );
         const optionDivs = Object.keys(instance.properties).map((key) => (
@@ -89,7 +97,7 @@ export function AddInvariant ({close}) {
 
         setPropertyDivs([nameDiv, ...optionDivs, submitButton]);
         setInvariantTypeInstance(instance);
-    }, [chosenInvariant, handleSubmit, engine, propertyInputs, invariantName]);
+    }, [chosenInvariant, handleSubmit, engine, propertyInputs, description, invariantName]);
 
     const handleSubmit = useCallback(() => {
         if (invariantName.trim() === "") {
