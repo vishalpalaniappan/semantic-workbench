@@ -7,6 +7,11 @@
 
 import {incrementCounter, setActiveTab, setSelectedParticipant} from "./appSlice";
 
+/**
+ * Called to delete a file given a file ID.
+ * @param {string} fileId - The ID of the file to delete.
+ * @return {Function} Thunk function.
+ */
 export const deleteFileThunk = (fileId) => (dispatch, getState, {engine}) => {
     const files = engine.getFiles();
     const index = files.findIndex((file) => file.uid === fileId);
@@ -21,16 +26,32 @@ export const deleteFileThunk = (fileId) => (dispatch, getState, {engine}) => {
     dispatch(incrementCounter());
 };
 
+/**
+ * Called to add a file given a file name.
+ * @param {String} fileName - The name of the file to add.
+ * @return {Function} Thunk function.
+ */
 export const addFileThunk = (fileName) => (dispatch, getState, {engine}) => {
     const newFile = engine.addFile(fileName, fileName, "");
     dispatch(setActiveTab(newFile.uid));
     dispatch(incrementCounter());
 };
 
+/**
+ * Called to select a participant given a participant name.
+ * @param {String} participantName - Name of the participant.
+ * @return {Function} Thunk function.
+ */
 export const selectParticipantThunk = (participantName) => (dispatch) => {
     dispatch(setSelectedParticipant(participantName));
 };
 
+/**
+ * Called to add a participant given a name and description.
+ * @param {String} name - Name of the participant.
+ * @param {String} description - Description of the participant.
+ * @return {Function} Thunk function.
+ */
 export const addParticipantThunk = (name, description) => (dispatch, getState, {engine}) => {
     const selectedBehaviorId = getState().app.selectedBehavior;
     if (!selectedBehaviorId) {
@@ -45,7 +66,12 @@ export const addParticipantThunk = (name, description) => (dispatch, getState, {
     dispatch(incrementCounter());
 };
 
-export const deleteParticipantThunk = (engine, participantId) => (dispatch, getState) => {
+/**
+ * Called to delete a participant given a participant ID.
+ * @param {String} participantId - The ID of the participant to delete.
+ * @return {Function} Thunk function.
+ */
+export const deleteParticipantThunk = (participantId) => (dispatch, getState, {engine}) => {
     const selectedBehaviorId = getState().app.selectedBehavior;
     if (!selectedBehaviorId) {
         throw new Error("No behavior selected");
