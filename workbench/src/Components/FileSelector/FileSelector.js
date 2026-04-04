@@ -33,9 +33,7 @@ export function FileSelector () {
         if (files) {
             fileBrowserRef.current.addFileTree(files);
             if (activeTab) {
-                // TODO: This find step is because the file browser does not
-                // reference file from UID, I need to update the component
-                // so that it uses the UID.
+                // TODO: Update component API to use uid for selection.
                 const file = files.find((file) => file.uid === activeTab);
                 fileBrowserRef.current.selectNode(file);
             }
