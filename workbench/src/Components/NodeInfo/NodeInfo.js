@@ -4,7 +4,6 @@ import {PlusSquare, Trash} from "react-bootstrap-icons";
 import {useDispatch} from "react-redux";
 import {useModalManager} from "ui-layout-manager-dev";
 
-import {useDalEngine} from "../../Providers/GlobalProviders";
 import {deleteParticipantThunk, selectParticipantThunk} from "../../Store/appThunk";
 import {useSelectedBehavior, useSelectedParticipant} from "../../Store/useAppSelection";
 import {useInvariants, useParticipants} from "../../Store/useAppSelection";
@@ -20,7 +19,6 @@ import "./NodeInfo.scss";
  * @return {JSX.Element}
  */
 export function NodeInfo ({}) {
-    const {engine} = useDalEngine();
     const {openModal} = useModalManager();
 
     const dispatch = useDispatch();
@@ -34,18 +32,18 @@ export function NodeInfo ({}) {
             title: "Add Invariant",
             render: ({close}) => {return <AddInvariant close={close} />;},
         });
-    }, [engine, selectedBehavior, selectedParticipant]);
+    }, [selectedBehavior, selectedParticipant]);
 
     const addParticipant = useCallback(() => {
         selectedBehavior && openModal({
             title: "Add Participant",
             render: ({close}) => {return <AddParticipant close={close} />;},
         });
-    }, [engine, selectedBehavior]);
+    }, [selectedBehavior]);
 
     const deleteParticipant = useCallback(() => {
-        dispatch(deleteParticipantThunk(engine, selectedParticipant));
-    }, [engine, selectedParticipant, dispatch]);
+        dispatch(deleteParticipantThunk(selectedParticipant));
+    }, [selectedParticipant, dispatch]);
 
     const selectParticipant = useCallback((participantName) => {
         dispatch(selectParticipantThunk(participantName));
