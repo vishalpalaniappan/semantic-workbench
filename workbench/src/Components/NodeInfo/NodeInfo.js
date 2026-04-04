@@ -1,12 +1,11 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback} from "react";
 
-import PropTypes from "prop-types";
-import {Pencil, PlusSquare, Trash} from "react-bootstrap-icons";
+import {PlusSquare, Trash} from "react-bootstrap-icons";
 import {useDispatch} from "react-redux";
 import {useModalManager} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {setSelectedParticipant} from "../../Store/appSlice";
+import {incrementCounter, setSelectedParticipant} from "../../Store/appSlice";
 import {useSelectedBehavior, useSelectedParticipant} from "../../Store/useAppSelection";
 import {useInvariants, useParticipants} from "../../Store/useAppSelection";
 import {AddInvariant} from "../Modals/AddInvariant";
@@ -14,9 +13,6 @@ import {AddParticipant} from "../Modals/AddParticipant";
 import {Invariant} from "./Invariant/Invariant";
 
 import "./NodeInfo.scss";
-
-NodeInfo.propTypes = {
-};
 
 /**
  * NodeInfo component.
@@ -50,20 +46,11 @@ export function NodeInfo ({}) {
     const deleteParticipant = useCallback(() => {
         if (engine && selectedBehavior && selectedParticipant) {
             selectedBehavior.removeParticipant(selectedParticipant);
-            updateParticipants();
+            const p = participants;
+            dispatch(setSelectedParticipant(p.length > 0? p[0].getName() : null));
+            dispatch(incrementCounter());
         }
-    }, [engine, selectedBehavior, selectedParticipant]);
-
-    const updateParticipants = useCallback((participantName) => {
-        if (!participants) return;
-        if (participants.length > 0 && participantName) {
-            dispatch(setSelectedParticipant(participantName));
-        } else if (participants.length > 0) {
-            dispatch(setSelectedParticipant(participants[participants.length - 1].getName()));
-        } else {
-            dispatch(setSelectedParticipant(null));
-        }
-    }, [engine, participants]);
+    }, [engine, selectedBehavior, selectedParticipant, participants, dispatch]);
 
     return (
         <>

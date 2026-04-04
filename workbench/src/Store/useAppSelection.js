@@ -98,12 +98,13 @@ export const useGraphs = () => {
 export const useParticipants = () => {
     const {engine} = useDalEngine();
     const selectedBehaviorId = useSelector(selectSelectedBehaviorId);
+    const counter = useSelector(selectCounter);
 
     return useMemo(() => {
         if (!selectedBehaviorId) return [];
         const behavior = engine.getNode(selectedBehaviorId).getBehavior();
         return behavior.getParticipants();
-    }, [engine, selectedBehaviorId]);
+    }, [engine, selectedBehaviorId, counter]);
 };
 
 /**
