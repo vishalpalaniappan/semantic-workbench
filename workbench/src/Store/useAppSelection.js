@@ -10,7 +10,7 @@ import {
     selectSelectedGraphId,
     selectSelectedInvariantId,
     selectSelectedParticipantId,
-    selectTabs
+    selectStatusMsg
 } from "./appSelectors";
 
 /**
@@ -160,4 +160,16 @@ export const useActiveTab = () => {
     return useMemo(() => {
         return activeTab;
     }, [activeTab]);
+};
+
+/**
+ * Returns the currently active tab.
+ * @return {Object}
+ */
+export const useStatusMsg = () => {
+    const statusMsg = useSelector(selectStatusMsg);
+
+    return useMemo(() => {
+        return statusMsg;
+    }, [statusMsg]);
 };

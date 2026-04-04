@@ -4,12 +4,11 @@ import {DALEngine} from "dal-engine-core-js-lib-dev";
 import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
 import useWebSocket, {ReadyState} from "react-use-websocket";
-import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 
 import {incrementCounter, setActiveTab} from "../Store/appSlice";
+import {setStatusMsg} from "../Store/appSlice";
 import DalEngineContext from "./DalEngineContext";
 import ServerContext from "./ServerContext";
-import WorkspaceContext from "./WorkspaceContext";
 
 GlobalProviders.propTypes = {
     children: PropTypes.node,
@@ -26,7 +25,6 @@ function GlobalProviders ({children}) {
     const sendJsonMessageRef = useRef(null);
 
     const dispatch = useDispatch();
-    const publish = useLayoutEventPublisher();
 
     // Connect and setup auto reconnect
     const socketUrl = "ws://localhost:3002";
@@ -73,18 +71,10 @@ function GlobalProviders ({children}) {
                 // and other components. This is using the counter to
                 // indicate that the files have been saved.
                 dispatch(incrementCounter());
-                publish({
-                    type: "status:set",
-                    payload: "Design saved successfully!",
-                    source: "websocket-handler",
-                });
+                dispatch(setStatusMsg("Design saved successfully!"));
                 break;
             case "design_save_failed":
-                publish({
-                    type: "status:set",
-                    payload: "Failed to save design.",
-                    source: "websocket-handler",
-                });
+                dispatch(setStatusMsg("Failed to save design."));
                 break;
             default:
                 break;

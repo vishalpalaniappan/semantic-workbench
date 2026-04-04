@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
 
 import {CircleFill} from "react-bootstrap-icons";
-import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
 import ServerContext from "../../Providers/ServerContext";
+import {useStatusMsg} from "../../Store/useAppSelection";
 
 import "./StatusBar.scss";
 
@@ -20,9 +20,10 @@ export function StatusBar () {
 
     const [connectionColor, setConnectionColor] = useState({color: "green"});
     const [message, setMessage] = useState("");
+    const statusMsg = useStatusMsg();
 
-    useLayoutEventSubscription("status:set", (event) => {
-        setMessage(event.payload);
+    useEffect(() => {
+        setMessage(statusMsg);
 
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
@@ -31,7 +32,7 @@ export function StatusBar () {
         timeoutRef.current = setTimeout(() => {
             setMessage("");
         }, 3000);
-    });
+    }, [statusMsg]);
 
     useEffect(() => {
         if (connectionStatus) {
