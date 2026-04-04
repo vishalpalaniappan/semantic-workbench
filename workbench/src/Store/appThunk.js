@@ -1,11 +1,10 @@
 // Store thunks here with engine to cleanly apply changes to the engine,
 // update state and then make the relevant information available.
-
 // TODO: Move the rest of the thunks here and remove engine manipulation
 // from the components. I am deferring this for later while I focus on
 // other features.
-
 import {incrementCounter, setActiveTab, setSelectedParticipant} from "./appSlice";
+import {saveInvariantPropValues} from "./helper";
 
 /**
  * Called to delete a file given a file ID.
@@ -84,5 +83,41 @@ export const deleteParticipantThunk = (participantId) => (dispatch, getState, {e
     } else {
         dispatch(setSelectedParticipant(null));
     }
+    dispatch(incrementCounter());
+};
+
+/**
+ * Adds an invariant to the selected participant with the given information.
+ * @param {String} name Name of the invariant.
+ * @param {String} description Description of the invariant.
+ * @param {Object} invariantType Type of the invariant (e.g. minLength etc).
+ * @param {Object} invariantTypeProps Properties for the invariant type.
+ * @return {Function} Thunk function.
+ */
+// eslint-disable-next-line max-len
+export const addInvariantThunk = ({name, description, invariantType, invariantTypeProps}) => (dispatch, getState, {engine}) => {
+    if (name && name.trim() === "") {
+        throw new Error("Invariant name must not be empty.");
+    }
+    const participantId = getState().app.selectedParticipant;
+    const selectedBehaviorId = getState().app.selectedBehavior;
+    if (!selectedBehaviorId) {
+        throw new Error("No behavior selected");
+    }
+    const behavior = engine.getNode(selectedBehaviorId).getBehavior();
+    const participant = behavior.getParticipant(participantId);
+    if (!participant) {
+        throw new Error("No participant selected");
+    }
+
+    // Create invariant and assign invariant type
+    const invariant = engine.createInvariant({name: name, description: description});
+    invariant.invariantType = invariantType;
+
+    // Save invariant property values to the invariant type
+    saveInvariantPropValues(invariant, invariantTypeProps);
+
+    participant.addInvariant(invariant);
+    dispatch(setSelectedParticipant(participantId));
     dispatch(incrementCounter());
 };
