@@ -29,12 +29,7 @@ function GlobalProviders ({children}) {
 
     // Connect and setup auto reconnect
     const socketUrl = "ws://localhost:3002";
-    const {
-        sendJsonMessage,
-        lastMessage,
-        lastJsonMessage,
-        readyState,
-    } = useWebSocket(socketUrl, {
+    const {sendJsonMessage, lastMessage, lastJsonMessage, readyState} = useWebSocket(socketUrl, {
         onOpen: () => connectionOpen(),
         shouldReconnect: (closeEvent) => true,
     });
@@ -87,10 +82,6 @@ function GlobalProviders ({children}) {
         [ReadyState.CLOSED]: "Closed",
         [ReadyState.UNINSTANTIATED]: "Uninstantiated",
     }[readyState];
-
-    useEffect(() => {
-        console.log("Websocket state:", connectionStatus);
-    }, [readyState]);
 
     const setTermWriter = (fn) => {
         termWriteRef.current = fn;
