@@ -34,7 +34,7 @@ export function Invariant ({invariant}) {
         }
     }, [engine, invariant, selectedParticipant]);
 
-    const selectParticipant = useCallback((e) => {
+    const selectInvariant = useCallback((e) => {
         e.stopPropagation();
         if (invariant) {
             dispatch(setSelectedInvariant(invariant.getName()));
@@ -43,7 +43,7 @@ export function Invariant ({invariant}) {
 
     return (
         <div className={`participantCard ${selectedInvariant === invariant ? "selected" : ""}`}
-            onClick={selectParticipant}>
+            onClick={selectInvariant}>
             <span>{invariant.getName()}</span>
             <div className="icons">
                 <Trash title={"Delete Invariant"} onClick={deleteInvariant} className="icon"/>
