@@ -3,11 +3,10 @@ import React, {useCallback, useEffect, useRef} from "react";
 import {Floppy, PlusSquare, Trash} from "react-bootstrap-icons";
 import {useDispatch} from "react-redux";
 import {FileBrowser} from "sample-ui-component-library";
-import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 import {useModalManager} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {incrementCounter, setActiveTab} from "../../Store/appSlice";
+import {setActiveTab, setStatusMsg} from "../../Store/appSlice";
 import {deleteFileThunk} from "../../Store/appThunk";
 import {useActiveTab, useEngineFiles} from "../../Store/useAppSelection";
 import {AddFile} from "../Modals/AddFile";
@@ -29,7 +28,6 @@ export function FileSelector () {
     const dispatch = useDispatch();
     const activeTab = useActiveTab();
     const fileBrowserRef = useRef();
-    const publish = useLayoutEventPublisher();
 
     useEffect(() => {
         if (files) {
@@ -63,18 +61,14 @@ export function FileSelector () {
                 console.error(err);
             }
         }
-    }, [engine, files, fileBrowserRef, activeTab, dispatch]);
+    }, [activeTab, dispatch]);
 
     const saveFiles = useCallback(() => {
         if (engine) {
             engine.save();
-            publish({
-                type: "status:set",
-                payload: "Saving design...",
-                source: "tool-bar",
-            });
+            dispatch(setStatusMsg("Saving design..."));
         }
-    }, [engine, publish]);
+    }, [engine, dispatch]);
 
     return (
         <div className="filebrowser-container">
