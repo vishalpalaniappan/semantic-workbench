@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {incrementCounter} from "../../Store/appSlice";
-import {setActiveTab} from "../../Store/appSlice";
 import {addFileThunk} from "../../Store/appThunk";
 
 import "./AddValue.scss";
