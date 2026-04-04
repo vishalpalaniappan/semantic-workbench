@@ -27,7 +27,6 @@ export const addFileThunk = (engine, fileName) => (dispatch, getState) => {
     dispatch(incrementCounter());
 };
 
-
 export const selectParticipantThunk = (participantName) => (dispatch) => {
     dispatch(setSelectedParticipant(participantName));
 };

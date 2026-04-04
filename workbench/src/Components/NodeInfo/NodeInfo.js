@@ -44,10 +44,8 @@ export function NodeInfo ({}) {
     }, [engine, selectedBehavior]);
 
     const deleteParticipant = useCallback(() => {
-        if (engine && selectedBehavior && selectedParticipant) {
-            dispatch(deleteParticipantThunk(engine, selectedParticipant));
-        }
-    }, [engine, selectedBehavior, selectedParticipant, participants, dispatch]);
+        dispatch(deleteParticipantThunk(engine, selectedParticipant));
+    }, [engine, selectedParticipant, dispatch]);
 
     const selectParticipant = useCallback((participantName) => {
         dispatch(selectParticipantThunk(participantName));
