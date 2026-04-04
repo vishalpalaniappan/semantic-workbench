@@ -5,7 +5,6 @@ import {useDispatch} from "react-redux";
 
 import {addInvariantThunk} from "../../Store/appThunk";
 import {useInvariantTypes} from "../../Store/useAppSelection";
-import {useSelectedParticipant} from "../../Store/useAppSelection";
 
 import "./AddValue.scss";
 
@@ -22,7 +21,6 @@ AddInvariant.propTypes = {
  */
 export function AddInvariant ({close}) {
     const dispatch = useDispatch();
-    const selectedParticipant = useSelectedParticipant();
     const invariantTypes = useInvariantTypes();
 
     const [chosenInvariant, setChosenInvariant] = useState("");
