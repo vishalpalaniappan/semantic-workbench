@@ -147,13 +147,11 @@ function GlobalProviders ({children}) {
 
     return (
         // eslint-disable-next-line max-len
-        <WorkspaceContext.Provider value={{workspace}}>
-            <DalEngineContext.Provider value={{engine}}>
-                <ServerContext.Provider value={{sendJsonMessage, setTermWriter, connectionStatus}}>
-                    {children}
-                </ServerContext.Provider>
-            </DalEngineContext.Provider>
-        </WorkspaceContext.Provider>
+        <DalEngineContext.Provider value={{engine}}>
+            <ServerContext.Provider value={{sendJsonMessage, setTermWriter, connectionStatus}}>
+                {children}
+            </ServerContext.Provider>
+        </DalEngineContext.Provider>
     );
 };
 
@@ -161,14 +159,6 @@ export const useDalEngine = function () {
     const context = useContext(DalEngineContext);
     if (!context) {
         throw new Error("useDalEngine must be used within a GlobalProvider");
-    }
-    return context;
-};
-
-export const useWorkspace = function () {
-    const context = useContext(WorkspaceContext);
-    if (!context) {
-        throw new Error("useWorkspace must be used within a GlobalProvider");
     }
     return context;
 };

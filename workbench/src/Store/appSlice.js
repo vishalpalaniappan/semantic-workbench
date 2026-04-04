@@ -36,7 +36,7 @@ const appSlice = createSlice({
             state.selectedInvariant = action.payload;
         },
         setActiveTab (state, action) {
-            console.log("Setting active tab to:", action.payload);
+            // console.log("Setting active tab to:", action.payload);
             state.activeTab = action.payload;
         },
         incrementCounter (state) {

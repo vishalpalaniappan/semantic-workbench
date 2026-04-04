@@ -4,7 +4,6 @@ import {useDispatch} from "react-redux";
 import {Editor} from "sample-ui-component-library";
 import {useLayoutEventSubscription} from "ui-layout-manager-dev";
 
-import {useWorkspace} from "../../Providers/GlobalProviders";
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import ServerContext from "../../Providers/ServerContext";
 import {setActiveTab} from "../../Store/appSlice";
@@ -19,7 +18,6 @@ import "./EditorContainer.scss";
  */
 export function EditorContainer () {
     const {connectionStatus} = useContext(ServerContext);
-    const {workspace} = useWorkspace();
     const {engine} = useDalEngine();
     const editorRef = useRef(null);
     const parentIdRef = useRef(null);
@@ -95,10 +93,9 @@ export function EditorContainer () {
     }, [dispatch]);
 
     useEffect(() => {
-        if (!workspace) return;
         parentIdRef.current = crypto.randomUUID();
         editorRef.current.setTabGroupId(parentIdRef.current);
-    }, [workspace, connectionStatus]);
+    }, [connectionStatus]);
 
     return (
         <Editor ref={editorRef} onSelectTab={onSelectTab}/>
