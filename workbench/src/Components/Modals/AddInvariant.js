@@ -114,13 +114,12 @@ export function AddInvariant ({close}) {
             _invariant.invariantType = invariantTypeInstance;
             saveInvariantPropValues(_invariant, propertyInputs);
             selectedParticipant.addInvariant(_invariant);
+            dispatch(setSelectedInvariant(_invariant.name));
+            dispatch(incrementCounter());
+            close();
         } catch (err) {
             setError(err.message);
-            return;
         }
-        dispatch(setSelectedInvariant(_invariant.name));
-        dispatch(incrementCounter());
-        close();
     },
     [
         description,
@@ -156,7 +155,12 @@ export function AddInvariant ({close}) {
             <div className="value-name-input">
                 <select
                     value={chosenInvariant}
-                    onChange={(e) => setChosenInvariant(e.target.value)}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onClick={(e) => e.stopPropagation()}
+                    onChange={(e) => {
+                        e.stopPropagation();
+                        setChosenInvariant(e.target.value);
+                    }}
                 >
                     {Object.keys(invariantTypes).map((invariant) => (
                         <option key={invariant} value={invariant}>
