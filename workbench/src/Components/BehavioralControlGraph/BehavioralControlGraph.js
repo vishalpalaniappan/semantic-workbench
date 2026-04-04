@@ -4,7 +4,8 @@ import {useDispatch} from "react-redux";
 import {BehavioralGraphBuilder} from "sample-ui-component-library";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {setSelectedBehavior, setSelectedParticipant} from "../../Store/appSlice";
+import {setSelectedBehavior} from "../../Store/appSlice";
+import {selectBehaviorThunk} from "../../Store/appThunk";
 import {useSelectedGraph} from "../../Store/useAppSelection";
 import {useSelectedBehavior} from "../../Store/useAppSelection";
 
@@ -58,18 +59,10 @@ export function BehavioralControlGraph () {
     }, [engine, graphRef, dispatch]);
 
     const selectBehavior = useCallback((id) => {
-        if (!id) {
-            dispatch(setSelectedBehavior(null));
-            dispatch(setSelectedParticipant(null));
-            return;
-        }
-        // Update the behavior and select first participant if it exists
-        dispatch(setSelectedBehavior(engine.getNode(id).getBehavior().getName()));
-        const behavior = engine.getNode(id).getBehavior();
-        if (behavior.getParticipants().length > 0) {
-            dispatch(setSelectedParticipant(behavior.getParticipants()[0].getName()));
-        } else {
-            dispatch(setSelectedParticipant(null));
+        try {
+            dispatch(selectBehaviorThunk(id));
+        } catch (err) {
+            console.error(err);
         }
     }, [dispatch, engine]);
 

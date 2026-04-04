@@ -3,6 +3,7 @@ import {setActiveTab} from "./appSlice";
 import {setSelectedGraph} from "./appSlice";
 import {incrementCounter} from "./appSlice";
 import {setSelectedParticipant} from "./appSlice";
+import {setSelectedBehavior} from "./appSlice";
 
 /**
  * Called to delete a file given a file ID.
@@ -161,4 +162,25 @@ export const deleteGraphThunk = (graphName) => (dispatch, getState, {engine}) =>
     engine.removeGraph(graphName);
     dispatch(setSelectedGraph(engine.graphs.getActiveGraph().name));
     dispatch(incrementCounter());
+};
+
+/**
+ * Selects a behavior given its ID and updates the selected participant to 
+ * the first participant of the behavior if it exists.
+ * @param {String} behaviorId String ID of the behavior to select.
+ * @return {Function} Thunk function.
+ */
+export const selectBehaviorThunk = (behaviorId) => (dispatch, getState, {engine}) => {
+    if (!behaviorId) {
+        dispatch(setSelectedBehavior(null));
+        return;
+    }
+    const behavior = engine.getNode(behaviorId).getBehavior();
+    dispatch(setSelectedBehavior(behaviorId));
+    const participants = behavior.getParticipants();
+    if (participants.length > 0) {
+        dispatch(setSelectedParticipant(participants[0].getName()));
+    } else {
+        dispatch(setSelectedParticipant(null));
+    }
 };
