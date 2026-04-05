@@ -1,11 +1,12 @@
 import React, {useCallback} from "react";
 
-import {Floppy, PlusSquare} from "react-bootstrap-icons";
+import {Crosshair, Easel, Floppy, PlusSquare} from "react-bootstrap-icons";
 import {useDispatch} from "react-redux";
 import {useModalManager} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import {setStatusMsg} from "../../Store/appSlice";
+import {setDesignMode, setMappingMode} from "../../Store/appSlice";
 import {AddBehavior} from "../Modals/AddBehavior";
 
 import "./ToolBar.scss";
@@ -45,6 +46,16 @@ export function ToolBar () {
                 />
             </div>
             <div className="toolbarContainer bottom">
+                <Easel
+                    onClick={(e) => dispatch(setDesignMode())}
+                    title="Design Mode"
+                    className="icon"
+                />
+                <Crosshair
+                    onClick={(e) => dispatch(setMappingMode())}
+                    title="Mapping Mode"
+                    className="icon"
+                />
                 <Floppy
                     onClick={(e) => saveGraph()}
                     title="Save Graph"
