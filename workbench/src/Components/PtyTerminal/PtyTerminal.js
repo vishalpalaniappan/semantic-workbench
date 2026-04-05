@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, {useContext, useLayoutEffect, useRef} from "react";
 
 import {FitAddon} from "@xterm/addon-fit";
 import {Terminal} from "xterm";
@@ -9,8 +9,6 @@ import TerminalContext from "../../Providers/TerminalContext";
 import "xterm/css/xterm.css";
 import "./PtyTerminal.scss";
 
-PtyTerminal.propTypes = {
-};
 
 /**
  * Terminal component.
@@ -20,14 +18,11 @@ export function PtyTerminal () {
     const {sendJsonMessage, connectionStatus} = useContext(ServerContext);
     const {setTermWriter} = useContext(TerminalContext);
 
-    // TODO: This component needs a lot of work, I had to disable strict mode
-    // for this to work. I will revisit this and make it more robust.
-
     const containerRef = useRef(null);
     const termRef = useRef(null);
     const fitRef = useRef(null);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!containerRef.current || connectionStatus !== "Connected") return;
 
         const term = new Terminal({
@@ -73,8 +68,6 @@ export function PtyTerminal () {
 
         termRef.current = term;
         fitRef.current = fitAddon;
-
-        fitAddon.fit();
 
         setTermWriter((data) => {
             term.write(data);
