@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "install:all": "npm --prefix server install && npm --prefix workbench install && npm i",
+        "install:all": "npm --prefix server install && npm --prefix workbench install && npm i && git submodule update --init --recursive",
         "server": "npm --prefix server run dev",
         "client": "npm --prefix workbench start",
         "dev": "concurrently -k -n SERVER,CLIENT -c green,blue \"npm run server\" \"npm run client\""
