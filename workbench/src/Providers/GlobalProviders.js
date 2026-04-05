@@ -80,6 +80,7 @@ function GlobalProviders ({children}) {
     };
 
     const loadSavedDesign = useCallback((files) => {
+        if (!engineRef.current) return;
         files.forEach((file) => {
             const engineFile = engineRef.current.getFiles().find(
                 (f) => f.name === file.name
