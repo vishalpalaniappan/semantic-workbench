@@ -8,7 +8,7 @@ import { spawn } from "node:child_process";
  */
 function getMapping(source, args = []) {
     return new Promise((resolve, reject) => {
-        const process = spawn("python3", ["server/tools/instrumenter/instrumenter.py", "parser_stream", ...args]);
+        const process = spawn("python3", ["tools/instrumenter/instrumenter.py", "parser_stream", ...args]);
         let settled = false;
 
         let stdout = "";
@@ -35,7 +35,7 @@ function getMapping(source, args = []) {
                 reject(new Error(stderr || `Process exited with code ${code}`));
             } else {
                 const outputData = stdout.trim();
-                resolve(outputData);
+                resolve(JSON.parse(outputData));
             }
         });
 
