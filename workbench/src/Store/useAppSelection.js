@@ -191,7 +191,7 @@ export const useLastSaved = () => {
 
 /**
  * Returns the app mode.
- * @return {Number} 1 for design mode, 2 for implementation mode
+ * @return {Number} 1 for design mode, 2 for mapping mode
  */
 export const useAppMode = () => {
     const appMode = useSelector(selectAppMode);
