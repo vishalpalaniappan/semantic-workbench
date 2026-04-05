@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {useModalManager} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {incrementCounter, setSelectedBehavior, setSelectedGraph} from "../../Store/appSlice";
+import {setSelectedBehavior, setSelectedGraph} from "../../Store/appSlice";
 import {deleteGraphThunk} from "../../Store/appThunk";
 import {useGraphs, useSelectedGraph} from "../../Store/useAppSelection";
 import {AddGraph} from "../Modals/AddGraph";
