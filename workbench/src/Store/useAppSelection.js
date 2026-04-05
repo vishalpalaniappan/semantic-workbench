@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {useDalEngine} from "../Providers/GlobalProviders";
 import {
     selectActiveTab,
+    selectAppMode,
     selectCounter,
     selectLastSaved,
     selectSelectedBehaviorId,
@@ -186,4 +187,16 @@ export const useLastSaved = () => {
     return useMemo(() => {
         return lastSaved;
     }, [lastSaved]);
+};
+
+/**
+ * Returns the app mode.
+ * @return {Number} 1 for design mode, 2 for mapping mode
+ */
+export const useAppMode = () => {
+    const appMode = useSelector(selectAppMode);
+
+    return useMemo(() => {
+        return appMode;
+    }, [appMode]);
 };

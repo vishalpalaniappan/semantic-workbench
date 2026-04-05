@@ -53,6 +53,7 @@ function GlobalProviders ({children}) {
                 termWriteRef.current?.(msg.data);
                 break;
             case "design_save_successful":
+                loadSavedDesign(msg.data.files);
                 dispatch(setLastSaved(new Date().toISOString()));
                 dispatch(setStatusMsg("Design saved successfully!"));
                 break;
@@ -78,10 +79,22 @@ function GlobalProviders ({children}) {
         termWriteRef.current = fn;
     };
 
+    const loadSavedDesign = useCallback((files) => {
+        if (!engineRef.current) return;
+        files.forEach((file) => {
+            const engineFile = engineRef.current.getFiles().find(
+                (f) => f.name === file.name
+            );
+            if (engineFile) {
+                engineFile.content = file.updatedContent;
+                engineFile.mapping = file.mapping;
+            }
+        });
+    }, []);
+
     // Called to save the engine to the server.
     const saveEngine = useCallback(() => {
         if (!engineRef.current) return;
-        engineRef.current.getFiles().forEach((file) => file.content = file.updatedContent);
         sendJsonMessage({
             type: "save_engine",
             payload: {
@@ -103,6 +116,7 @@ function GlobalProviders ({children}) {
         if (files.length > 0) {
             dispatch(setActiveTab(files[0].uid));
         }
+        console.log("Engine loaded: ", engine);
     }, [workspace, engine]);
 
     // Set the engine ref and save fn for use in msg handler and other contexts.

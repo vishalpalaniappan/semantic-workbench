@@ -3,15 +3,16 @@ import {createSlice} from "@reduxjs/toolkit";
 const appSlice = createSlice({
     name: "app",
     initialState: {
+        activeTab: null,
+        counter: 0,
+        lastSaved: null,
+        appMode: 1, // 1 = design, 2 = mapping
         selectedBehavior: null,
         selectedParticipant: null,
         selectedGraph: null,
         selectedInvariant: null,
         statusMsg: null,
         tabs: null,
-        activeTab: null,
-        lastSaved: null,
-        counter: 0,
     },
     reducers: {
         setSelectedBehavior(state, action) {
@@ -32,27 +33,43 @@ const appSlice = createSlice({
             state.selectedInvariant = null;
             state.selectedGraph = action.payload;
         },
-        setSelectedInvariant (state, action) {
+        setSelectedInvariant(state, action) {
             // console.log("Setting selected invariant to:", action.payload);
             state.selectedInvariant = action.payload;
         },
-        setActiveTab (state, action) {
+        setActiveTab(state, action) {
             // console.log("Setting active tab to:", action.payload);
             state.activeTab = action.payload;
         },
-        setStatusMsg (state, action) {
+        setStatusMsg(state, action) {
             state.statusMsg = action.payload;
         },
-        setLastSaved (state, action) {
+        setLastSaved(state, action) {
             state.lastSaved = action.payload;
         },
-        incrementCounter (state) {
+        incrementCounter(state) {
             state.counter = (state.counter + 1) % 100000;
+        },
+        setDesignMode (state) {
+            state.appMode = 1;
+        },
+        setMappingMode (state) {
+            state.appMode = 2;
         },
     },
 });
 
-export const {setSelectedBehavior, setSelectedParticipant, setActiveTab, setStatusMsg, setLastSaved,
-    setSelectedGraph, setSelectedInvariant, incrementCounter} = appSlice.actions;
+export const {
+    setSelectedBehavior,
+    setSelectedParticipant,
+    setActiveTab,
+    setStatusMsg,
+    setLastSaved,
+    setMappingMode,
+    setSelectedGraph,
+    setSelectedInvariant,
+    incrementCounter,
+    setDesignMode,
+} = appSlice.actions;
 
 export default appSlice.reducer;

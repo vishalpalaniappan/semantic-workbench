@@ -5,6 +5,7 @@
     "dev": "node index.js"
   },
   "dependencies": {
+    "dal-engine-core-js-lib-dev": "^0.0.26-dev",
     "express": "^4.18.1",
     "mongo-watch": "^0.2.8",
     "mongodb": "^4.7.0",
