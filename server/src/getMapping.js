@@ -40,7 +40,12 @@ function getMapping(source, args = []) {
                 reject(new Error(stderr || `Process exited with code ${code}`));
             } else {
                 const outputData = stdout.trim();
-                resolve(JSON.parse(outputData));
+                try {
+                    resolve(JSON.parse(outputData));
+                } catch (err) {
+                    reject(new Error(`Failed to parse JSON output: ${err.message}\nOutput was: ${outputData}`));
+                    return;
+                }
             }
         });
 
