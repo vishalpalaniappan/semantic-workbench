@@ -5,7 +5,8 @@ import {useDispatch} from "react-redux";
 import {useModalManager} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {incrementCounter, setSelectedBehavior, setSelectedGraph} from "../../Store/appSlice";
+import {setSelectedBehavior, setSelectedGraph} from "../../Store/appSlice";
+import {deleteGraphThunk} from "../../Store/appThunk";
 import {useGraphs, useSelectedGraph} from "../../Store/useAppSelection";
 import {AddGraph} from "../Modals/AddGraph";
 import {ShowInfo} from "../Modals/ShowInfo";
@@ -47,11 +48,8 @@ export function GraphMenuBar () {
 
     const deleteGraph = useCallback(() => {
         if (!selectedGraph) return;
-        engine.removeGraph(selectedGraph.name);
-        dispatch(setSelectedGraph(engine.graphs.getActiveGraph().name));
-        dispatch(setSelectedBehavior(null));
-        dispatch(incrementCounter());
-    }, [engine, selectedGraph, dispatch]);
+        dispatch(deleteGraphThunk(selectedGraph.name));
+    }, [selectedGraph, dispatch]);
 
     const showInfo = useCallback(() => {
         openModal({

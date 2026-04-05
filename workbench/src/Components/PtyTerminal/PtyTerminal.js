@@ -1,29 +1,35 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 
 import {FitAddon} from "@xterm/addon-fit";
 import {Terminal} from "xterm";
 
 import ServerContext from "../../Providers/ServerContext";
+import TerminalContext from "../../Providers/TerminalContext";
 
 import "xterm/css/xterm.css";
 import "./PtyTerminal.scss";
-
-PtyTerminal.propTypes = {
-};
 
 /**
  * Terminal component.
  * @return {JSX.Element}
  */
 export function PtyTerminal () {
-    const {sendJsonMessage, setTermWriter, connectionStatus} = useContext(ServerContext);
-
-    // TODO: This component needs a lot of work, I had to disable strict mode
-    // for this to work. I will revisit this and make it more robust.
+    const {sendJsonMessage, connectionStatus} = useContext(ServerContext);
+    const {setTermWriter} = useContext(TerminalContext);
+    const [showTerminal, setShowTerminal] = useState(false);
 
     const containerRef = useRef(null);
     const termRef = useRef(null);
     const fitRef = useRef(null);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowTerminal(true);
+        }, 200);
+
+        return () => clearTimeout(timer);
+    }, []);
+
 
     useEffect(() => {
         if (!containerRef.current || connectionStatus !== "Connected") return;
@@ -71,7 +77,7 @@ export function PtyTerminal () {
 
         termRef.current = term;
         fitRef.current = fitAddon;
-
+        
         fitAddon.fit();
 
         setTermWriter((data) => {
@@ -108,20 +114,24 @@ export function PtyTerminal () {
             termRef.current = null;
             fitRef.current = null;
         };
-    }, [connectionStatus]);
+    }, [connectionStatus, showTerminal]);
 
     return (
-        <div className="terminal-wrapper">
-            <div
-                ref={containerRef}
-                className="terminal-container"
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    minWidth: 0,
-                    minHeight: 0,
-                }}
-            />
-        </div>
+        <>
+            {
+                showTerminal &&
+                <div className="terminal-wrapper">
+                    <div ref={containerRef}
+                        className="terminal-container"
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            minWidth: 0,
+                            minHeight: 0,
+                        }}
+                    />
+                </div>
+            }
+        </>
     );
 }

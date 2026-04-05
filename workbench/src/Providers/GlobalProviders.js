@@ -1,14 +1,15 @@
-import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 
-import {DALEngine} from "dal-engine-core-js-lib-dev";
 import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
 import useWebSocket, {ReadyState} from "react-use-websocket";
 
 import {setActiveTab, setLastSaved} from "../Store/appSlice";
 import {setStatusMsg} from "../Store/appSlice";
+import engine from "./DalEngine";
 import DalEngineContext from "./DalEngineContext";
 import ServerContext from "./ServerContext";
+import TerminalContext from "./TerminalContext";
 
 GlobalProviders.propTypes = {
     children: PropTypes.node,
@@ -22,35 +23,18 @@ GlobalProviders.propTypes = {
 function GlobalProviders ({children}) {
     const [workspace, setWorkspace] = useState();
     const termWriteRef = useRef(null);
-    const sendJsonMessageRef = useRef(null);
     const engineRef = useRef(null);
 
     const dispatch = useDispatch();
 
-    // Connect and setup auto reconnect
+    // Connect to websocket and setup auto reconnect
     const socketUrl = "ws://localhost:3002";
-    const {
-        sendJsonMessage,
-        lastMessage,
-        lastJsonMessage,
-        readyState,
-    } = useWebSocket(socketUrl, {
-        onOpen: () => connectionOpen(),
+    const {sendJsonMessage, lastMessage, lastJsonMessage, readyState} = useWebSocket(socketUrl, {
+        onOpen: () => sendJsonMessage({"type": "workspaces"}),
         shouldReconnect: (closeEvent) => true,
     });
 
-    useEffect(() => {
-        sendJsonMessageRef.current = sendJsonMessage;
-    }, [sendJsonMessage]);
-
-    const connectionOpen = () => {
-        sendJsonMessage({
-            "type": "workspaces",
-        });
-    };
-
-    // Sets the message history
-    // eslint-disable-next-line no-unused-vars
+    // Sets the message history and processes received message.
     const [messageHistory, setMessageHistory] = useState([]);
     useEffect(() => {
         if (lastJsonMessage !== null) {
@@ -59,6 +43,7 @@ function GlobalProviders ({children}) {
         }
     }, [lastJsonMessage]);
 
+    // Process the received message
     const processMessage = (msg) => {
         switch (msg.type) {
             case "workspaces":
@@ -79,7 +64,7 @@ function GlobalProviders ({children}) {
         }
     };
 
-    // Set the connection state and log to console
+    // Set the connection state
     const connectionStatus = {
         [ReadyState.CONNECTING]: "Connecting",
         [ReadyState.OPEN]: "Connected",
@@ -88,64 +73,52 @@ function GlobalProviders ({children}) {
         [ReadyState.UNINSTANTIATED]: "Uninstantiated",
     }[readyState];
 
-    useEffect(() => {
-        console.log("Websocket state:", connectionStatus);
-    }, [readyState]);
-
+    // Used to allow msg handler to write to terminal.
     const setTermWriter = (fn) => {
         termWriteRef.current = fn;
     };
 
+    // Called to save the engine to the server.
     const saveEngine = useCallback(() => {
-        const currentEngine = engineRef.current;
-        if (!currentEngine) return;
-        for (const file of currentEngine.getFiles()) {
-            file.content = file.updatedContent;
-        }
-        const serialized = currentEngine.serialize();
-        sendJsonMessageRef.current({
+        if (!engineRef.current) return;
+        engineRef.current.getFiles().forEach((file) => file.content = file.updatedContent);
+        sendJsonMessage({
             type: "save_engine",
             payload: {
-                "data": serialized,
+                "data": engineRef.current.serialize(),
                 "fileName": "engine.dal",
             },
         });
-    }, []);
+    }, [sendJsonMessage]);
 
-    const engine = useMemo(() => {
-        const e = new DALEngine({
-            name: "default",
-            description: "Default engine",
-        });
-        return e;
-    }, []);
+    // When the workspace is first loaded, find the engine and deserialize it.
+    useEffect(() => {
+        if (!workspace) return;
 
+        const file = workspace.find((file) => file.name === "engine.dal");
+        if (!file) return;
+
+        engine.deserialize(file.content);
+        const files = engine.getFiles();
+        if (files.length > 0) {
+            dispatch(setActiveTab(files[0].uid));
+        }
+    }, [workspace, engine]);
+
+    // Set the engine ref and save fn for use in msg handler and other contexts.
     useEffect(() => {
         engineRef.current = engine;
         engine.save = saveEngine;
     }, [engine, saveEngine]);
 
-    useEffect(() => {
-        if (workspace) {
-            const file = workspace.find((file) => {
-                return file.name === "engine.dal";
-            });
-            if (file) {
-                engine.deserialize(file.content);
-                const files = engine.getFiles();
-                if (files.length > 0) {
-                    dispatch(setActiveTab(files[0].uid));
-                }
-            }
-        }
-    }, [workspace, engine]);
-
     return (
         // eslint-disable-next-line max-len
         <DalEngineContext.Provider value={{engine}}>
-            <ServerContext.Provider value={{sendJsonMessage, setTermWriter, connectionStatus}}>
-                {children}
-            </ServerContext.Provider>
+            <TerminalContext.Provider value={{setTermWriter}}>
+                <ServerContext.Provider value={{sendJsonMessage, messageHistory, connectionStatus}}>
+                    {children}
+                </ServerContext.Provider>
+            </TerminalContext.Provider>
         </DalEngineContext.Provider>
     );
 };

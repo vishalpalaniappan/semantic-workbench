@@ -3,11 +3,8 @@ import React, {useCallback, useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
 
-import {useDalEngine} from "../../Providers/GlobalProviders";
-import {incrementCounter, setSelectedInvariant} from "../../Store/appSlice";
+import {addInvariantThunk} from "../../Store/appThunk";
 import {useInvariantTypes} from "../../Store/useAppSelection";
-import {useSelectedParticipant} from "../../Store/useAppSelection";
-import {saveInvariantPropValues} from "./helper";
 
 import "./AddValue.scss";
 
@@ -23,24 +20,21 @@ AddInvariant.propTypes = {
  * @return {JSX.Element}
  */
 export function AddInvariant ({close}) {
-    const {engine} = useDalEngine();
-
     const dispatch = useDispatch();
-    const selectedParticipant = useSelectedParticipant();
     const invariantTypes = useInvariantTypes();
 
     const [chosenInvariant, setChosenInvariant] = useState("");
-    const [invariantTypeInstance, setInvariantTypeInstance] = useState([]);
+    const [invariantTypeInstance, setInvariantTypeInstance] = useState(null);
     const [propertyDivs, setPropertyDivs] = useState(null);
     const [invariantName, setInvariantName] = useState("");
     const [description, setDescription] = useState("");
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (engine) {
-            setChosenInvariant(Object.keys(engine.invariant_types)[0] || "");
+        if (invariantTypes && Object.keys(invariantTypes).length > 0) {
+            setChosenInvariant(Object.keys(invariantTypes)[0] || "");
         }
-    }, [engine]);
+    }, [invariantTypes]);
 
     const [propertyInputs, setPropertyInputs] = useState({});
 
@@ -53,7 +47,7 @@ export function AddInvariant ({close}) {
 
     useEffect(() => {
         if (!chosenInvariant) return;
-        const instance = new engine.invariant_types[chosenInvariant]();
+        const instance = new invariantTypes[chosenInvariant]();
 
         const nameDiv = (
             <>
@@ -97,48 +91,29 @@ export function AddInvariant ({close}) {
 
         setPropertyDivs([nameDiv, ...optionDivs, submitButton]);
         setInvariantTypeInstance(instance);
-    }, [chosenInvariant, handleSubmit, engine, propertyInputs, description, invariantName]);
+    }, [chosenInvariant, handleSubmit, propertyInputs, description, invariantName]);
 
     const handleSubmit = useCallback(() => {
-        if (invariantName.trim() === "") {
-            setError("Invariant name must not be empty.");
-            return;
-        }
-
-        let _invariant;
+        if (!invariantTypeInstance) return;
         try {
-            _invariant = engine.createInvariant({
+            dispatch(addInvariantThunk({
                 name: invariantName,
                 description: description,
-            });
-            _invariant.invariantType = invariantTypeInstance;
-            saveInvariantPropValues(_invariant, propertyInputs);
-            selectedParticipant.addInvariant(_invariant);
-            dispatch(setSelectedInvariant(_invariant.name));
-            dispatch(incrementCounter());
+                invariantType: invariantTypeInstance,
+                invariantTypeProps: propertyInputs,
+            }));
             close();
         } catch (err) {
             setError(err.message);
         }
-    },
-    [
-        description,
-        engine,
-        invariantName,
-        invariantTypeInstance,
-        selectedParticipant,
-        propertyInputs,
-        dispatch,
-        close,
-    ]
-    );
+    }, [description, invariantName, invariantTypeInstance, propertyInputs, dispatch, close]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === "Escape") {
                 event.preventDefault();
                 close();
-            } else if (event.key === "Enter") {
+            } else if (event.key === "Enter" && invariantTypeInstance) {
                 event.preventDefault();
                 handleSubmit();
             }
@@ -149,32 +124,40 @@ export function AddInvariant ({close}) {
 
     return (
         <div className="add-value-modal" >
-            <div className="value-name-label">
-                <span>Invariants:</span>
-            </div>
-            <div className="value-name-input">
-                <select
-                    value={chosenInvariant}
-                    onMouseDown={(e) => e.stopPropagation()}
-                    onClick={(e) => e.stopPropagation()}
-                    onChange={(e) => {
-                        e.stopPropagation();
-                        setChosenInvariant(e.target.value);
-                    }}
-                >
-                    {Object.keys(invariantTypes).map((invariant) => (
-                        <option key={invariant} value={invariant}>
-                            {new invariantTypes[invariant]().label}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            {invariantTypeInstance && propertyDivs}
-            {error && (
-                <div style={{float: "right"}} className="value-error">
-                    {error}
-                </div>
-            )}
+            { (!invariantTypes || Object.keys(invariantTypes).length === 0) ?
+                <div className="value-name-label">
+                    No invariant types available. Please define invariant
+                     types in the engine configuration.
+                </div>:
+                <>
+                    <div className="value-name-label">
+                        <span>Invariants:</span>
+                    </div>
+                    <div className="value-name-input">
+                        <select
+                            value={chosenInvariant}
+                            onMouseDown={(e) => e.stopPropagation()}
+                            onClick={(e) => e.stopPropagation()}
+                            onChange={(e) => {
+                                e.stopPropagation();
+                                setChosenInvariant(e.target.value);
+                            }}
+                        >
+                            {Object.keys(invariantTypes).map((invariant) => (
+                                <option key={invariant} value={invariant}>
+                                    {new invariantTypes[invariant]().label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    {invariantTypeInstance && propertyDivs}
+                    {error && (
+                        <div style={{float: "right"}} className="value-error">
+                            {error}
+                        </div>
+                    )}
+                </>
+            }
         </div>
     );
 }

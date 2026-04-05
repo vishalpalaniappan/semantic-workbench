@@ -3,11 +3,11 @@ import React, {useCallback, useEffect, useRef} from "react";
 import {Floppy, PlusSquare, Trash} from "react-bootstrap-icons";
 import {useDispatch} from "react-redux";
 import {FileBrowser} from "sample-ui-component-library";
-import {useLayoutEventPublisher} from "ui-layout-manager-dev";
 import {useModalManager} from "ui-layout-manager-dev";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
-import {incrementCounter, setActiveTab} from "../../Store/appSlice";
+import {setActiveTab, setStatusMsg} from "../../Store/appSlice";
+import {deleteFileThunk} from "../../Store/appThunk";
 import {useActiveTab, useEngineFiles} from "../../Store/useAppSelection";
 import {AddFile} from "../Modals/AddFile";
 
@@ -28,15 +28,12 @@ export function FileSelector () {
     const dispatch = useDispatch();
     const activeTab = useActiveTab();
     const fileBrowserRef = useRef();
-    const publish = useLayoutEventPublisher();
 
     useEffect(() => {
         if (files) {
             fileBrowserRef.current.addFileTree(files);
             if (activeTab) {
-                // TODO: This find step is because the file browser does not
-                // reference file from UID, I need to update the component
-                // so that it uses the UID.
+                // TODO: Update component API to use uid for selection.
                 const file = files.find((file) => file.uid === activeTab);
                 fileBrowserRef.current.selectNode(file);
             }
@@ -57,30 +54,19 @@ export function FileSelector () {
     const deleteFile = useCallback(() => {
         if (activeTab) {
             try {
-                const index = files.findIndex((file) => file.uid === activeTab);
-                if (index === 0 && files.length > 1) {
-                    dispatch(setActiveTab(files[index + 1].uid));
-                } else if (index > 0) {
-                    dispatch(setActiveTab(files[index - 1].uid));
-                }
-                engine.removeFile(activeTab);
-                dispatch(incrementCounter());
+                dispatch(deleteFileThunk(activeTab));
             } catch (err) {
                 console.error(err);
             }
         }
-    }, [engine, files, fileBrowserRef, activeTab, dispatch]);
+    }, [activeTab, dispatch]);
 
     const saveFiles = useCallback(() => {
         if (engine) {
             engine.save();
-            publish({
-                type: "status:set",
-                payload: "Saving design...",
-                source: "tool-bar",
-            });
+            dispatch(setStatusMsg("Saving design..."));
         }
-    }, [engine, publish]);
+    }, [engine, dispatch]);
 
     return (
         <div className="filebrowser-container">

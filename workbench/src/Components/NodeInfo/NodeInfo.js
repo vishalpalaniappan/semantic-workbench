@@ -1,12 +1,10 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback} from "react";
 
-import PropTypes from "prop-types";
-import {Pencil, PlusSquare, Trash} from "react-bootstrap-icons";
+import {PlusSquare, Trash} from "react-bootstrap-icons";
 import {useDispatch} from "react-redux";
 import {useModalManager} from "ui-layout-manager-dev";
 
-import {useDalEngine} from "../../Providers/GlobalProviders";
-import {setSelectedParticipant} from "../../Store/appSlice";
+import {deleteParticipantThunk, selectParticipantThunk} from "../../Store/appThunk";
 import {useSelectedBehavior, useSelectedParticipant} from "../../Store/useAppSelection";
 import {useInvariants, useParticipants} from "../../Store/useAppSelection";
 import {AddInvariant} from "../Modals/AddInvariant";
@@ -15,16 +13,12 @@ import {Invariant} from "./Invariant/Invariant";
 
 import "./NodeInfo.scss";
 
-NodeInfo.propTypes = {
-};
-
 /**
  * NodeInfo component.
  *
  * @return {JSX.Element}
  */
 export function NodeInfo ({}) {
-    const {engine} = useDalEngine();
     const {openModal} = useModalManager();
 
     const dispatch = useDispatch();
@@ -38,32 +32,22 @@ export function NodeInfo ({}) {
             title: "Add Invariant",
             render: ({close}) => {return <AddInvariant close={close} />;},
         });
-    }, [engine, selectedBehavior, selectedParticipant]);
+    }, [selectedBehavior, selectedParticipant]);
 
     const addParticipant = useCallback(() => {
         selectedBehavior && openModal({
             title: "Add Participant",
             render: ({close}) => {return <AddParticipant close={close} />;},
         });
-    }, [engine, selectedBehavior]);
+    }, [selectedBehavior]);
 
     const deleteParticipant = useCallback(() => {
-        if (engine && selectedBehavior && selectedParticipant) {
-            selectedBehavior.removeParticipant(selectedParticipant);
-            updateParticipants();
-        }
-    }, [engine, selectedBehavior, selectedParticipant]);
+        dispatch(deleteParticipantThunk(selectedParticipant));
+    }, [selectedParticipant, dispatch]);
 
-    const updateParticipants = useCallback((participantName) => {
-        if (!participants) return;
-        if (participants.length > 0 && participantName) {
-            dispatch(setSelectedParticipant(participantName));
-        } else if (participants.length > 0) {
-            dispatch(setSelectedParticipant(participants[participants.length - 1].getName()));
-        } else {
-            dispatch(setSelectedParticipant(null));
-        }
-    }, [engine, participants]);
+    const selectParticipant = useCallback((participantName) => {
+        dispatch(selectParticipantThunk(participantName));
+    }, [dispatch]);
 
     return (
         <>
@@ -84,9 +68,7 @@ export function NodeInfo ({}) {
                                 <select id="car-select" className="selectParticipants"
                                     value={selectedParticipant?.getName()}
                                     disabled={!participants || participants.length === 0}
-                                    onChange={(e) => dispatch(
-                                        setSelectedParticipant(e.target.value)
-                                    )}>
+                                    onChange={(e) => selectParticipant(e.target.value)}>
                                     {(participants && participants.length > 0) &&
                                         participants.map((participant, index) => (
                                             <option key={index}>{participant.getName()}</option>

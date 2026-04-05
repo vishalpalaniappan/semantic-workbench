@@ -62,7 +62,7 @@ export function EditorContainer () {
             const activeTabFile = engine.getFile(activeTab);
             editorRef.current.addTab(activeTabFile);
         }
-    }, [activeTab, editorRef.current, engine]);
+    }, [activeTab, editorLoaded, engine]);
 
     useLayoutEventSubscription("drag:drop", (event) => {
         const drop = event.payload;

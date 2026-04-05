@@ -7,9 +7,6 @@ import {useStatusMsg} from "../../Store/useAppSelection";
 
 import "./StatusBar.scss";
 
-StatusBar.propTypes = {
-};
-
 /**
  * Status bar of the viewer component.
  * @return {JSX.Element}
@@ -22,32 +19,28 @@ export function StatusBar () {
     const [message, setMessage] = useState("");
     const statusMsg = useStatusMsg();
 
+    const STATUS_MSG_TIMEOUT = 3000;
+
+    const connectionColorMap = {
+        Connected: "green",
+        Connecting: "yellow",
+        Closed: "red",
+        Closing: "red",
+        Uninstantiated: "red",
+    };
+
     useEffect(() => {
         setMessage(statusMsg);
-
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
         }
-
         timeoutRef.current = setTimeout(() => {
             setMessage("");
-        }, 3000);
+        }, STATUS_MSG_TIMEOUT);
     }, [statusMsg]);
 
     useEffect(() => {
-        if (connectionStatus) {
-            if (connectionStatus === "Connected") {
-                setConnectionColor({color: "green"});
-            } else if (connectionStatus === "Connecting") {
-                setConnectionColor({color: "yellow"});
-            } else if (connectionStatus === "Closed") {
-                setConnectionColor({color: "red"});
-            } else if (connectionStatus === "Closing") {
-                setConnectionColor({color: "red"});
-            } else if (connectionStatus === "Uninstantiated") {
-                setConnectionColor({color: "red"});
-            }
-        }
+        setConnectionColor({color: connectionColorMap[connectionStatus] || "red"});
     }, [connectionStatus]);
 
     return (

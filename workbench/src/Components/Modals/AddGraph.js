@@ -5,6 +5,7 @@ import {useDispatch} from "react-redux";
 
 import {useDalEngine} from "../../Providers/GlobalProviders";
 import {setSelectedGraph} from "../../Store/appSlice";
+import { addGraphThunk } from "../../Store/appThunk";
 
 import "./AddValue.scss";
 
@@ -42,10 +43,8 @@ export function AddGraph ({close}) {
             return;
         }
         try {
-            engine.createGraph(graph, description);
-            dispatch(setSelectedGraph(graph));
+            dispatch(addGraphThunk(graph, description));
             close();
-            engine.graphs.getGraph(graph);
         } catch (err) {
             setError(err.toString());
         }

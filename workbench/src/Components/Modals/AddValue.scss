@@ -26,10 +26,11 @@
 
 .add-value-modal > .value-name-input > input {
     font-size: 16px;
-    color:white;
+    color:rgb(233, 233, 233);
     background:#333;
     border: solid 1px grey;
     flex: 1;
+    padding: 6px;
 }
 
 .add-value-modal > .value-name-input > select {

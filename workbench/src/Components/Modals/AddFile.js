@@ -3,9 +3,7 @@ import React, {useCallback, useEffect, useRef, useState} from "react";
 import PropTypes from "prop-types";
 import {useDispatch} from "react-redux";
 
-import {useDalEngine} from "../../Providers/GlobalProviders";
-import {incrementCounter} from "../../Store/appSlice";
-import {setActiveTab} from "../../Store/appSlice";
+import {addFileThunk} from "../../Store/appThunk";
 
 import "./AddValue.scss";
 
@@ -18,7 +16,6 @@ AddFile.propTypes = {
  * @return {JSX.Element}
  */
 export function AddFile ({close}) {
-    const {engine} = useDalEngine();
     const dispatch = useDispatch();
 
     const [fileName, setFileName] = useState("");
@@ -38,14 +35,12 @@ export function AddFile ({close}) {
             return;
         }
         try {
-            const newFile = engine.addFile(fileName, fileName, "");
-            dispatch(setActiveTab(newFile.uid));
-            dispatch(incrementCounter());
+            dispatch(addFileThunk(fileName));
             close();
         } catch (err) {
             setError(err.toString());
         }
-    }, [engine, dispatch, fileName, close]);
+    }, [dispatch, fileName, close]);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -59,7 +54,7 @@ export function AddFile ({close}) {
         };
         document.addEventListener("keydown", handleKeyDown);
         return () => document.removeEventListener("keydown", handleKeyDown);
-    }, [close, handleSubmit, fileName]);
+    }, [close, handleSubmit]);
 
     return (
         <div className="add-value-modal">
