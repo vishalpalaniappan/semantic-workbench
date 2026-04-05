@@ -9,6 +9,7 @@ import ServerContext from "../../Providers/ServerContext";
 import {setActiveTab} from "../../Store/appSlice";
 import {useEngineFiles} from "../../Store/useAppSelection";
 import {useActiveTab, useLastSaved} from "../../Store/useAppSelection";
+import {useAppMode} from "../../Store/useAppSelection";
 
 import "./EditorContainer.scss";
 
@@ -27,6 +28,7 @@ export function EditorContainer () {
 
     const activeTab = useActiveTab();
     const dispatch = useDispatch();
+    const appMode = useAppMode();
 
     // Close tabs of files that were deleted, and update saved content
     useEffect(() => {
@@ -40,6 +42,12 @@ export function EditorContainer () {
             }
         }
     }, [files]);
+
+    useEffect(() => {
+        if (editorRef.current && editorLoaded) {
+            editorRef.current.setMode(appMode);
+        }
+    }, [appMode, editorLoaded]);
 
     useEffect(() => {
         if (lastSaved && files && editorRef.current) {
@@ -113,12 +121,19 @@ export function EditorContainer () {
         }
     }, [dispatch, editorLoaded]);
 
+    const onSelectAbstraction = useCallback((abstraction) => {
+        console.log("Selected abstraction:", abstraction);
+    });
+
     useEffect(() => {
         parentIdRef.current = crypto.randomUUID();
         editorRef.current.setTabGroupId(parentIdRef.current);
     }, [connectionStatus]);
 
     return (
-        <Editor ref={editorRef} onSelectTab={onSelectTab}/>
+        <Editor
+            ref={editorRef}
+            onSelectAbstraction={onSelectAbstraction}
+            onSelectTab={onSelectTab}/>
     );
 }
