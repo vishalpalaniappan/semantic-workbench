@@ -1,4 +1,9 @@
 import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const INSTRUMENTER_PATH = path.resolve(__dirname, "../tools/instrumenter/instrumenter.py");
 
 /**
  * Gets the mapping for the given python source by invoking the instrumenter in stream mode.
@@ -8,7 +13,7 @@ import { spawn } from "node:child_process";
  */
 function getMapping(source, args = []) {
     return new Promise((resolve, reject) => {
-        const process = spawn("python3", ["tools/instrumenter/instrumenter.py", "parser_stream", ...args]);
+        const process = spawn("python3", [INSTRUMENTER_PATH, "parser_stream", ...args]);
         let settled = false;
 
         let stdout = "";
