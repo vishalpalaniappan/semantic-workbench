@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React from "react";
 
 import {InfoCircle} from "react-bootstrap-icons";
 import {useModalManager} from "ui-layout-manager-dev";
@@ -8,9 +8,6 @@ import {useSelectedBehavior, useSelectedInvariant, useSelectedParticipant} from 
 import {ShowInfo} from "../Modals/ShowInfo";
 
 import "./SelectedInfo.scss";
-
-SelectedInfo.propTypes = {
-};
 
 /**
  * SelectedInfo component.
