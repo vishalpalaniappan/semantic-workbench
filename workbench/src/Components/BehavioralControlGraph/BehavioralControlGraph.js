@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef} from "react";
 
 import {useDispatch} from "react-redux";
 import {BehavioralGraphBuilder} from "sample-ui-component-library";
@@ -10,9 +10,6 @@ import {useSelectedGraph} from "../../Store/useAppSelection";
 import {useSelectedBehavior} from "../../Store/useAppSelection";
 
 import "./BehavioralControlGraph.scss";
-
-BehavioralControlGraph.propTypes = {
-};
 
 /**
  * Behavioral Control Graph Creator
@@ -26,8 +23,6 @@ export function BehavioralControlGraph () {
     const selectedBehavior = useSelectedBehavior();
 
     const graphRef = useRef(null);
-
-    const [activeTool] = useState();
 
     useEffect(() => {
         if (engine) {
@@ -73,7 +68,6 @@ export function BehavioralControlGraph () {
                 connectBehaviors={connectBehaviors}
                 deleteBehavior={deleteBehavior}
                 deleteTransition={deleteTransition}
-                activeTool={activeTool}
                 selectBehavior={selectBehavior} />
         </div>
     );
