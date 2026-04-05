@@ -34,7 +34,6 @@ function GlobalProviders ({children}) {
         shouldReconnect: (closeEvent) => true,
     });
 
-
     // Sets the message history and processes received message.
     const [messageHistory, setMessageHistory] = useState([]);
     useEffect(() => {
