@@ -94,6 +94,7 @@ export function AddInvariant ({close}) {
     }, [chosenInvariant, handleSubmit, propertyInputs, description, invariantName]);
 
     const handleSubmit = useCallback(() => {
+        if (!invariantTypeInstance) return;
         try {
             dispatch(addInvariantThunk({
                 name: invariantName,
@@ -112,7 +113,7 @@ export function AddInvariant ({close}) {
             if (event.key === "Escape") {
                 event.preventDefault();
                 close();
-            } else if (event.key === "Enter") {
+            } else if (event.key === "Enter" && invariantTypeInstance) {
                 event.preventDefault();
                 handleSubmit();
             }
