@@ -2,6 +2,8 @@
 \usepackage{parskip}
 \usepackage[most]{tcolorbox}
 \usepackage{minted}
+\usepackage{graphicx}
+\usepackage{pdflscape}
 \usepackage[
     top=0.5in,
     bottom=1in,
@@ -9,12 +11,18 @@
     right=1in
 ]{geometry}
 
-\title{Automating the Management of Software Systems}
-\author{Vishal Palaniappan}
-
 \begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{\fill}
 
-\maketitle
+    {\Huge\bfseries Automating the Management of Software Systems\par}
+
+     \vspace{1cm}
+
+    \vspace*{\fill}
+\end{titlepage}
+
 
 \section{Introduction}
 Software systems are an essential part of modern society and when they fail to function as intended, the implications can be enormous. It is therefore vital that systems are built to minimize the possibility of failure and that, when failures do occur, effective diagnostic processes expedite the systems recovery and prevent the recurrence of failures.
@@ -74,7 +82,11 @@ Before continuing with the larger implications of establishing software systems 
 
 
 
-\section{Testing Code Block}
+\section{Example Design}
+
+This section is being updated with a more meaningful design.
+
+Testing code block:
 
 \begin{tcolorbox}
 \begin{verbatim}
@@ -101,6 +113,84 @@ getType()
 \end{verbatim}
 \end{tcolorbox}
 
+\section{Shared Meaning and Distributed Systems}
 
+One of the consequences of the computable semantic model is that the meaning behind the execution of a software system is unambiguous. As a result, software systems can achieve successful coordination through shared meaning. I will first talk about how shared meaning leads to successful interaction in a general sense and then apply it to software systems.
+
+Imagine you visit a library, find the book you are looking for and walk up to the librarian with the intention of checking out a book. In order to check out the book, you present the librarian with the book but the librarian was expecting a library card and the interaction halts. In this case, what it means to check out a book is different for the librarian and the visitor. Since there is no shared meaning between the two, the interaction fails and neither the librarian nor the visitor achieve their goal.
+
+In this example, since it is two humans interacting, they can clarify and establish a shared meaning and move forward with the interaction. However, software systems can't improvise(yet), so shared meaning has to be established by construction. The CSM provides the mechanism to eliminate ambiguity in the meaning of interactions between software systems through their design.
+
+\subsection{Semantically Compatible Designs}
+
+Consider the system shown below. This example establishes a distributed image compression service that connects multiple designs together. In this example, each node is its own design. However, when two designs are interacting with each other, in order to successfully coordinate they must share the same meaning.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../assets/semantically_valid_interaction.png}
+    \caption{Computable Semantic Model}
+    \label{fig:example}
+\end{figure}
+
+When the meaning of the database is established, it also establishes the meaning of a database user. Therefore when the image compression service is interacting with the database, it takes
+
+on the role of the database user and communicates with shared meaning. In this sense, the interaction between the two designs is semantically valid because they share the same meaning. In the diagram, I highlight this using a color scheme to indicate that each design is invoking shared meaning between both designs.
+
+As a result, through semantically compatible interactions between designs, larger semantic worlds can be constructed. The larger semantic world establishes a new level of meaning that is defined by the semantically compatible designs that make up its reality. This frames a distributed system as a semantic world constructed from semantically compatible interactions between designs.
+
+In order for successful interaction, the meaning that must be established on both sides of the interaction is unambiguous and this happens by design. In addition, the same principles that define the correctness of a design are equally as valid at this level of meaning. By tracking interactions between designs, environmental invariants can be identified at a particular level of meaning in the closed semantic world that represents a distributed system.
+
+\subsection{Securing Interactions Between and Within Designs}
+
+Finally, as a result, interaction between designs now has unambiguous meaning. There are meaningful implications for securing systems because the intention of the interaction is unambiguous. While before, the mechanical sequence had to be correct, now the design can ensure that it is the right narrative that is communicating with it. If the design is looked at as the brain of the software system, then this ensures that the correct brain is speaking, making it more difficult to compromise a system.
+
+There are many approaches to implement this but one could be that the DAL can be extended to generate a dynamic checksum along the narrative path to identify unique narrative identity. There are more interesting ways that I can think of for securing it further by sharing the identity of the instance of the brain and using that to generate the proof. Regardless, the point here is, by eliminating ambiguity in a meaningful way, more automation will be enabled and securing the interaction between and within designs is another application for this framework.
+
+\begin{landscape}
+\begin{figure}[p]
+    \includegraphics[
+        keepaspectratio
+    ]{../assets/ADLP_v30.png}
+    \caption{Design Learning Platform}
+    \label{fig:example}
+\end{figure}
+\end{landscape}
+
+
+\section{Design Learning Platform}
+In this section I will discuss the Design Learning Platform as the practical framework that realizes this solution. I will also discuss how the practical hurdles faced when implementing this solution at scale are overcome.
+
+The CSM is the mechanism through which ambiguity is eliminated in the construction of software systems. This means an engine that operates on the CSM can automatically generate the information needed for it to unambiguously understand the designs execution and enable deterministic learning. The engine does not analyze or arrive at conclusions on its own, instead, it simply enforces the correctness established by the model.
+
+As mentioned earlier, every time that ambiguity is meaningfully eliminated from the CSM, a new form of automation emerges. In this document, I've described how the following is automated:
+
+\begin{itemize}
+    \item Failure Diagnosis: Known invariant violation or unknown invariant is identified.
+    \item Debugging: Which invariant was violated?
+    \item Testing: Does the design respect all known invariants?
+    \item Documentation: Design written in the DAL represents itself.
+\end{itemize}
+
+Now I will talk about how the engine practically achieves the failure diagnosis, debugging and testing.
+
+The engine is a tool that performs semantic reasoning on the constructed closed semantic world. For example, by specifying the meaning of the participants, behaviors and invariants, the design can reason about the correctness of the world. It can identify the semantically invalid narratives in the world and automatically identify how to restore semantically invalid states by establishing semantically valid narratives. The extent of its ability to semantically reason about the world is limited by the meaning established in the world.
+
+Practically, the engine uses the invariants specified for each behavior (or computable transformation) to automatically place the invariants using the design's structure. It then uses the invariants definition to establish a semantically invalid state and it walks the invariant path to find the control flow that restores semantic validity and establishes whether it selects a semantically valid narrative. If no such control flow exists, then it concludes that the design behavior does not respect the invariant. If such a control flow does exist, it knows that the semantically invalid narrative is eliminated from the closed semantic world.
+
+After this process, since every known failure is eliminated by construction and verified through the invariant testing, failure diagnosis is automated because an observed failure can only mean that new semantics must be learnt through root cause analysis. To achieve this, the engine automatically instruments the synthesized executable output to log the necessary information needed to replay the failed execution. This is once again possible because of the complete construction of the CSM because it unambiguously identifies all the information that can't be
+deterministically reproduced. Then the failed execution of the CSM can be replayed using the logged inputs to aid in the root cause analysis.
+
+After root cause analysis and the expansion of the semantics, the same process repeats and the design is tested to ensure that it respects the new invariant. In this way, the engine essentially tests that the design respects every invariant to automate failure diagnosis and enables deterministic learning from failures by enabling root cause analysis on the environment which reveals the new semantics. This means that the environment which reveals the new semantics must be losslessly preserved at scale. If it isn't, then the automatic and deterministic nature of this process is broken.
+
+To address this, the design's unambiguous nature can once again be exploited to provide the domain structure of the participants. Using this structure, domain specific compression can be applied to preserve all the environments at minimal cost. Domain specific compression is a technique that exploits the known domain structure of the data to maximize its compression.
+
+To practically achieve this, an open source tool named Compressed Log Processor (CLP) can be leveraged. It is a tool that can apply domain specific compression to the data and also search the compressed data without decompression. More importantly, it has been proven at a petabyte scale, establishing that it is possible to preserve the environments to learn new semantics through root cause analysis at scale.
+
+CLP’s gains are achieved through the elimination of ambiguity in the domain structure of the data. Since the CSM works to eliminate any ambiguity in the construction of software systems, the compression that can be achieved by CLP is maximized. Currently CLP compresses structured and unstructured logs but this process will turn CLP into a domain specific compression engine.
+
+Since every environment that motivated new semantics is preserved, it results in a design repository through which the evolution of the software system can be deterministically replayed. The repository tracks not just the changes to the implementation but also how the system was designed, executed and refined through learnt semantics over time.
+
+This entire process is captured in a framework called the Design Learning Platform(DLP). It leverages the CSM and domain specific compression to fully automate the diagnosis of software failures and deterministically learn from losslessly preserved environments. In the process, it automates failure diagnosis, debugging and testing.
+In the next section, I will talk about how the CSM enables automated orchestration of software systems, including deployment, recovery, upgrade and lifecycle management. Finally, I will talk about how in addition to the automation discussed so far, through the ambiguity eliminated by computable semantic models, the automation of systems management becomes fully automated because it allows the engine to semantically reason over the closed semantic world.
 
 \end{document}
