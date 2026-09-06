@@ -4,6 +4,7 @@
 \usepackage{minted}
 \usepackage{graphicx}
 \usepackage{pdflscape}
+\usepackage{xcolor}
 \usepackage[
     top=0.5in,
     bottom=1in,
@@ -192,5 +193,73 @@ Since every environment that motivated new semantics is preserved, it results in
 
 This entire process is captured in a framework called the Design Learning Platform(DLP). It leverages the CSM and domain specific compression to fully automate the diagnosis of software failures and deterministically learn from losslessly preserved environments. In the process, it automates failure diagnosis, debugging and testing.
 In the next section, I will talk about how the CSM enables automated orchestration of software systems, including deployment, recovery, upgrade and lifecycle management. Finally, I will talk about how in addition to the automation discussed so far, through the ambiguity eliminated by computable semantic models, the automation of systems management becomes fully automated because it allows the engine to semantically reason over the closed semantic world.
+
+\section{Automating Orchestration}
+
+In order for a design to successfully realize its intentions, the conditions necessary for it to be able to realize its intentions must exist. This can be as simple as deploying the designs onto a node, performing life cycle operations or more specific tasks like recovering from failures. As such, when the design of a distributed system is established, it also defines a manager that can successfully orchestrate the distributed system.
+
+Orchestrating is ultimately responding to the state of the system appropriately to restore the system's ability to realize its intentions. Like with all other processes in this framework, the key to automating it is to eliminate ambiguity. Through the CSM, the meaning of a software systems state is entirely unambiguous. Each impulse into the system creates an unambiguous narrative that ripples through the system, even if it ends in failure. Since the narrative is un ambiguous, there can be an automatic unambiguous response by the management system.
+
+Once again, this is made possible by eliminating the ambiguity in the meaning of software systems. In this case, as the impulse moves through the system, it can self-identify the narrative that it is executing, for example:
+
+"At 9:01 AM I started when the user chose to add a book to the library. Then they submitted a book name and then I created the book. However, I failed when I attempted to read the first letter of the book's name."
+
+The failure in this narrative won't actually happen because the invariants in the CSM would have identified it and testing would have eliminated it. However, it is a simple example to convey the idea and this extends to distributed systems naturally because the designs have shared meaning. While recovering from failures is one part of the orchestration, the same principle applies to life cycle management because the meaning of the system's state is unambiguous and the response to it is unambiguous.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../assets/AutomatedManagement.png}
+    \caption{Automated Orchestration}
+    \label{fig:example}
+\end{figure}
+
+This means that the manager must be designed to respond appropriately to every meaningful state in the design it is managing. Practically, it won't have to account for every narrative, instead, each design can self identify the states that will need to be managed and internally group narratives into meaningful states. Through this, an enumeration of every meaningful state can be obtained from the design and the manager can be tested to ensure that it responds appropriately.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../assets/AutomatedManagementFailure.png}
+    \caption{Automated Failure Response}
+    \label{fig:example}
+\end{figure}
+
+When a failure occurs, automated failure diagnosis is performed and the diagnostic data collected from the automated instrumentation is presented to the developer for root cause analysis to deterministically learn new semantics and prevent future failures. Once the design learns new semantics and it is automatically tested and validated, the automated orchestrator can upgrade the design with the updated CSM.
+
+At the same time, to immediately respond to the failure and restore the system, the orchestrator automatically responds to the state of the system and takes unambiguous steps to restore the system's ability to realize its intentions.
+
+The intelligence of the response by the orchestrator is entirely up to its design, since there is no ambiguity in the state it is responding to or the design it is managing, it can surgically recover the system to restore normal functionality or upgrade the system to deploy the updated CSM.
+
+Ultimately, when combined with the deterministic learning loop established in earlier sections, the ability to automatically orchestrate the software system automates the processes involved in ensuring that the design's intentions can be realized in its operational environment.
+
+In the next section I will talk about how the CSM fully automates the management of software systems by enabling automated semantic reasoning over the unambiguous world.
+
+\section{Automating Systems Management}
+
+In earlier sections, when discussing automated invariant placement and establishment of semantically valid narratives, I was discussing a form of semantic reasoning over the closed semantic world. While this is particularly relevant to automated failure diagnosis (through elimination of known semantically invalid narratives), ultimately, any form of reasoning over the closed semantic world can be achieved given that the necessary meaning has been established. This is a particularly powerful concept because through this process, the apparent complexity of software systems will be collapsed into the clarity of a coherent design. Since the design is a closed semantic world, the ability to ask any meaningful question about that world and to be able to automatically receive meaningful answers automates the management of that world.
+
+For example, by establishing the meaning of behaviors, participants and invariants in the closed semantic world, it becomes possible to automatically identify the semantically invalid narratives and identify how semantic validity can be restored. This is a form of semantic reasoning where, given the semantically invalid state, the place at which the design made the decision to go down the semantically invalid path can be automatically identified.
+
+
+{\color{red}
+
+This section is being developed.
+
+Scratch Pad:
+The novelty of the CSM is that it has made the automation of software systems possible by enabling the Engine to reason about the design in the same way that humans do. As a result, given that the necessary meaning has been established in the CSM, the engine can automatically answer any meaningful question needed to manage the software system, motivating a precise and unambiguous response. This does not invent anything new, it is simply formalizing the existing software engineering process into an unambiguous and computable model so that it can be automated.
+
+The novelty of CLP is that as part of the automated management, the environments that caused failures must be preserved at scale to enable the design to learn new semantics through root cause analysis. Without this, the learning loop would be broken and the management would not be automatic. Thus, by exploiting the unambiguous domain specification of the CSM, CLP enables the automation of software systems management by preserving the environments that teach the design new semantics through root cause analysis at scale.
+}
+
+\section{Conclusion}
+
+The techniques presented in this document take a fundamentally different approach to software systems management than existing approaches. It provides the means to complete the construction of a software system by establishing its design in a Design Abstraction Language as a Computable Semantic Model that unambiguously establishes its meaning.
+
+This results in the complete automation of software systems management because it enables the creation of an engine that can automatically reason about the closed semantic world given that the necessary meaning has been established. As a result, any meaningful question that can be asked about the world can be automatically answered motivating precise steps to manage the steps. If the quesiton cannot be answered, the CSM provides the means to establish the necessary meaning.
+
+Through the CSM, the diagnosis of software failure is automated and it results in a design learning platform that enables the design to learn new semantics through root cause analysis on unambiguous environments that caused the failure. To enable the automation at scale, it leverages the unambiguous nature of the CSM to preserve the environments which reveal new semantics using domain specific compression.
+
+Ultimately, this solution does not invent anything new. Software systems have always operated at this level of meaning and there is nothing that this solution presents that wasn't already common knowledge. What makes it novel is that it takes steps to unambiguously understand the implementation of the software system through the meaning established by its design. It achieves this using the computable semantic model and the ambiguity that is eliminated enables the management of software systems to be fully automated. It treats any manual effort as a symptom of incomplete construction and provides the means to complete the construction through the CSM.
+
+This solution ultimately eliminates ambiguity in the development and maintenance of software systems. As a result, the software systems that run modern society are less likely to fail and if they do fail, an automated process ensures their recovery and automated failure diagnosis supports deterministic learning to prevent future failures. The future of software development will be less about writing bug free code and more about building intelligent and secure systems that understand each other.
+
 
 \end{document}
