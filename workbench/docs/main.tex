@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{svg}
 \usepackage{parskip}
 \usepackage[most]{tcolorbox}
 \usepackage{minted}
@@ -38,7 +39,7 @@ A design is a closed semantic world. It contains participants whose state is tra
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/design.png}
     \caption{A block diagram of the design.}
-    \label{fig:example}
+    \label{fig:the_design}
 \end{figure}
 
 The design is said to be in a semantically invalid state when one of its intentions can’t be realized as a result of the state. When the environment provides an input into this closed world, in order to continue successfully realizing its intentions, the design must prevent semantically invalid states from persisting in its reality. To achieve this, semantic invariants act as markers which identify the semantically invalid state and predict the failure of downstream behaviors. This establishes an invariant path from the semantically invalid state to the intention that can’t be realized and in order to restore semantic validity, the design must provide a semantically valid path to resolve the state.
@@ -49,7 +50,7 @@ Since the design is completely unambiguous and semantic in nature, another valid
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/invariant_path.png}
     \caption{Invariant Path}
-    \label{fig:example}
+    \label{fig:invariant_path}
 \end{figure}
 
 In the first path, since the design does not provide a semantically valid narrative for the environment, the protected behavior is reached. The failure can be automatically debugged because the failure will be predicted by the violated invariant. However, in the second path, the design does provide a semantically valid narrative to restore semantic validity and the potential bug is eliminated. Using this structure, given a semantically invalid state, the invariant can be automatically tested by walking the path and identifying if the design provides a semantically valid narrative. In this sense, it is also fair to say that semantic invariants protect the downstream behavior because they ensure that the protected behavior can never be reached through the semantically invalid narrative.
@@ -62,11 +63,12 @@ In this sense, through the invariants, the design absorbs the domain knowledge n
 
 Software systems are the result of an intentional design.The design is realized through an implementation in a programming language, which uses its abstractions to realize the design’s intentions. Therefore, the meaning behind the mechanical implementation in a programming language is established by the design of the system. Through this process of understanding the execution through the design, the automation enabled by the design is inherited by any diagnostic tool for software systems.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{../assets/computable_semantic_model.png}
+\begin{figure}[htbp]
+    \includesvg[
+        width=0.99\linewidth
+    ]{../assets/computable_semantic_model.svg}
     \caption{Computable Semantic Model}
-    \label{fig:example}
+    \label{fig:computable_semantic_model}
 \end{figure}
 
 This is achieved by establishing the design as a Computable Semantic Model (CSM) in a Design Abstraction Language (DAL). A CSM is built by establishing the design structure and its transformations unambiguously in the DAL and then defining the implementation which realizes the meaning established by the design. This effectively means that the implementation exists in the context of its role in the design and any invariants specified by the implementation can be enforced by the design.
@@ -79,7 +81,7 @@ In order for the CSM to fully automate the debugging of software systems, it is 
 
 This means that the execution can be automatically debugged purely through the invariants that were violated. As later sections will explain, since it is possible to identify and eliminate semantically invalid narratives from the design, all known failures can be eliminated by construction given that the implementation faithfully realizes the design. This then automates failure diagnosis because a failure can only mean one thing, the design must learn new semantics through root cause analysis on the environment that caused the failure.
 
-If the meaning of a behavior is opaque, by which I mean, it cannot be decomposed to computable semantic primitives, then the engines ability to reason is limited by the meaning that has been established in the world (paricipant, behavior, invariants etc.). While this isn't inherently a problem if the implementation realizes the meaning of the design, this breaks the claim of fully automated debugging. As long as the engine cannot reason about the world completely, it cannot gaurantee that all known semanitcally invalid narratives have been eliminated.
+If the meaning of a behavior is opaque, by which I mean, it cannot be decomposed to computable semantic primitives, then the engines ability to reason is limited to the meaning that has been established in the world. While this isn't inherently a problem if the implementation realizes the meaning of the design, this breaks the claim of fully automated debugging. As long as the engine cannot reason about the world completely, it cannot gaurantee that all known semanitcally invalid narratives have been eliminated.
 
 Before continuing with the larger implications of establishing software systems as computable semantic models, I will briefly discuss the Design Abstraction Language and how it enables the computable semantic model to be built.
 
@@ -125,12 +127,13 @@ Finally, as a result, interaction between designs now has unambiguous meaning. T
 There are many approaches to implement this but one could be that the DAL can be extended to generate a dynamic checksum along the narrative path to identify unique narrative identity. There are more interesting ways that I can think of for securing it further by sharing the identity of the instance of the brain and using that to generate the proof. Regardless, the point here is, by eliminating ambiguity in a meaningful way, more automation will be enabled and securing the interaction between and within designs is another application for this framework.
 
 \begin{landscape}
-\begin{figure}[p]
-    \includegraphics[
-        keepaspectratio
-    ]{../assets/ADLP_v31.png}
-    \caption{Design Learning Platform}
-    \label{fig:example}
+\begin{figure}[htbp]
+\centering
+\includesvg[
+    width=0.99\linewidth
+]{../assets/ADLP_v31.svg}
+\caption{The Design Learning Platform}
+\label{fig:dlp-diagram}
 \end{figure}
 \end{landscape}
 
