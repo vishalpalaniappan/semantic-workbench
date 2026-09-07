@@ -91,15 +91,15 @@ The Design Abstraction Language is a declarative language that enables the speci
 
 As later sections will describe, the design established through the DAL can be used by an engine to reason about the closed semantic world. Any question about the world that can’t be automatically answered must be addressed by establishing the necessary meaning through the DAL.
 
-As the computable semantic primitives section described, when the design is built from computable semantic primitives, the implementation is directly synthesized from the design without any opaque meaning. This means that the DAL essentially becomes a declarative language that establishes the meaning of a closed semantic world and synthesizes the meaning of that world as an implementation.
+As the computable semantic primitives section described, when the design is built from computable semantic primitives, the implementation is directly synthesized from the design without any opaque meaning. This means that the DAL essentially becomes a declarative language that establishes the meaning of a closed semantic world and synthesizes the meaning of that world as an implementation, effectively making the design itself executable.
 
 \subsection{Example}
 
 \textcolor{red}{This section is incomplete and is being implemented}
 
-The snippet below provides a very simple library manager design. The object of the DAL is to faithfully represent the closed semantic world but there are many ways to implement the actual declaration of the design and I am presenting one approach here.
+The snippet below provides a very simple library manager design. The object of the DAL is to faithfully represent the closed semantic world and there are many ways to implement the actual declaration of the design and I am presenting one approach here. Ultimately, it is a convention that is chosen and as later sections will explain, the engine uses the same convention to understand the meaning of the design.
 
-After initializing the necessary participants in the world, the design accepts a book name from the user. It then creates a book using this name and then gets gets the first letter of the book name. Then it places the book on the shelf using the first letter of the books name. 
+In this design, after creating the necessary participants in the world, the design accepts a book name from the user. It then creates a book using this name and then reads the first letter of the book name. It then uses the first letter of the book name as a sorting key when placing the books on the shelf.
 
 While this is a very simple example, it has sufficient functionality to demonstrate how the engine can reason about a design. In the following sections, I provide the design itself, then I provide the meaning of the \texttt{book\_name} participant and then the meaning of the \texttt{GetFirstLetterOfBookName} behavior. I will then use this information to demonstrate how the engine can reason about the world to identify a semantically invalid narrative.
 
