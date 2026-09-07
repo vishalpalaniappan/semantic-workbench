@@ -3,3 +3,24 @@ dist
 .vscode
 temp
 server/playground
+
+# Latex Folder
+workbench/docs/_minted-AutomatingSoftwareSystemManagement
+workbench/docs/svg-inkscape
+# LaTeX temporary/build files
+workbench/docs/*.aux
+workbench/docs/*.log
+workbench/docs/*.out
+workbench/docs/*.toc
+workbench/docs/*.lof
+workbench/docs/*.lot
+workbench/docs/*.fls
+workbench/docs/*.fdb_latexmk
+workbench/docs/*.synctex.gz
+workbench/docs/*.bbl
+workbench/docs/*.blg
+workbench/docs/*.bcf
+workbench/docs/*.run.xml
+workbench/docs/*.nav
+workbench/docs/*.snm
+workbench/docs/*.vrb
