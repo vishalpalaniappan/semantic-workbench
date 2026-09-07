@@ -91,37 +91,6 @@ As later sections will describe, the design established through the DAL can be u
 
 As the computable semantic primitives section described, when the design is built from computable semantic primitives, the implementation is directly synthesized from the design without any opaque meaning. This means that the DAL essentially becomes a declarative language that establishes the meaning of a closed semantic world and synthesizes the meaning of that world as an implementation.
 
-\section{Example Design}
-
-This section is being updated with a more meaningful design.
-
-Testing code block:
-
-\begin{tcolorbox}
-\begin{verbatim}
-participant("basket")
-
-property(
-    name="length"
-    description="Number of books in basket"
-    type="number"
-)
-property(
-    name="type"
-    description="Data type of participant (list, object, str etc)"
-    type="string"
-)
-domain(
-    contains="books"
-)
-dcs(
-    # Domain structure for compression
-)
-getLength()
-getType()
-\end{verbatim}
-\end{tcolorbox}
-
 \section{Shared Meaning and Distributed Systems}
 
 One of the consequences of the computable semantic model is that the meaning behind the execution of a software system is unambiguous. As a result, software systems can achieve successful coordination through shared meaning. I will first talk about how shared meaning leads to successful interaction in a general sense and then apply it to software systems.
