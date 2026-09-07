@@ -132,13 +132,13 @@ In this example, since it is two humans interacting, they can clarify and establ
 
 \subsection{Semantically Compatible Designs}
 
-Consider the system shown below. This example establishes a distributed image compression service that connects multiple designs together. In this example, each node is its own design. However, when two designs are interacting with each other, in order to successfully coordinate they must share the same meaning.
+Consider the system shown in Figure~\ref{fig:semantically_compatible_interactions}. This example establishes a distributed image compression service that connects multiple designs together. In this example, each node is its own design. When two designs are interacting with each other, in order to successfully coordinate they must share the same meaning.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/semantically_valid_interaction.png}
-    \caption{Computable Semantic Model}
-    \label{fig:example}
+    \caption{Semantically Compatible Interactions}
+    \label{fig:semantically_compatible_interactions}
 \end{figure}
 
 When the meaning of the database is established, it also establishes the meaning of a database user. Therefore when the image compression service is interacting with the database, it takes
