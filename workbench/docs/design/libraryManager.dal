@@ -1,0 +1,51 @@
+design("library_manager")
+
+behavior InitializeWorld {
+    [shelf, book_name_prompt] = _initializeWorld()
+    addToWorldState(name="shelf", role="SHELF")
+    addToWorldState(name="book_name_prompt", role="NAME_PROMPT")
+    select {
+        goToBeahavior(GetBookName)
+    }
+}
+
+behavior GetBookName {
+    getFromWorldState(saveIn="book_name", name="book_name", role="BOOK_NAME")
+    [book_name] = _getBookName(book_name_prompt)
+    addToWorldState(name="book_name", role="BOOK_NAME")
+    select {
+        goToBeahavior(CreateBook)
+    }
+}
+
+behavior CreateBook {
+    getFromWorldState(saveIn="book_name", name="book_name", role="BOOK_NAME")
+    [book] = _createBook(book_name)
+    addToWorldState(name="book", role="BOOK")
+    select {
+        goToBeahavior(GetFirstLetterOfBookName)
+    }
+}
+
+behavior GetFirstLetterOfBookName {
+    getFromWorldState(saveIn="book_name", name="book_name", role="BOOK_NAME")
+    [firstLetterOfBookName] = _getFirstLetterOfBookName(book_name)
+    updateWorldState(name="first_letter", role="FIRST_LETTER")
+    removeFromWorldState(name="book_name", role="BOOK_NAME")
+    select {
+        goToBeahavior(AddBookToShelf)
+    }
+}
+
+behavior AddBookToShelf {
+    getFromWorldState(saveIn="first_letter", name="first_letter", role="FIRST_LETTER")
+    getFromWorldState(saveIn="book", name="book", role="BOOK")
+    [shelf] = _addBookToShelf(first_letter, book)
+    updateWorldState(name="shelf", role="SHELF")
+    removeFromWorldState(name="book", role="BOOK")
+    select {
+        goToBeahavior(GetBookName)
+    }
+}
+
+run(behavior=InitializeWorld)

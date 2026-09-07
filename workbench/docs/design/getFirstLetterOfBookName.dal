@@ -1,0 +1,61 @@
+behavior("GetFirstLetterOfBookName")
+
+description("Creates a book with the given name.")
+
+# Participants
+participant(name="book_name", role="BOOK_NAME")
+
+# Modification to World State
+returnedParticipants(
+    {
+        firstLetter: "firstLetterOfBookName"
+    }
+)
+
+introduces(
+    {
+        name: "first_letter"
+        role: "FIRST_LETTER"
+    }
+)
+
+modifiedAttributes(
+    {
+        name: "first_letter",
+        props: [
+            {
+                name: "type",
+                value: "string"
+            }
+        ]
+    }
+)
+
+# Invariants
+assert({
+    id:1,
+    participants: ["book_name"],
+    condition: book_name.length > 0,
+    description: "Book name must have at least one character.",
+    invalidValues: [
+        {
+            value: {
+                book_name: ""
+            },
+            description: "Empty book name"
+        }
+    ]
+})
+# TODO: Add invariant that book_name must be of type string
+
+# Narrative
+generate{
+    {
+        type: "success",
+        sentence: f"Got the first letter {first_letter} from book with name {book_name}.",
+    },
+    {
+        type: "fail_id_1",
+        sentence: f"The librarian failed to get the first letter from book with name {book_name} because it did not contain atleast one letter.",
+    },
+}

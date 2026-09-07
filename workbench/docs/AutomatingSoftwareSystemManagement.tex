@@ -93,6 +93,64 @@ As later sections will describe, the design established through the DAL can be u
 
 As the computable semantic primitives section described, when the design is built from computable semantic primitives, the implementation is directly synthesized from the design without any opaque meaning. This means that the DAL essentially becomes a declarative language that establishes the meaning of a closed semantic world and synthesizes the meaning of that world as an implementation.
 
+\subsection{Example}
+
+The snippet below provides a very simple library manager design. The object of the DAL is to faithfully represent the closed semantic world but there are many ways to implement the actual declaration of the design and I am presenting one approach here.
+
+After initializing the necessary participants in the world, the design accepts a book name from the user. It then creates a book using this name and then gets gets the first letter of the book name. Then it places the book on the shelf using the first letter of the books name. 
+
+While this is a very simple example, it has sufficient functionality to demonstrate how the engine can reason about a design. In the following sections, I provide the design itself, then I provide the meaning of the \texttt{book\_name} participant and then the meaning of the \texttt{GetFirstLetterOfBookName} behavior. I will then use this information to demonstrate how the engine can reason about the world to identify a semantically invalid narrative.
+
+\subsubsection{Behaviors and Control Flow of \texttt{Library Manager}}
+\tcbinputlisting{
+    listing file=design/libraryManager.dal,
+    listing only,
+    breakable,
+    colback=gray!5,
+    colframe=black,
+    boxrule=0.5pt,
+    listing options={
+        basicstyle=\ttfamily\small,
+        breaklines=true,
+        breakatwhitespace=false,
+        columns=fullflexible
+    }
+}
+
+\subsubsection{Meaning of \texttt{Book Name} Participant}
+\tcbinputlisting{
+    listing file=design/bookName.dal,
+    listing only,
+    breakable,
+    colback=gray!5,
+    colframe=black,
+    boxrule=0.5pt,
+    listing options={
+        basicstyle=\ttfamily\small,
+        breaklines=true,
+        commentstyle=\color{green!50!black},
+        breakatwhitespace=false,
+        columns=fullflexible
+    }
+}
+
+\subsubsection{Meaning of the \texttt{GetFirstletterOfBookName} behavior}
+\tcbinputlisting{
+    listing file=design/getFirstLetterOfBookName.dal,
+    listing only,
+    breakable,
+    colback=gray!5,
+    colframe=black,
+    boxrule=0.5pt,
+    listing options={
+        language=Python,
+        basicstyle=\ttfamily\small,
+        breaklines=true,
+        commentstyle=\color{green!60!black},
+        breakatwhitespace=false,
+        columns=fullflexible
+    }
+}
 \section{Shared Meaning and Distributed Systems}
 
 One of the consequences of the computable semantic model is that the meaning behind the execution of a software system is unambiguous. As a result, software systems can achieve successful coordination through shared meaning. I will first talk about how shared meaning leads to successful interaction in a general sense and then apply it to software systems.
