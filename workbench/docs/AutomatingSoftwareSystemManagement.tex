@@ -155,6 +155,19 @@ While this is a very simple example, it has sufficient functionality to demonstr
         columns=fullflexible
     }
 }
+
+\subsection{Automated Reasoning to Indentify and Resolve Semantically Invalid Narratives}
+
+\begin{figure}[htbp]
+    \includesvg[
+        width=0.99\linewidth
+    ]{../assets/sample_invalid_narratives.svg}
+    \caption{Semantically valid and invalid narratives.}
+    \label{fig:sample_narratives}
+\end{figure}
+
+\textcolor{red}{This section is being written to explain how semantic reasoning applied to the CSM to atuomatically identify and resolve semantically invalid narratives in the design.}
+
 \section{Shared Meaning and Distributed Systems}
 
 One of the consequences of the computable semantic model is that the meaning behind the execution of a software system is unambiguous. As a result, software systems can achieve successful coordination through shared meaning. I will first talk about how shared meaning leads to successful interaction in a general sense and then apply it to software systems.
@@ -189,14 +202,14 @@ Finally, as a result, interaction between designs now has unambiguous meaning. T
 There are many approaches to implement this but one could be that the DAL can be extended to generate a dynamic checksum along the narrative path to identify unique narrative identity. There are more interesting ways that I can think of for securing it further by sharing the identity of the instance of the brain and using that to generate the proof. Regardless, the point here is, by eliminating ambiguity in a meaningful way, more automation will be enabled and securing the interaction between and within designs is another application for this framework.
 
 \begin{landscape}
-\begin{figure}[htbp]
-\centering
-\includesvg[
-    width=0.99\linewidth
-]{../assets/ADLP_v31.svg}
-\caption{The Design Learning Platform}
-\label{fig:dlp-diagram}
-\end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includesvg[
+            width=0.99\linewidth
+        ]{../assets/ADLP_v31.svg}
+        \caption{The Design Learning Platform}
+        \label{fig:dlp-diagram}
+    \end{figure}
 \end{landscape}
 
 
