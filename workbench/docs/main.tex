@@ -75,7 +75,7 @@ This process of establishing the design and its implementation through the CSM m
 
 \subsection{Computable Semantic Primitives (CSP)}
 
-In order for the CSM to automate the debugging of software systems, it is necessary for the implementation to realize the meaning of the design faithfully. If this does not happen, then it is not possible to say whether the failure occurred due to an incorrect implementation or an invariant violation. To address this, the design itself can be constructed from computable semantic primitives whose implementation can be synthesized directly from the meaning of the transformation, guaranteeing that the implementation realizes the design's meaning.
+In order for the CSM to fully automate the debugging of software systems, it is necessary for the implementation to realize the meaning of the design faithfully. If this does not happen, then it is not possible to say whether the failure occurred due to an incorrect implementation or an invariant violation. To address this, the design itself can be constructed from computable semantic primitives whose implementation can be synthesized directly from the meaning of the transformation, guaranteeing that the implementation realizes the design's meaning.
 
 This means that the execution can be automatically debugged purely through the invariants that were violated. As later sections will explain, since it is possible to identify and eliminate semantically invalid narratives from the design, all known failures can be eliminated by construction given that the implementation faithfully realizes the design. This then automates failure diagnosis because a failure can only mean one thing, the design must learn new semantics through root cause analysis on the environment that caused the failure.
 
@@ -159,7 +159,7 @@ There are many approaches to implement this but one could be that the DAL can be
 \begin{figure}[p]
     \includegraphics[
         keepaspectratio
-    ]{../assets/ADLP_v30.png}
+    ]{../assets/ADLP_v31.png}
     \caption{Design Learning Platform}
     \label{fig:example}
 \end{figure}
