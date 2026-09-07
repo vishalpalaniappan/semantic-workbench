@@ -24,3 +24,4 @@ workbench/docs/*.run.xml
 workbench/docs/*.nav
 workbench/docs/*.snm
 workbench/docs/*.vrb
+workbench/docs/*.listing
