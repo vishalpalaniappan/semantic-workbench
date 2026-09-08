@@ -1,0 +1,19 @@
+
+
+Consider the system shown in Figure~\ref{fig:semantically_compatible_interactions}. This example establishes a distributed image compression service that connects multiple designs together. In this example, each node is its own design. When two designs are interacting with each other, in order to successfully coordinate they must share the same meaning.
+
+\begin{figure}[htbp]
+    \includesvg[
+        width=0.99\linewidth
+    ]{../assets/semantically_valid_interaction.svg}
+    \caption{Semantically Compatible Interactions}
+    \label{fig:semantically_compatible_interactions}
+\end{figure}
+
+When the meaning of the database is established, it also establishes the meaning of a database user. Therefore when the image compression service is interacting with the database, it takes
+
+on the role of the database user and communicates with shared meaning. In this sense, the interaction between the two designs is semantically valid because they share the same meaning. In the diagram, I highlight this using a color scheme to indicate that each design is invoking shared meaning between both designs.
+
+As a result, through semantically compatible interactions between designs, larger semantic worlds can be constructed. The larger semantic world establishes a new level of meaning that is defined by the semantically compatible designs that make up its reality. This frames a distributed system as a semantic world constructed from semantically compatible interactions between designs.
+
+In order for successful interaction, the meaning that must be established on both sides of the interaction is unambiguous and this happens by design. In addition, the same principles that define the correctness of a design are equally as valid at this level of meaning. By tracking interactions between designs, environmental invariants can be identified at a particular level of meaning in the closed semantic world that represents a distributed system.
