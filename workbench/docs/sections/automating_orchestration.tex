@@ -1,0 +1,35 @@
+In order for a design to successfully realize its intentions, the conditions necessary for it to be able to realize its intentions must exist. This can be as simple as deploying the designs onto a node, performing life cycle operations or more specific tasks like recovering from failures. As such, when the design of a distributed system is established, it also defines a manager that can successfully orchestrate the distributed system.
+
+Orchestrating is ultimately responding to the state of the system appropriately to restore the system's ability to realize its intentions. Like with all other processes in this framework, the key to automating it is to eliminate ambiguity. Through the CSM, the meaning of a software systems state is entirely unambiguous. Each impulse into the system creates an unambiguous narrative that ripples through the system, even if it ends in failure. Since the narrative is un ambiguous, there can be an automatic unambiguous response by the management system.
+
+Once again, this is made possible by eliminating the ambiguity in the meaning of software systems. In this case, as the impulse moves through the system, it can self-identify the narrative that it is executing, for example:
+
+"At 9:01 AM I started when the user chose to add a book to the library. Then they submitted a book name and then I created the book. However, I failed when I attempted to read the first letter of the book's name."
+
+The failure in this narrative won't actually happen because the invariants in the CSM would have identified it and testing would have eliminated it. However, it is a simple example to convey the idea and this extends to distributed systems naturally because the designs have shared meaning. While recovering from failures is one part of the orchestration, the same principle applies to life cycle management because the meaning of the system's state is unambiguous and the response to it is unambiguous.
+
+\begin{figure}[htbp]
+    \includesvg[
+        width=0.99\linewidth
+    ]{../assets/AutomatedManagement.svg}
+    \caption{Automated Orchestration}
+    \label{fig:automated_orchestration}
+\end{figure}
+
+\begin{figure}[htbp]
+    \includesvg[
+        width=0.99\linewidth
+    ]{../assets/AutomatedManagementFailure.svg}
+    \caption{Automated Failure Response}
+    \label{fig:automated_failure_response}
+\end{figure}
+
+When a failure occurs, automated failure diagnosis is performed and the diagnostic data collected from the automated instrumentation is presented to the developer for root cause analysis to deterministically learn new semantics and prevent future failures. Once the design learns new semantics and it is automatically tested and validated, the automated orchestrator can upgrade the design with the updated CSM.
+
+At the same time, to immediately respond to the failure and restore the system, the orchestrator automatically responds to the state of the system and takes unambiguous steps to restore the system's ability to realize its intentions.
+
+The intelligence of the response by the orchestrator is entirely up to its design, since there is no ambiguity in the state it is responding to or the design it is managing, it can surgically recover the system to restore normal functionality or upgrade the system to deploy the updated CSM.
+
+Ultimately, when combined with the deterministic learning loop established in earlier sections, the ability to automatically orchestrate the software system automates the processes involved in ensuring that the design's intentions can be realized in its operational environment.
+
+In the next section I will talk about how the CSM fully automates the management of software systems by enabling automated semantic reasoning over the unambiguous world.
