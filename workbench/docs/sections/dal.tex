@@ -1,0 +1,86 @@
+The Design Abstraction Language is a declarative language that enables the specification of closed semantic worlds. The scope of language is determined by any mechanism needed to faithfully represent the design's meaning such as the behaviors, participants attributes, control flow and invariants.
+
+As later sections will describe, the design established through the DAL can be used by an engine to reason about the closed semantic world. Any question about the world that can’t be automatically answered must be addressed by establishing the necessary meaning through the DAL.
+
+As the computable semantic primitives section described, when the design is built from computable semantic primitives, the implementation is directly synthesized from the design without any opaque meaning. This means that the DAL essentially becomes a declarative language that establishes the meaning of a closed semantic world and synthesizes the meaning of that world as an implementation, effectively making the design itself executable.
+
+\subsection{Example Design}
+
+\textcolor{red}{This section is incomplete and is being implemented}
+
+The sections below provides a very simple library manager design. The objective of the DAL is to faithfully represent the closed semantic world and there are many ways to implement the actual declaration of the design and I am presenting one approach here. Ultimately, it is a convention that is chosen and as later sections will explain, the engine uses the same convention to understand the meaning of the design.
+
+In this design, after creating the necessary participants in the world, the design accepts a book name from the user. It then creates a book using this name and then reads the first letter of the book name. It then uses the first letter of the book name as a sorting key when placing the books on the shelf.
+
+\begin{figure}[htbp]
+    \includesvg[
+        width=0.99\linewidth
+    ]{../assets/design_block_diagram.svg}
+    \caption{Sample Design Block Diagram}
+    \label{fig:sample_design_block_diagram}
+\end{figure}
+
+While this is a very simple example, it has sufficient functionality to demonstrate how the engine can reason about a design. In the following sections, I provide the design itself, then I provide the meaning of the \texttt{book\_name} participant and then the meaning of the \texttt{GetFirstLetterOfBookName} behavior. I will then use this information to demonstrate how the engine can reason about the world to identify and resolve a semantically invalid narrative.
+
+\subsubsection{Behaviors and Control Flow of \texttt{Library Manager}}
+\tcbinputlisting{
+    listing file=design/libraryManager.dal,
+    listing only,
+    breakable,
+    colback=gray!5,
+    colframe=black,
+    boxrule=0.5pt,
+    listing options={
+        basicstyle=\ttfamily\small,
+        breaklines=true,
+        breakatwhitespace=false,
+        columns=fullflexible
+    }
+}
+
+\subsubsection{Meaning of \texttt{Book Name} Participant}
+\tcbinputlisting{
+    listing file=design/bookName.dal,
+    listing only,
+    breakable,
+    colback=gray!5,
+    colframe=black,
+    boxrule=0.5pt,
+    listing options={
+        basicstyle=\ttfamily\small,
+        breaklines=true,
+        commentstyle=\color{green!50!black},
+        breakatwhitespace=false,
+        columns=fullflexible
+    }
+}
+
+\subsubsection{Meaning of the \texttt{GetFirstletterOfBookName} behavior}
+\tcbinputlisting{
+    listing file=design/getFirstLetterOfBookName.dal,
+    listing only,
+    breakable,
+    colback=gray!5,
+    colframe=black,
+    boxrule=0.5pt,
+    listing options={
+        language=Python,
+        basicstyle=\ttfamily\small,
+        breaklines=true,
+        commentstyle=\color{green!60!black},
+        breakatwhitespace=false,
+        columns=fullflexible
+    }
+}
+
+\subsection{Automated Reasoning to Indentify and Resolve Semantically Invalid Narratives}
+
+\begin{figure}[htbp]
+    \includesvg[
+        width=0.99\linewidth
+    ]{../assets/sample_invalid_narratives.svg}
+    \caption{Semantically valid and invalid narratives.}
+    \label{fig:sample_narratives}
+\end{figure}
+
+\textcolor{red}{This section is being written to explain how semantic reasoning applied to the CSM to atuomatically identify and resolve semantically invalid narratives in the design.}

@@ -1,0 +1,22 @@
+participant("BookName")
+
+description("Name of the book")
+
+property(
+    name="type"
+    description="Data type of participant (list, object, str etc)"
+    type="string"
+    get="getType"
+)
+
+property(
+    name="length"
+    description="Number of letters in the book name"
+    type="number"
+    get="getLength"
+)
+
+domain(
+    type="string",
+    contains="letter"
+)

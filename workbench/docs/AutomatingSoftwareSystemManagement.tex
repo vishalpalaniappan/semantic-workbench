@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{svg}
+\usepackage{parskip}
+\usepackage[most]{tcolorbox}
+\usepackage{minted}
+\usepackage{graphicx}
+\usepackage{pdflscape}
+\usepackage{xcolor}
+\usepackage[
+    top=0.5in,
+    bottom=1in,
+    left=1in,
+    right=1in
+]{geometry}
+
+\begin{document}
+
+
+\begin{titlepage}
+    \centering
+    \vspace*{\fill}
+
+    {\Huge\bfseries Automating the Management of Software Systems\par}
+
+     \vspace{1cm}
+
+     {\Large Vishal Palaniappan\par}
+
+     
+     \vspace{6cm}
+    
+     {\Large \textcolor{red}{WIP - DRAFT}\par}
+
+
+    \vspace*{\fill}
+\end{titlepage}
+
+
+\section{Introduction}
+\input{sections/introduction.tex}
+
+
+\section{The Design}
+\input{sections/the_design.tex}
+
+\section{Computable Semantic Model (CSM)}
+\input{sections/computable_semantic_model.tex}
+
+\newpage
+\section{Design Abstraction Language (DAL)}
+\input{sections/dal.tex}
+
+\newpage
+\section{Shared Meaning and Distributed Systems}
+\input{sections/shared_meaning/shared_meaning.tex}
+
+
+\begin{landscape}
+    \begin{figure}[htbp]
+        \centering
+        \includesvg[
+            width=0.99\linewidth
+        ]{../assets/ADLP_v31.svg}
+        \caption{The Design Learning Platform}
+        \label{fig:dlp-diagram}
+    \end{figure}
+\end{landscape}
+
+\section{Design Learning Platform}
+\input{sections/design_learning_platform.tex}
+
+
+\newpage
+\section{Automating Orchestration}
+\input{sections/automating_orchestration.tex}
+
+
+\newpage
+\section{Automating Systems Management}
+\input{sections/automating_systems_management.tex}
+
+
+\newpage
+\section{Conclusion}
+\input{sections/conclusion.tex}
+
+\newpage
+\section{Glossary}
+\input{sections/glossary.tex}
+
+\newpage
+\section{Extended Applications}
+\input{sections/other_applications.tex}
+
+\end{document}
